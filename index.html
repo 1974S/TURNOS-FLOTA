@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#CC0000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ToyotaFleet">
+<meta name="apple-mobile-web-app-title" content="TURNOS TOYOTA">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<title>Toyota Fleet Vicuña</title>
+<title>TURNOS TOYOTA</title>
 <style>
 :root {
   --red:#CC0000; --red-d:#990000; --red-l:#FF4444;
@@ -217,8 +217,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="brand">
         <div class="brand-ico">🔧</div>
         <div>
-          <div class="brand-name">Toyota Fleet</div>
-          <div class="brand-sub">Proyecto Vicuña · 5.000 km</div>
+          <div class="brand-name">TURNOS TOYOTA</div>
+          <div class="brand-sub">Plan Mantenimiento · 5.000 km</div>
         </div>
       </div>
       <div class="nav-btns">
@@ -542,7 +542,7 @@ function rPlan(c){
     ['Cambio viscosidad aceite','Condicional','C','pm8'],
     ['Lavado vapor condensador/radiador','Según necesidad','L','pm7'],
   ];
-  let h=`<div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.5;">Toyota Hilux — Uso extremo · Cadencia 5.000 km<br><span style="font-size:12px;color:var(--text3);">⚡ 1 h ralentí = 70 km · Vicuña 3.000–5.000 msnm</span></div>
+  let h=`<div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.5;">Toyota Hilux — Uso extremo · Cadencia 5.000 km<br><span style="font-size:12px;color:var(--text3);">⚡ 1 h ralentí = 70 km · Alta montaña 3.000–5.000 msnm</span></div>
   <div class="plan-card">`;
   rows.forEach(([s,i,a,c2])=>{
     h+=`<div class="plan-row"><span class="plan-sys">${s}</span><span class="plan-int">${i}</span><span class="badge ${c2}" style="font-size:10px;">${a}</span></div>`;
@@ -717,7 +717,7 @@ function printReport(){
       <td style="font-size:11px;color:#888;max-width:150px;">${e.obs||'—'}</td>
     </tr>`;
   }).join('');
-  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Reporte Toyota Fleet Vicuña</title>
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Reporte TURNOS TOYOTA</title>
   <style>@page{size:A4 landscape;margin:12mm 14mm;}*{box-sizing:border-box;}body{font-family:Arial,sans-serif;font-size:11px;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .no-print{display:flex;gap:10px;padding:12px;background:#111;position:sticky;top:0;z-index:10;}
   .btn{background:#CC0000;color:white;border:none;padding:9px 20px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer;}
@@ -739,12 +739,12 @@ function printReport(){
   <div class="no-print">
     <button class="btn" onclick="window.print()">🖨 Imprimir / Guardar PDF</button>
     <button class="btn-s" onclick="window.close()">✕ Cerrar</button>
-    <span style="color:white;font-size:12px;align-self:center;">Toyota Fleet Vicuña — Reporte de mantenimiento</span>
+    <span style="color:white;font-size:12px;align-self:center;">TURNOS TOYOTA — Reporte de mantenimiento</span>
   </div>
   <div class="hdr">
     <div class="logo"><div class="logo-box">FR</div><div><div style="font-size:14px;font-weight:700;">FREDDY Mantenimiento</div><div style="font-size:9px;color:#999;">Repuestos · Accesorios · Rent a Car · RRHH</div></div></div>
-    <div style="text-align:center;"><div class="title">REPORTE DE MANTENIMIENTO</div><div class="sub">Flota Toyota Hilux — Proyecto Minero Vicuña · Plan uso extremo 5.000 km</div></div>
-    <div style="text-align:right;font-size:9px;color:#888;"><div><strong>Mayo 2026</strong></div><div>Proceso: VIC-CON-ARG-0146</div></div>
+    <div style="text-align:center;"><div class="title">REPORTE DE MANTENIMIENTO</div><div class="sub">Flota Toyota Hilux — FREDDY Mantenimiento · Plan uso extremo 5.000 km</div></div>
+    <div style="text-align:right;font-size:9px;color:#888;"><div><strong>Mayo 2026</strong></div><div>Proceso: </div></div>
   </div>
   <div class="kpis">
     <div class="kpi b"><div class="kpi-n">${total}</div><div class="kpi-l">Total</div></div>
@@ -754,7 +754,7 @@ function printReport(){
   </div>
   <table><thead><tr><th>Unidad</th><th>Fecha</th><th>Tipo PM</th><th>Km actuales</th><th>Km últ. PM</th><th>Diferencia</th><th>Área</th><th>Técnico</th><th>Estado</th><th>Observaciones</th></tr></thead>
   <tbody>${rows}</tbody></table>
-  <div class="foot"><div><strong style="color:#CC0000;">FREDDY</strong> Mantenimiento Preventivo · 1 h ralentí = 70 km · Alta montaña 3.000–5.000 msnm</div><div>VIC-CON-ARG-0146 · Confidencial</div></div>
+  <div class="foot"><div><strong style="color:#CC0000;">FREDDY</strong> Mantenimiento Preventivo · 1 h ralentí = 70 km · Alta montaña 3.000–5.000 msnm</div><div> · Confidencial</div></div>
   </body></html>`);
   win.document.close();
 }
