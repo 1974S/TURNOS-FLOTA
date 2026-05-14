@@ -7,609 +7,260 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ToyotaFleet">
-<meta name="description" content="Gestor de mantenimiento Toyota Hilux — Proyecto Vicuña">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<title>Toyota Fleet — Vicuña</title>
+<title>Toyota Fleet Vicuña</title>
 <style>
-/* ─── VARIABLES ───────────────────────────── */
 :root {
-  --red:     #CC0000;
-  --red-d:   #A80000;
-  --red-l:   #FF1A1A;
-  --bg:      #F2F2F7;
-  --card:    #FFFFFF;
-  --border:  #E5E5EA;
-  --text:    #1C1C1E;
-  --text2:   #636366;
-  --text3:   #AEAEB2;
-  --safe-t:  env(safe-area-inset-top, 0px);
-  --safe-b:  env(safe-area-inset-bottom, 0px);
-  --radius:  14px;
-  --radius-s:10px;
+  --red:#CC0000; --red-d:#990000; --red-l:#FF4444;
+  --bg:#F2F2F7; --card:#FFFFFF; --border:#E5E5EA;
+  --text:#1C1C1E; --text2:#636366; --text3:#AEAEB2;
+  --green:#34C759; --orange:#FF9500; --blue:#007AFF;
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --r:14px; --rs:10px;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:    #000000;
-    --card:  #1C1C1E;
-    --border:#38383A;
-    --text:  #FFFFFF;
-    --text2: #AEAEB2;
-    --text3: #636366;
-  }
+@media(prefers-color-scheme:dark){
+  :root{--bg:#000;--card:#1C1C1E;--border:#38383A;--text:#FFF;--text2:#AEAEB2;--text3:#636366;}
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.4;overscroll-behavior:none;}
 
-/* ─── RESET ───────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box; margin: 0; padding: 0;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-}
-html, body { height: 100%; overflow: hidden; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 16px;
-  line-height: 1.4;
-  overscroll-behavior: none;
-}
+/* APP SHELL */
+.app{display:flex;flex-direction:column;height:100%;height:-webkit-fill-available;}
+.status-bar{height:var(--safe-t);background:var(--red);flex-shrink:0;}
 
-/* ─── APP SHELL ───────────────────────────── */
-.app {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  height: -webkit-fill-available;
-}
+/* NAVBAR */
+.navbar{background:var(--red);padding:0 16px 0;flex-shrink:0;}
+.navbar-top{display:flex;align-items:center;justify-content:space-between;padding:12px 0 10px;}
+.brand{display:flex;align-items:center;gap:9px;}
+.brand-ico{width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.brand-name{color:white;font-size:17px;font-weight:700;line-height:1.1;}
+.brand-sub{color:rgba(255,255,255,0.7);font-size:11px;}
+.nav-btns{display:flex;gap:8px;}
+.nav-btn{width:36px;height:36px;background:rgba(255,255,255,0.18);border:none;border-radius:50%;color:white;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.nav-btn:active{background:rgba(255,255,255,0.35);}
 
-/* ─── STATUS BAR SPACER ───────────────────── */
-.status-bar {
-  height: var(--safe-t);
-  background: var(--red);
-  flex-shrink: 0;
-}
+/* TABS */
+.tabs{display:flex;padding:0 2px;}
+.tab{flex:1;padding:9px 4px 11px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;border-bottom:2.5px solid transparent;transition:all .15s;letter-spacing:.01em;}
+.tab.active{color:white;border-bottom-color:white;font-weight:700;}
 
-/* ─── NAV BAR ─────────────────────────────── */
-.navbar {
-  background: var(--red);
-  padding: 0 16px 12px;
-  flex-shrink: 0;
-}
-.navbar-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 10px;
-  margin-bottom: 2px;
-}
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.brand-icon {
-  width: 32px; height: 32px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-}
-.brand-text { color: white; }
-.brand-title { font-size: 17px; font-weight: 700; line-height: 1.1; }
-.brand-sub   { font-size: 11px; opacity: 0.75; }
-.btn-add-nav {
-  width: 36px; height: 36px;
-  background: rgba(255,255,255,0.2);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  font-size: 24px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  line-height: 1;
-}
-.btn-add-nav:active { background: rgba(255,255,255,0.35); transform: scale(0.92); }
+/* CONTENT */
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:14px 14px calc(20px + var(--safe-b));}
 
-/* ─── TAB BAR (top) ───────────────────────── */
-.tabbar {
-  display: flex;
-  background: var(--red);
-  padding: 0 4px;
-  gap: 2px;
-}
-.tab-btn {
-  flex: 1;
-  padding: 8px 4px;
-  background: none;
-  border: none;
-  color: rgba(255,255,255,0.65);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: inherit;
-  border-bottom: 2px solid transparent;
-  transition: all 0.15s;
-  letter-spacing: 0.01em;
-}
-.tab-btn.active {
-  color: white;
-  border-bottom-color: white;
-  font-weight: 700;
-}
-.tab-btn:active { opacity: 0.7; }
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.kpi{background:var(--card);border-radius:var(--rs);padding:10px 8px;text-align:center;border:1px solid var(--border);}
+.kpi-n{font-size:24px;font-weight:800;line-height:1;}
+.kpi-l{font-size:10px;color:var(--text3);margin-top:2px;font-weight:500;}
+.kpi.blue .kpi-n{color:var(--blue);}
+.kpi.green .kpi-n{color:var(--green);}
+.kpi.orange .kpi-n{color:var(--orange);}
+.kpi.red .kpi-n{color:var(--red);}
 
-/* ─── CONTENT AREA ────────────────────────── */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding: 12px 14px calc(16px + var(--safe-b));
-}
+/* SECTION */
+.sec{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 8px 2px;}
 
-/* ─── SEARCH BAR ──────────────────────────── */
-.searchbar {
-  background: var(--card);
-  border-radius: var(--radius-s);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  margin-bottom: 12px;
-  border: 1px solid var(--border);
-}
-.searchbar-icon { color: var(--text3); font-size: 16px; flex-shrink: 0; }
-.searchbar input {
-  flex: 1;
-  background: none;
-  border: none;
-  font-size: 15px;
-  color: var(--text);
-  font-family: inherit;
-  outline: none;
-}
-.searchbar input::placeholder { color: var(--text3); }
+/* EVENT CARDS */
+.ev-list{display:flex;flex-direction:column;gap:8px;}
+.evc{background:var(--card);border-radius:var(--r);border:1px solid var(--border);display:flex;align-items:stretch;overflow:hidden;cursor:pointer;transition:opacity .1s;}
+.evc:active{opacity:.7;transform:scale(.99);}
+.evc-stripe{width:4px;flex-shrink:0;}
+.evc-body{flex:1;padding:12px 12px 12px 10px;}
+.evc-r1{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.evc-dom{font-size:17px;font-weight:700;}
+.evc-int{font-size:12px;color:var(--text3);font-weight:400;}
+.evc-date{font-size:12px;color:var(--text3);white-space:nowrap;margin-top:2px;}
+.evc-r2{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.evc-area{font-size:12px;color:var(--text2);}
+.evc-obs{font-size:12px;color:var(--text3);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
-/* ─── KPI STRIP ───────────────────────────── */
-.kpi-strip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 14px;
-}
-.kpi-card {
-  background: var(--card);
-  border-radius: var(--radius-s);
-  padding: 10px 8px;
-  text-align: center;
-  border: 1px solid var(--border);
-}
-.kpi-num  { font-size: 22px; font-weight: 800; line-height: 1; }
-.kpi-lbl  { font-size: 9.5px; color: var(--text3); margin-top: 2px; font-weight: 500; }
-.kpi-blue   .kpi-num { color: #007AFF; }
-.kpi-green  .kpi-num { color: #34C759; }
-.kpi-orange .kpi-num { color: #FF9500; }
-.kpi-red    .kpi-num { color: #FF3B30; }
+/* BADGES */
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.pm1{background:#E3F0FF;color:#0055CC;}
+.pm2{background:#E3F9E9;color:#1A7F3C;}
+.pm3{background:#FFF5E0;color:#B86800;}
+.pm4{background:#FFE5E5;color:#CC0000;}
+.pm5{background:#EFE9FD;color:#5E35B1;}
+.pm6{background:#E0F7F0;color:#00796B;}
+.pm7{background:#FFF0E3;color:#B84800;}
+.pm8{background:#FCE8F3;color:#AD1457;}
+.st-ok{background:#E3F9E9;color:#1A7F3C;}
+.st-prox{background:#FFF5E0;color:#B86800;}
+.st-venc{background:#FFE5E5;color:#CC0000;}
+.sc1{background:#007AFF;} .sc2{background:#34C759;} .sc3{background:#FF9500;}
+.sc4{background:#FF3B30;} .sc5{background:#5856D6;} .sc6{background:#32ADE6;}
+.sc7{background:#FF6B00;} .sc8{background:#FF2D55;}
 
-/* ─── SECTION HEADER ──────────────────────── */
-.sec-hdr {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text2);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 16px 0 8px 2px;
-}
-.sec-hdr:first-of-type { margin-top: 0; }
+/* MINI CAL */
+.mcal{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:12px;}
+.mcal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.mcal-title{font-size:15px;font-weight:700;}
+.mcal-nav{display:flex;gap:4px;}
+.mcal-btn{width:30px;height:30px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:16px;color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.mcal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.mc-dow{font-size:10px;color:var(--text3);text-align:center;padding-bottom:4px;font-weight:600;}
+.mc-day{font-size:13px;text-align:center;padding:5px 2px;border-radius:8px;cursor:pointer;color:var(--text2);position:relative;}
+.mc-day.today{background:var(--red);color:white;font-weight:700;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin:auto;padding:0;}
+.mc-day.has-ev::after{content:'';display:block;width:4px;height:4px;background:var(--red);border-radius:50%;margin:1px auto 0;}
+.mc-day.today.has-ev::after{background:rgba(255,255,255,.8);}
+.mc-day.om{opacity:.22;pointer-events:none;}
 
-/* ─── EVENT CARD ──────────────────────────── */
-.ev-list { display: flex; flex-direction: column; gap: 8px; }
-.ev-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  cursor: pointer;
-  transition: opacity 0.1s;
-}
-.ev-card:active { opacity: 0.7; transform: scale(0.99); }
-.ev-stripe { width: 4px; flex-shrink: 0; }
-.ev-body { flex: 1; padding: 12px 12px 12px 10px; }
-.ev-row1 {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 5px;
-}
-.ev-dom    { font-size: 17px; font-weight: 700; }
-.ev-int    { font-size: 12px; color: var(--text3); font-weight: 400; }
-.ev-date   { font-size: 12px; color: var(--text3); white-space: nowrap; margin-top: 2px; }
-.ev-row2   { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.ev-area   { font-size: 12px; color: var(--text2); }
-.ev-obs    { font-size: 12px; color: var(--text3); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* SEARCH */
+.search{background:var(--card);border-radius:var(--rs);display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:12px;border:1px solid var(--border);}
+.search input{flex:1;background:none;border:none;font-size:15px;color:var(--text);font-family:inherit;outline:none;}
+.search input::placeholder{color:var(--text3);}
 
-/* ─── BADGES ──────────────────────────────── */
-.badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 20px;
-}
-.pm1 { background: #E3F0FF; color: #0066CC; }
-.pm2 { background: #E3F9E9; color: #1A7F3C; }
-.pm3 { background: #FFF5E0; color: #B86800; }
-.pm4 { background: #FFE5E5; color: #CC0000; }
-.pm5 { background: #EFE9FD; color: #5E35B1; }
-.pm6 { background: #E0F7F0; color: #00796B; }
-.pm7 { background: #FFF0E3; color: #B84800; }
-.pm8 { background: #FCE8F3; color: #AD1457; }
-.st-ok   { background: #E3F9E9; color: #1A7F3C; }
-.st-prox { background: #FFF5E0; color: #B86800; }
-.st-venc { background: #FFE5E5; color: #CC0000; }
+/* PLAN TABLE */
+.plan-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
+.plan-row{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);gap:10px;}
+.plan-row:last-child{border:none;}
+.plan-sys{flex:1;font-size:13px;}
+.plan-int{font-size:11px;color:var(--text3);text-align:right;white-space:nowrap;}
+.plan-note{font-size:11px;color:var(--text3);padding:8px 14px;background:var(--bg);border-top:1px solid var(--border);}
 
-/* ─── STRIPE COLORS ───────────────────────── */
-.sc-pm1 { background: #007AFF; }
-.sc-pm2 { background: #34C759; }
-.sc-pm3 { background: #FF9500; }
-.sc-pm4 { background: #FF3B30; }
-.sc-pm5 { background: #5856D6; }
-.sc-pm6 { background: #32ADE6; }
-.sc-pm7 { background: #FF6B00; }
-.sc-pm8 { background: #FF2D55; }
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.dash-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:14px;}
+.dash-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.bar-lbl{font-size:11px;color:var(--text2);width:52px;flex-shrink:0;text-align:right;}
+.bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;}
+.bar-val{font-size:11px;color:var(--text3);width:24px;text-align:right;flex-shrink:0;}
+.pie-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.pie-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.pie-lbl{font-size:12px;flex:1;}
+.pie-val{font-size:12px;font-weight:700;}
+.dash-big{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:10px;}
+.alert-list{display:flex;flex-direction:column;gap:6px;}
+.alert-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:1px solid var(--border);}
+.alert-item.danger{background:#FFF0F0;border-color:#FFAAAA;}
+.alert-item.warn{background:#FFFBF0;border-color:#FFE08A;}
+.alert-icon{font-size:20px;flex-shrink:0;}
+.alert-dom{font-size:14px;font-weight:700;}
+.alert-info{font-size:12px;color:var(--text2);}
 
-/* ─── MINI CALENDAR ───────────────────────── */
-.mini-cal {
-  background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 14px;
-  margin-bottom: 12px;
-}
-.mc-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px;
-}
-.mc-title { font-size: 15px; font-weight: 700; }
-.mc-nav { display: flex; gap: 4px; }
-.mc-btn {
-  width: 30px; height: 30px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 16px;
-  color: var(--text2);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-.mc-btn:active { opacity: 0.6; }
-.mc-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
-.mc-dow { font-size: 10px; color: var(--text3); text-align: center; padding-bottom: 4px; font-weight: 600; }
-.mc-day {
-  font-size: 13px; text-align: center; padding: 5px 2px;
-  border-radius: 8px; cursor: pointer; color: var(--text2);
-  position: relative;
-}
-.mc-day.today {
-  background: var(--red); color: white; font-weight: 700;
-  border-radius: 50%; width: 30px; height: 30px;
-  display: flex; align-items: center; justify-content: center;
-  margin: auto; padding: 0;
-}
-.mc-day.has-ev::after {
-  content: ''; display: block; width: 4px; height: 4px;
-  background: var(--red); border-radius: 50%; margin: 1px auto 0;
-}
-.mc-day.today.has-ev::after { background: rgba(255,255,255,0.8); }
-.mc-day.om { opacity: 0.22; pointer-events: none; }
+/* FAB */
+.fab{position:fixed;bottom:calc(24px + var(--safe-b));right:20px;width:58px;height:58px;background:var(--red);color:white;border:none;border-radius:50%;font-size:30px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(204,0,0,.45);cursor:pointer;z-index:50;}
+.fab:active{transform:scale(.9);background:var(--red-d);}
 
-/* ─── PLAN PM TABLE ───────────────────────── */
-.plan-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  margin-bottom: 12px;
-}
-.plan-row {
-  display: flex;
-  align-items: center;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-  gap: 10px;
-}
-.plan-row:last-child { border: none; }
-.plan-sys { flex: 1; font-size: 13px; color: var(--text); }
-.plan-int { font-size: 11px; color: var(--text3); text-align: right; white-space: nowrap; }
-.plan-note {
-  font-size: 11px;
-  color: var(--text3);
-  padding: 8px 14px;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-}
+/* OVERLAY + SHEET */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;backdrop-filter:blur(2px);}
+.overlay.open{display:block;}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;z-index:101;max-height:94vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);padding-bottom:var(--safe-b);}
+.sheet.open{transform:translateY(0);}
+.sh-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 0;}
+.sh-hdr{padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.sh-title{font-size:18px;font-weight:700;}
+.sh-close{width:30px;height:30px;background:var(--bg);border:none;border-radius:50%;font-size:18px;color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.sh-body{padding:16px 18px;}
+.sh-foot{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:10px;}
 
-/* ─── EMPTY STATE ─────────────────────────── */
-.empty {
-  text-align: center;
-  padding: 52px 20px;
-  color: var(--text3);
-}
-.empty-icon { font-size: 52px; margin-bottom: 12px; }
-.empty-txt  { font-size: 15px; }
-.empty-sub  { font-size: 13px; margin-top: 4px; }
+/* FORM */
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.fl{font-size:13px;font-weight:600;color:var(--text2);}
+.fi{padding:13px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:16px;background:var(--bg);color:var(--text);font-family:inherit;-webkit-appearance:none;outline:none;}
+.fi:focus{border-color:var(--red);}
+.fs{padding:13px 38px 13px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:16px;background:var(--bg);color:var(--text);font-family:inherit;-webkit-appearance:none;outline:none;width:100%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23999'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.fs:focus{border-color:var(--red);}
+.fta{padding:13px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;background:var(--bg);color:var(--text);font-family:inherit;resize:none;min-height:88px;width:100%;outline:none;}
+.fta:focus{border-color:var(--red);}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.al{border-radius:var(--rs);padding:11px 13px;font-size:13px;margin-bottom:14px;display:none;}
+.al.show{display:block;}
+.al-warn{background:#FFF5E0;border:1px solid #FFCC02;color:#7A4F00;}
+.al-danger{background:#FFE5E5;border:1px solid #FF3B30;color:#8B0000;}
+.al-ok{background:#E3F9E9;border:1px solid #34C759;color:#0A4A1A;}
+.al-info{background:#EFE9FD;border:1px solid #5856D6;color:#2E1B8C;}
+.svc-info{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:11px 13px;margin-bottom:14px;font-size:13px;color:var(--text2);display:none;}
+.svc-info.show{display:block;}
+.svc-info strong{color:var(--text);display:block;margin-bottom:3px;}
 
-/* ─── FAB ─────────────────────────────────── */
-.fab {
-  position: fixed;
-  bottom: calc(24px + var(--safe-b));
-  right: 20px;
-  width: 58px; height: 58px;
-  background: var(--red);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  font-size: 30px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 18px rgba(204,0,0,0.45);
-  cursor: pointer;
-  z-index: 50;
-  line-height: 1;
-}
-.fab:active { transform: scale(0.9); background: var(--red-d); }
+/* BUTTONS */
+.btn-p{flex:1;background:var(--red);color:white;border:none;border-radius:var(--rs);padding:15px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;}
+.btn-p:active{background:var(--red-d);}
+.btn-s{background:var(--bg);color:var(--text2);border:1.5px solid var(--border);border-radius:var(--rs);padding:15px;font-size:15px;cursor:pointer;font-family:inherit;}
+.btn-d{background:#FFE5E5;color:#CC0000;border:1.5px solid #FFAAAA;border-radius:var(--rs);padding:15px;font-size:15px;cursor:pointer;font-family:inherit;}
 
-/* ─── BOTTOM SHEET ────────────────────────── */
-.overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 100;
-  backdrop-filter: blur(2px);
-}
-.overlay.open { display: block; }
-.sheet {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: var(--card);
-  border-radius: 20px 20px 0 0;
-  z-index: 101;
-  max-height: 94vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  transform: translateY(100%);
-  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
-  padding-bottom: var(--safe-b);
-}
-.sheet.open { transform: translateY(0); }
-.sheet-handle {
-  width: 36px; height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  margin: 10px auto 0;
-}
-.sheet-header {
-  padding: 14px 18px 12px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-}
-.sheet-title { font-size: 18px; font-weight: 700; }
-.sheet-close {
-  width: 30px; height: 30px;
-  background: var(--bg);
-  border: none; border-radius: 50%;
-  font-size: 18px; color: var(--text2);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-.sheet-body { padding: 16px 18px; }
-.sheet-footer {
-  padding: 12px 18px;
-  border-top: 1px solid var(--border);
-  display: flex; gap: 10px;
-}
+/* DETAIL */
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.det-item{display:flex;flex-direction:column;gap:3px;}
+.det-lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;font-weight:600;}
+.det-val{font-size:15px;font-weight:700;}
+.km-bar{margin:4px 0 6px;}
+.km-bar-lbls{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px;}
+.km-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.km-fill{height:100%;border-radius:4px;}
+.task-ul{list-style:none;}
+.task-li{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text2);}
+.task-li:last-child{border:none;}
+.task-li::before{content:'✓';color:var(--red);font-weight:700;flex-shrink:0;}
+.obs-block{background:var(--bg);border-radius:var(--rs);padding:12px 14px;font-size:14px;color:var(--text2);margin-top:4px;border:1px solid var(--border);}
 
-/* ─── FORM ELEMENTS ───────────────────────── */
-.fg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-.fl { font-size: 13px; font-weight: 600; color: var(--text2); }
-.fi {
-  padding: 13px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-s);
-  font-size: 16px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: inherit;
-  -webkit-appearance: none;
-  outline: none;
-  transition: border-color 0.15s;
-}
-.fi:focus { border-color: var(--red); }
-.fs {
-  padding: 13px 38px 13px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-s);
-  font-size: 16px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: inherit;
-  -webkit-appearance: none;
-  outline: none;
-  width: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23999'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  transition: border-color 0.15s;
-}
-.fs:focus { border-color: var(--red); }
-.fta {
-  padding: 13px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-s);
-  font-size: 15px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: inherit;
-  resize: none;
-  min-height: 88px;
-  width: 100%;
-  outline: none;
-  transition: border-color 0.15s;
-}
-.fta:focus { border-color: var(--red); }
-.frow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* EMPTY */
+.empty{text-align:center;padding:52px 20px;color:var(--text3);}
+.empty-ico{font-size:52px;margin-bottom:12px;}
 
-/* alert / info boxes */
-.alert { border-radius: var(--radius-s); padding: 11px 13px; font-size: 13px; margin-bottom: 14px; display: none; }
-.alert.show { display: block; }
-.alert-warn   { background: #FFF5E0; border: 1px solid #FFCC02; color: #7A4F00; }
-.alert-danger { background: #FFE5E5; border: 1px solid #FF3B30; color: #8B0000; }
-.alert-ok     { background: #E3F9E9; border: 1px solid #34C759; color: #0A4A1A; }
-.alert-info   { background: #EFE9FD; border: 1px solid #5856D6; color: #2E1B8C; }
-.svc-info { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-s); padding: 11px 13px; margin-bottom: 14px; font-size: 13px; color: var(--text2); display: none; }
-.svc-info.show { display: block; }
-.svc-info strong { color: var(--text); display: block; margin-bottom: 3px; font-size: 13px; }
-
-/* ─── BUTTONS ─────────────────────────────── */
-.btn-primary {
-  flex: 1;
-  background: var(--red);
-  color: white;
-  border: none;
-  border-radius: var(--radius-s);
-  padding: 15px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
-}
-.btn-primary:active { background: var(--red-d); transform: scale(0.98); }
-.btn-secondary {
-  background: var(--bg);
-  color: var(--text2);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-s);
-  padding: 15px;
-  font-size: 15px;
-  cursor: pointer;
-  font-family: inherit;
-}
-.btn-secondary:active { opacity: 0.7; }
-.btn-danger {
-  background: #FFE5E5;
-  color: #CC0000;
-  border: 1.5px solid #FFAAAA;
-  border-radius: var(--radius-s);
-  padding: 15px;
-  font-size: 15px;
-  cursor: pointer;
-  font-family: inherit;
-}
-.btn-danger:active { background: #FFCCCC; }
-
-/* ─── DETAIL SHEET ────────────────────────── */
-.det-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.det-item { display: flex; flex-direction: column; gap: 3px; }
-.det-lbl  { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
-.det-val  { font-size: 15px; font-weight: 700; }
-.km-bar-wrap { margin: 4px 0 6px; }
-.km-bar-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 4px; }
-.km-bar-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-.km-bar-fill  { height: 100%; border-radius: 4px; }
-.task-ul { list-style: none; }
-.task-li {
-  display: flex; align-items: flex-start; gap: 8px;
-  padding: 8px 0; border-bottom: 1px solid var(--border);
-  font-size: 14px; color: var(--text2);
-}
-.task-li:last-child { border: none; }
-.task-li::before { content: '✓'; color: var(--red); font-weight: 700; flex-shrink: 0; }
-.obs-block {
-  background: var(--bg);
-  border-radius: var(--radius-s);
-  padding: 12px 14px;
-  font-size: 14px;
-  color: var(--text2);
-  margin-top: 4px;
-  border: 1px solid var(--border);
-}
-
-/* ─── SCROLL INDICATOR ────────────────────── */
-.scroll-hint {
-  text-align: center;
-  font-size: 11px;
-  color: var(--text3);
-  padding: 6px 0 2px;
-}
+/* PRINT BUTTON */
+.print-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:12px 16px;font-size:14px;font-weight:600;color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-bottom:12px;font-family:inherit;}
+.print-btn:active{background:var(--bg);}
 </style>
 </head>
 <body>
-
 <div class="app">
   <div class="status-bar"></div>
-
   <div class="navbar">
     <div class="navbar-top">
-      <div class="navbar-brand">
-        <div class="brand-icon">🔧</div>
-        <div class="brand-text">
-          <div class="brand-title">Toyota Fleet</div>
+      <div class="brand">
+        <div class="brand-ico">🔧</div>
+        <div>
+          <div class="brand-name">Toyota Fleet</div>
           <div class="brand-sub">Proyecto Vicuña · 5.000 km</div>
         </div>
       </div>
-      <button class="btn-add-nav" onclick="openAdd()" aria-label="Nuevo turno">+</button>
+      <div class="nav-btns">
+        <button class="nav-btn" onclick="openAdd()" title="Nuevo turno">+</button>
+        <button class="nav-btn" onclick="openSearch()" title="Buscar">🔍</button>
+      </div>
     </div>
-    <div class="tabbar">
-      <button class="tab-btn active" onclick="setTab('inicio',this)">Inicio</button>
-      <button class="tab-btn" onclick="setTab('turnos',this)">Turnos</button>
-      <button class="tab-btn" onclick="setTab('plan',this)">Plan PM</button>
+    <div class="tabs">
+      <button class="tab active" onclick="setTab('inicio',this)">Inicio</button>
+      <button class="tab" onclick="setTab('turnos',this)">Turnos</button>
+      <button class="tab" onclick="setTab('dash',this)">Dashboard</button>
+      <button class="tab" onclick="setTab('plan',this)">Plan PM</button>
     </div>
   </div>
-
-  <div class="content" id="content"></div>
+  <div class="content" id="cnt"></div>
 </div>
 
-<button class="fab" onclick="openAdd()" aria-label="Nuevo turno">+</button>
+<button class="fab" onclick="openAdd()">+</button>
 
-<!-- ADD OVERLAY -->
-<div class="overlay" id="addOverlay" onclick="closeAdd()"></div>
-<div class="sheet" id="addSheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-header">
-    <span class="sheet-title">Nuevo turno</span>
-    <button class="sheet-close" onclick="closeAdd()">✕</button>
+<!-- ADD SHEET -->
+<div class="overlay" id="addOv" onclick="closeAdd()"></div>
+<div class="sheet" id="addSh">
+  <div class="sh-handle"></div>
+  <div class="sh-hdr">
+    <span class="sh-title" id="addTitle">Nuevo turno</span>
+    <button class="sh-close" onclick="closeAdd()">✕</button>
   </div>
-  <div class="sheet-body">
+  <div class="sh-body">
     <div class="frow2">
-      <div class="fg">
-        <label class="fl">Dominio *</label>
-        <input class="fi" id="fDom" placeholder="AE060AG" autocomplete="off" oninput="this.value=this.value.toUpperCase()">
-      </div>
-      <div class="fg">
-        <label class="fl">N° Interno</label>
-        <input class="fi" id="fInt" placeholder="2510" inputmode="numeric">
-      </div>
+      <div class="fg"><label class="fl">Dominio *</label><input class="fi" id="fDom" placeholder="AE060AG" autocomplete="off" oninput="this.value=this.value.toUpperCase()"></div>
+      <div class="fg"><label class="fl">N° Interno</label><input class="fi" id="fInt" placeholder="2510" inputmode="numeric"></div>
     </div>
     <div class="frow2">
-      <div class="fg">
-        <label class="fl">Km actuales *</label>
-        <input class="fi" type="number" inputmode="numeric" id="fKmA" placeholder="150000" oninput="calcKm()">
-      </div>
-      <div class="fg">
-        <label class="fl">Km último PM *</label>
-        <input class="fi" type="number" inputmode="numeric" id="fKmU" placeholder="145000" oninput="calcKm()">
-      </div>
+      <div class="fg"><label class="fl">Km actuales *</label><input class="fi" type="number" inputmode="numeric" id="fKmA" placeholder="150000" oninput="calcKm()"></div>
+      <div class="fg"><label class="fl">Km último PM *</label><input class="fi" type="number" inputmode="numeric" id="fKmU" placeholder="145000" oninput="calcKm()"></div>
     </div>
-    <div id="interPM" class="alert alert-info">⚡ <strong>Inter-PM 2.500 km:</strong> Corresponde limpieza de admisión y cambio de filtro por contaminación de sílice.</div>
-    <div id="kmAlert" class="alert"></div>
+    <div id="iPM" class="al al-info">⚡ <strong>Inter-PM 2.500 km:</strong> Limpieza de admisión y cambio de filtro por sílice.</div>
+    <div id="kmAl" class="al"></div>
     <div class="fg">
       <label class="fl">Tipo de servicio *</label>
-      <select class="fs" id="fPM" onchange="updateSvcInfo()">
-        <option value="">Seleccionar tipo...</option>
+      <select class="fs" id="fPM" onchange="updInfo()">
+        <option value="">Seleccionar...</option>
         <option value="PM5">PM 5.000 km — Estándar base</option>
         <option value="PM10">PM 10.000 km — + Diagnóstico</option>
         <option value="PM40">PM 40.000 km — + Líquido frenos</option>
@@ -620,512 +271,498 @@ body {
         <option value="PRED">Predictivo — Análisis de fluidos</option>
       </select>
     </div>
-    <div id="svcInfo" class="svc-info"></div>
-    <div class="fg">
-      <label class="fl">Fecha del turno *</label>
-      <input class="fi" type="date" id="fFecha">
-    </div>
+    <div id="svcI" class="svc-info"></div>
+    <div class="fg"><label class="fl">Fecha del turno *</label><input class="fi" type="date" id="fFecha"></div>
     <div class="fg">
       <label class="fl">Área asignada *</label>
       <select class="fs" id="fArea">
         <option value="">Seleccionar área...</option>
-        <option>Operaciones</option>
-        <option>Logística</option>
-        <option>Trituración</option>
-        <option>Mineral Resources</option>
-        <option>Process</option>
-        <option>EHS</option>
-        <option>Supply Chain</option>
-        <option>Maintenance Mine</option>
-        <option>IT</option>
-        <option>HHRH</option>
-        <option>Gerencia Seguridad</option>
-        <option>Brigada DS&COM</option>
-        <option>VLF Projects</option>
-        <option>Salud / Ambiente</option>
-        <option>Edilicio</option>
-        <option>Patrimonial</option>
-        <option>Mtto Combustibles</option>
-        <option>General Management</option>
+        <option>Operaciones</option><option>Logística</option><option>Trituración</option>
+        <option>Mineral Resources</option><option>Process</option><option>EHS</option>
+        <option>Supply Chain</option><option>Maintenance Mine</option><option>IT</option>
+        <option>HHRH</option><option>Gerencia Seguridad</option><option>Brigada DS&COM</option>
+        <option>VLF Projects</option><option>Salud / Ambiente</option><option>Edilicio</option>
+        <option>Patrimonial</option><option>Mtto Combustibles</option><option>General Management</option>
       </select>
     </div>
-    <div class="fg">
-      <label class="fl">Técnico asignado</label>
-      <input class="fi" id="fTec" placeholder="Nombre del técnico" autocomplete="off">
-    </div>
-    <div class="fg">
-      <label class="fl">Observaciones</label>
-      <textarea class="fta" id="fObs" placeholder="Fallas reportadas, novedades de seguridad, síntomas..."></textarea>
-    </div>
+    <div class="fg"><label class="fl">Técnico asignado</label><input class="fi" id="fTec" placeholder="Nombre del técnico" autocomplete="off"></div>
+    <div class="fg"><label class="fl">Observaciones</label><textarea class="fta" id="fObs" placeholder="Fallas reportadas, novedades de seguridad..."></textarea></div>
   </div>
-  <div class="sheet-footer">
-    <button class="btn-secondary" onclick="closeAdd()">Cancelar</button>
-    <button class="btn-primary" onclick="saveEv()">Guardar turno</button>
+  <div class="sh-foot">
+    <button class="btn-s" onclick="closeAdd()">Cancelar</button>
+    <button class="btn-p" onclick="saveEv()">Guardar turno</button>
   </div>
 </div>
 
-<!-- DETAIL OVERLAY -->
-<div class="overlay" id="detOverlay" onclick="closeDet()"></div>
-<div class="sheet" id="detSheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-header">
+<!-- DETAIL SHEET -->
+<div class="overlay" id="detOv" onclick="closeDet()"></div>
+<div class="sheet" id="detSh">
+  <div class="sh-handle"></div>
+  <div class="sh-hdr">
     <div>
-      <div class="sheet-title" id="dTitle">—</div>
+      <div class="sh-title" id="dTit">—</div>
       <div id="dBadges" style="margin-top:5px;display:flex;gap:6px;flex-wrap:wrap;"></div>
     </div>
-    <button class="sheet-close" onclick="closeDet()">✕</button>
+    <button class="sh-close" onclick="closeDet()">✕</button>
   </div>
-  <div class="sheet-body" id="dBody"></div>
-  <div class="sheet-footer">
-    <button class="btn-danger" onclick="delEv()">Eliminar</button>
-    <button class="btn-primary" onclick="closeDet()">Cerrar</button>
+  <div class="sh-body" id="dBody"></div>
+  <div class="sh-foot">
+    <button class="btn-d" onclick="delEv()">Eliminar</button>
+    <button class="btn-s" onclick="editEv()">Editar</button>
+    <button class="btn-p" onclick="closeDet()">Cerrar</button>
+  </div>
+</div>
+
+<!-- SEARCH SHEET -->
+<div class="overlay" id="srchOv" onclick="closeSrch()"></div>
+<div class="sheet" id="srchSh">
+  <div class="sh-handle"></div>
+  <div class="sh-hdr">
+    <span class="sh-title">Buscar</span>
+    <button class="sh-close" onclick="closeSrch()">✕</button>
+  </div>
+  <div class="sh-body">
+    <div class="fg"><input class="fi" id="srchIn" placeholder="Dominio, interno, área, técnico..." oninput="doSrch(this.value)" autocomplete="off"></div>
+    <div id="srchRes" class="ev-list"></div>
   </div>
 </div>
 
 <script>
 // ── DATA ──────────────────────────────────────────────────
 const PMS = {
-  PM5:  { label:'PM 5.000 km', short:'PM-5k', color:'pm1', sc:'sc-pm1', km:5000,
-    info:'Cambio de aceite + 3 filtros + muestra y presión de aceite + engrase cardán + inspección completa de todos los sistemas.',
-    tasks:['Cambio aceite motor','Reemplazo filtro aceite','Reemplazo filtro aire','Reemplazo filtro combustible','Toma muestra aceite motor','Medición presión aceite (ralentí + 3000 RPM)','Engrase crucetas cardán','Inspección frenos y embrague','Inspección dirección y suspensión','Inspección sistema eléctrico','Inspección neumáticos y carrocería','Inspección sistema refrigeración','Inspección tren de fuerza','Control de calidad'] },
-  PM10: { label:'PM 10.000 km', short:'PM-10k', color:'pm2', sc:'sc-pm2', km:10000,
-    info:'Todo el PM 5.000 km + diagnóstico computarizado Toyota + chequeo bujías de precalentamiento.',
-    tasks:['Todo lo de PM 5.000 km','Diagnóstico computarizado Toyota','Chequeo bujías de precalentamiento','Inspección correa de servicio'] },
-  PM40: { label:'PM 40.000 km', short:'PM-40k', color:'pm3', sc:'sc-pm3', km:40000,
-    info:'Todo el PM 10.000 km + cambio de líquido de frenos (intervalo 40.000 km).',
-    tasks:['Todo lo de PM 10.000 km','Cambio líquido de frenos','Ajuste cable freno de estacionamiento'] },
-  PM75: { label:'PM 75.000 km', short:'PM-75k', color:'pm4', sc:'sc-pm4', km:75000,
-    info:'Todo el PM 10.000 km + reemplazo de cadena de distribución (intervalo 75.000 km).',
-    tasks:['Todo lo de PM 10.000 km','Reemplazo cadena de distribución','Control sistema de distribución'] },
-  PM80: { label:'PM 80.000 km', short:'PM-80k', color:'pm5', sc:'sc-pm5', km:80000,
-    info:'Todo el PM 10.000 km + cambio de aceite transmisión, transferencia y diferenciales + refrigerante LLC + batería.',
-    tasks:['Todo lo de PM 10.000 km','Cambio aceite transmisión','Cambio aceite transferencia','Cambio aceite diferenciales','Cambio refrigerante LLC','Reemplazo batería anual'] },
-  INTER:{ label:'Inter-PM 2.500 km', short:'Inter-PM', color:'pm6', sc:'sc-pm6', km:2500,
-    info:'Servicio intermedio a los 2.500 km: limpieza del sistema de admisión y cambio de filtro por contaminación de sílice (alta montaña).',
-    tasks:['Cambio filtro admisión','Limpieza sistema de admisión','Control nivel sílice en aceite'] },
-  CORR: { label:'Correctivo', short:'Correctivo', color:'pm7', sc:'sc-pm7', km:0,
-    info:'Reparación correctiva no programada: diagnóstico de falla, reparación, registro en backlog y novedades de seguridad (ATS).',
-    tasks:['Diagnóstico de falla','Reparación según diagnóstico','Registro en backlog','Novedades de seguridad (ATS)'] },
-  PRED: { label:'Predictivo', short:'Predictivo', color:'pm8', sc:'sc-pm8', km:0,
-    info:'Muestra de aceite + medición de presión + análisis de contaminantes Fe/Cr/Ni/Al/Pb/Si. Recomendación según PPM de sílice.',
-    tasks:['Toma muestra aceite motor','Análisis contaminantes (Fe/Cr/Ni/Al/Pb/Si)','Medición presión aceite','Evaluación viscosidad','Recomendación preventiva según PPM sílice'] }
+  PM5:  {label:'PM 5.000 km',  short:'PM-5k',   col:'pm1',sc:'sc1',km:5000,
+    info:'Cambio aceite + 3 filtros + muestra y presión de aceite + engrase cardán + inspección completa.',
+    tasks:['Cambio aceite motor','Reemplazo filtro aceite','Reemplazo filtro aire','Reemplazo filtro combustible','Toma muestra aceite motor','Medición presión aceite (ralentí + 3000 RPM)','Engrase crucetas cardán','Inspección frenos y embrague','Inspección dirección y suspensión','Inspección sistema eléctrico','Inspección neumáticos y carrocería','Inspección sistema refrigeración','Inspección tren de fuerza','Control de calidad']},
+  PM10: {label:'PM 10.000 km', short:'PM-10k',  col:'pm2',sc:'sc2',km:10000,
+    info:'Todo PM 5.000 km + diagnóstico computarizado Toyota + chequeo bujías de precalentamiento.',
+    tasks:['Todo PM 5.000 km','Diagnóstico computarizado Toyota','Chequeo bujías precalentamiento','Inspección correa de servicio']},
+  PM40: {label:'PM 40.000 km', short:'PM-40k',  col:'pm3',sc:'sc3',km:40000,
+    info:'Todo PM 10.000 km + cambio de líquido de frenos.',
+    tasks:['Todo PM 10.000 km','Cambio líquido de frenos','Ajuste cable freno estacionamiento']},
+  PM75: {label:'PM 75.000 km', short:'PM-75k',  col:'pm4',sc:'sc4',km:75000,
+    info:'Todo PM 10.000 km + reemplazo cadena de distribución.',
+    tasks:['Todo PM 10.000 km','Reemplazo cadena de distribución','Control sistema distribución']},
+  PM80: {label:'PM 80.000 km', short:'PM-80k',  col:'pm5',sc:'sc5',km:80000,
+    info:'Todo PM 10.000 km + aceite transmisión/transferencia/diferenciales + refrigerante LLC + batería.',
+    tasks:['Todo PM 10.000 km','Cambio aceite transmisión','Cambio aceite transferencia','Cambio aceite diferenciales','Cambio refrigerante LLC','Reemplazo batería']},
+  INTER:{label:'Inter-PM 2.500 km',short:'Inter-PM',col:'pm6',sc:'sc6',km:2500,
+    info:'Servicio a los 2.500 km: limpieza admisión y cambio de filtro por contaminación de sílice (alta montaña).',
+    tasks:['Cambio filtro admisión','Limpieza sistema de admisión','Control nivel sílice en aceite']},
+  CORR: {label:'Correctivo',    short:'Correctivo',col:'pm7',sc:'sc7',km:0,
+    info:'Reparación no programada: diagnóstico, reparación, registro en backlog y novedades de seguridad (ATS).',
+    tasks:['Diagnóstico de falla','Reparación según diagnóstico','Registro en backlog','Novedades de seguridad (ATS)']},
+  PRED: {label:'Predictivo',    short:'Predictivo',col:'pm8',sc:'sc8',km:0,
+    info:'Muestra de aceite + presión + análisis Fe/Cr/Ni/Al/Pb/Si. Recomendación según PPM de sílice.',
+    tasks:['Toma muestra aceite motor','Análisis contaminantes (Fe/Cr/Ni/Al/Pb/Si)','Medición presión aceite','Evaluación viscosidad','Recomendación preventiva PPM sílice']}
 };
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DIAS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 
-const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const DOWS   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-
-function loadEvents() {
-  try {
-    const raw = localStorage.getItem('tf_events_v2');
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
+function loadEv(){
+  try{const r=localStorage.getItem('tf_v3');if(r)return JSON.parse(r);}catch(e){}
   return [
-    { id:1, dom:'AE060AG', int:'2510', fecha:'2026-05-12', kmA:149770, kmU:144770, pm:'PM5',  area:'Trituración',      tec:'Manzano / Villacorta', obs:'Presión ralentí: 25 PSI ✓. 3000 RPM: 60 PSI ✓. Muestra tomada. Cambio lámpara muélón.' },
-    { id:2, dom:'GHC 245', int:'2441', fecha:'2026-05-15', kmA:282197, kmU:277197, pm:'PM10', area:'Operaciones',       tec:'López Federico',        obs:'Sin novedades. Diagnóstico computarizado sin fallas activas.' },
-    { id:3, dom:'BJT 890', int:'2524', fecha:'2026-05-20', kmA:159489, kmU:154489, pm:'INTER',area:'Logística',         tec:'',                      obs:'Sílice moderadamente elevado. Se realizó limpieza completa de admisión.' },
-    { id:4, dom:'ERT 567', int:'2458', fecha:'2026-05-28', kmA:159490, kmU:159490, pm:'CORR', area:'Mineral Resources', tec:'',                      obs:'Ruido anormal en motor. Motor dañado — a espera de motor de reposición.' },
+    {id:1,dom:'AE060AG',int:'2510',fecha:'2026-05-12',kmA:149770,kmU:144770,pm:'PM5', area:'Trituración',     tec:'Manzano / Villacorta',obs:'Presión ralentí 25 PSI ✓. 3000 RPM 60 PSI ✓. Muestra tomada. Cambio lámpara muélón.'},
+    {id:2,dom:'GHC 245', int:'2441',fecha:'2026-05-15',kmA:282197,kmU:277197,pm:'PM10',area:'Operaciones',      tec:'López Federico',       obs:'Sin novedades. Diagnóstico sin fallas activas.'},
+    {id:3,dom:'BJT 890', int:'2524',fecha:'2026-05-20',kmA:159489,kmU:154489,pm:'INTER',area:'Logística',       tec:'',                     obs:'Sílice elevado. Limpieza completa de admisión realizada.'},
+    {id:4,dom:'ERT 567', int:'2458',fecha:'2026-05-28',kmA:159490,kmU:159490,pm:'CORR',area:'Mineral Resources',tec:'',                     obs:'Ruido anormal en motor. Motor dañado — espera de reposición.'},
   ];
 }
 
-let events = loadEvents();
-let nid = Math.max(0, ...events.map(e => e.id)) + 1;
-let curTab = 'inicio';
-let vDate  = new Date(2026, 4, 1);
-let selId  = null;
-let srch   = '';
+let evs = loadEv();
+let nid = Math.max(0,...evs.map(e=>e.id))+1;
+let curTab='inicio', vDate=new Date(2026,4,1), selId=null, editId=null, srchQ='';
 
-function saveLS() {
-  try { localStorage.setItem('tf_events_v2', JSON.stringify(events)); } catch(e) {}
-}
-const TODAY    = new Date(2026, 4, 12);
-const NOW_DAY  = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
-const fmtKm    = n  => n.toLocaleString('es-AR') + ' km';
-const fmtDate  = s  => { const d = new Date(s+'T12:00:00'); return `${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)} ${d.getFullYear()}`; };
+function saveLS(){try{localStorage.setItem('tf_v3',JSON.stringify(evs));}catch(e){}}
+const TODAY=new Date(2026,4,12);
+const NOW=new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate());
+const fKm=n=>n.toLocaleString('es-AR')+' km';
+const fDate=s=>{const d=new Date(s+'T12:00:00');return`${d.getDate()} ${MESES[d.getMonth()].slice(0,3)} ${d.getFullYear()}`;};
 
-function getStatus(e) {
-  const pm = PMS[e.pm], diff = e.kmA - e.kmU;
-  const eDate = new Date(e.fecha+'T12:00:00');
-  if (eDate < NOW_DAY)                      return { sc:'st-venc', st:'Vencido' };
-  if (pm.km > 0 && diff >= pm.km * 0.9)    return { sc:'st-prox', st:'Próximo límite' };
-  return { sc:'st-ok', st:'Pendiente' };
+function getSt(e){
+  const pm=PMS[e.pm],diff=e.kmA-e.kmU;
+  if(new Date(e.fecha+'T12:00:00')<NOW) return{sc:'st-venc',st:'Vencido'};
+  if(pm.km>0&&diff>=pm.km*.9)           return{sc:'st-prox',st:'Próximo límite'};
+  return{sc:'st-ok',st:'Pendiente'};
 }
-function barColor(pct) {
-  if (pct >= 100) return '#FF3B30';
-  if (pct >= 85)  return '#FF9500';
-  return '#34C759';
-}
+function bc(pct){return pct>=100?'#FF3B30':pct>=85?'#FF9500':'#34C759';}
 
 // ── RENDER ────────────────────────────────────────────────
-function setTab(t, el) {
-  curTab = t;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+function setTab(t,el){
+  curTab=t;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
   render();
 }
-
-function render() {
-  const c = document.getElementById('content');
-  if      (curTab === 'inicio')  renderInicio(c);
-  else if (curTab === 'turnos')  renderTurnos(c);
-  else                           renderPlan(c);
+function render(){
+  const c=document.getElementById('cnt');
+  if(curTab==='inicio')   rInicio(c);
+  else if(curTab==='turnos') rTurnos(c);
+  else if(curTab==='dash')   rDash(c);
+  else                       rPlan(c);
 }
 
-function renderInicio(c) {
-  const now = NOW_DAY;
-  const upcoming = [...events]
-    .sort((a,b) => a.fecha.localeCompare(b.fecha))
-    .filter(e => new Date(e.fecha+'T12:00:00') >= now);
-
-  const total  = events.length;
-  const ok     = events.filter(e => getStatus(e).sc === 'st-ok').length;
-  const prox   = events.filter(e => getStatus(e).sc === 'st-prox').length;
-  const venc   = events.filter(e => getStatus(e).sc === 'st-venc').length;
-
-  let html = `
-    <div class="kpi-strip">
-      <div class="kpi-card kpi-blue"><div class="kpi-num">${total}</div><div class="kpi-lbl">Total</div></div>
-      <div class="kpi-card kpi-green"><div class="kpi-num">${ok}</div><div class="kpi-lbl">Pendientes</div></div>
-      <div class="kpi-card kpi-orange"><div class="kpi-num">${prox}</div><div class="kpi-lbl">Por vencer</div></div>
-      <div class="kpi-card kpi-red"><div class="kpi-num">${venc}</div><div class="kpi-lbl">Vencidos</div></div>
+// INICIO
+function rInicio(c){
+  const now=NOW;
+  const upcoming=[...evs].sort((a,b)=>a.fecha.localeCompare(b.fecha)).filter(e=>new Date(e.fecha+'T12:00:00')>=now);
+  const total=evs.length,ok=evs.filter(e=>getSt(e).sc==='st-ok').length,
+    prox=evs.filter(e=>getSt(e).sc==='st-prox').length,venc=evs.filter(e=>getSt(e).sc==='st-venc').length;
+  let h=`
+    <div class="kpi-row">
+      <div class="kpi blue"><div class="kpi-n">${total}</div><div class="kpi-l">Total</div></div>
+      <div class="kpi green"><div class="kpi-n">${ok}</div><div class="kpi-l">Pendientes</div></div>
+      <div class="kpi orange"><div class="kpi-n">${prox}</div><div class="kpi-l">Por vencer</div></div>
+      <div class="kpi red"><div class="kpi-n">${venc}</div><div class="kpi-l">Vencidos</div></div>
     </div>
     ${buildCal()}
-    <div class="sec-hdr">Próximos turnos</div>
+    <div class="sec">Próximos turnos</div>
     <div class="ev-list">`;
-
-  if (!upcoming.length) {
-    html += `<div class="empty"><div class="empty-icon">📅</div><div class="empty-txt">Sin turnos próximos</div><div class="empty-sub">Tocá + para agregar uno</div></div>`;
-  } else {
-    upcoming.slice(0, 10).forEach(e => { html += buildCard(e); });
-  }
-
-  html += `</div>`;
-  c.innerHTML = html;
+  if(!upcoming.length) h+=`<div class="empty"><div class="empty-ico">📅</div><div style="font-size:15px;color:var(--text3);">Sin turnos próximos<br><small>Tocá + para agregar uno</small></div></div>`;
+  else upcoming.slice(0,10).forEach(e=>{h+=bCard(e);});
+  h+=`</div>`;
+  c.innerHTML=h;
   bindCards(c);
-  c.querySelector('#mc-prev')?.addEventListener('click', () => { vDate = new Date(vDate.getFullYear(), vDate.getMonth()-1, 1); render(); });
-  c.querySelector('#mc-next')?.addEventListener('click', () => { vDate = new Date(vDate.getFullYear(), vDate.getMonth()+1, 1); render(); });
+  c.querySelector('#mc-p')?.addEventListener('click',()=>{vDate=new Date(vDate.getFullYear(),vDate.getMonth()-1,1);render();});
+  c.querySelector('#mc-n')?.addEventListener('click',()=>{vDate=new Date(vDate.getFullYear(),vDate.getMonth()+1,1);render();});
 }
 
-function renderTurnos(c) {
-  let list = [...events].sort((a,b) => a.fecha.localeCompare(b.fecha));
-  if (srch) {
-    const q = srch.toLowerCase();
-    list = list.filter(e =>
-      e.dom.toLowerCase().includes(q) ||
-      (e.int||'').toLowerCase().includes(q) ||
-      e.area.toLowerCase().includes(q) ||
-      (e.tec||'').toLowerCase().includes(q)
-    );
-  }
-
-  let html = `
-    <div class="searchbar">
-      <span class="searchbar-icon">🔍</span>
-      <input placeholder="Buscar dominio, interno, área..." value="${srch}" oninput="srch=this.value;renderTurnos(document.getElementById('content'))">
-    </div>`;
-
-  if (!list.length) {
-    html += `<div class="empty"><div class="empty-icon">🔎</div><div class="empty-txt">Sin resultados</div></div>`;
-  } else {
-    html += `<div class="ev-list">`;
-    list.forEach(e => { html += buildCard(e); });
-    html += `</div>`;
-  }
-
-  c.innerHTML = html;
+// TURNOS
+function rTurnos(c){
+  let list=[...evs].sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  let h=`<button class="print-btn" onclick="printReport()">🖨 Generar reporte imprimible</button>
+  <div class="search"><span style="color:var(--text3)">🔍</span><input placeholder="Buscar dominio, interno, área..." oninput="srchQ=this.value;rTurnos(document.getElementById('cnt'))" value="${srchQ}" autocomplete="off"></div>`;
+  if(srchQ){const q=srchQ.toLowerCase();list=list.filter(e=>e.dom.toLowerCase().includes(q)||(e.int||'').toLowerCase().includes(q)||e.area.toLowerCase().includes(q)||(e.tec||'').toLowerCase().includes(q));}
+  if(!list.length) h+=`<div class="empty"><div class="empty-ico">🔎</div><div style="font-size:15px;color:var(--text3);">Sin resultados</div></div>`;
+  else{h+=`<div class="ev-list">`;list.forEach(e=>{h+=bCard(e);});h+=`</div>`;}
+  c.innerHTML=h;
   bindCards(c);
 }
 
-function renderPlan(c) {
-  const rows = [
-    ['Aceite motor', 'Cada PM — 5.000 km', 'R', 'pm4'],
-    ['Filtro aceite', 'Cada PM — 5.000 km', 'R', 'pm4'],
-    ['Filtro aire', 'Cada PM — 5.000 km', 'R', 'pm4'],
-    ['Filtro combustible', 'Cada PM — 5.000 km', 'R', 'pm4'],
-    ['Filtro admisión + limpieza sílice', 'Inter-PM — 2.500 km', 'R', 'pm6'],
-    ['Diagnóstico computarizado Toyota', '10.000 km', 'D', 'pm1'],
-    ['Líquido de frenos', '40.000 km', 'R', 'pm3'],
-    ['Cadena de distribución', '75.000 km', 'R', 'pm5'],
-    ['Aceite transmisión / transferencia / dif.', '80.000 km', 'R', 'pm5'],
-    ['Refrigerante LLC', '80.000 km', 'R', 'pm1'],
-    ['Batería', 'Anual', 'R', 'pm3'],
-    ['Correa de servicio', 'Cada PM', 'I', 'pm3'],
-    ['Sistema frenos y embrague', 'Cada PM', 'I', 'pm3'],
-    ['Dirección y suspensión', 'Cada PM', 'I', 'pm3'],
-    ['Sistema eléctrico', 'Cada PM', 'I', 'pm3'],
-    ['Neumáticos y carrocería', 'Cada PM', 'I', 'pm3'],
-    ['Engrase crucetas cardán', '5.000 km', 'E', 'pm2'],
-    ['Muestra aceite + PPM sílice', 'Cada PM', 'M', 'pm6'],
-    ['Presión aceite (ralentí + 3000 RPM)', 'Cada PM', 'M', 'pm6'],
-    ['Limpieza admisión completa', 'Condicional (Si elevado)', 'L', 'pm7'],
-    ['Cambio viscosidad aceite', 'Condicional (presión baja)', 'C', 'pm8'],
-    ['Lavado vapor condensador/radiador', 'Según necesidad', 'L', 'pm7'],
-  ];
+// DASHBOARD
+function rDash(c){
+  const total=evs.length||1;
+  const ok=evs.filter(e=>getSt(e).sc==='st-ok').length;
+  const prox=evs.filter(e=>getSt(e).sc==='st-prox').length;
+  const venc=evs.filter(e=>getSt(e).sc==='st-venc').length;
+  const corr=evs.filter(e=>e.pm==='CORR').length;
+  const pred=evs.filter(e=>e.pm==='PRED').length;
 
-  let html = `
-    <div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.5;">
-      Plan Toyota Hilux — Uso extremo · Cadencia base 5.000 km<br>
-      <span style="font-size:12px;color:var(--text3);">⚡ 1 h ralentí = 70 km · Proyecto Vicuña (3.000–5.000 msnm)</span>
-    </div>
-    <div class="plan-card">`;
+  // PM type counts
+  const pmCounts={};Object.keys(PMS).forEach(k=>{pmCounts[k]=evs.filter(e=>e.pm===k).length;});
 
-  rows.forEach(([sys, int, act, col]) => {
-    html += `
-      <div class="plan-row">
-        <span class="plan-sys">${sys}</span>
-        <span class="plan-int">${int}</span>
-        <span class="badge ${col}" style="font-size:10px;">${act}</span>
-      </div>`;
+  // Area counts
+  const areas={};evs.forEach(e=>{areas[e.area]=(areas[e.area]||0)+1;});
+  const topAreas=Object.entries(areas).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxA=topAreas[0]?.[1]||1;
+
+  // Alerts
+  const alerts=[...evs].filter(e=>{
+    const{sc}=getSt(e);
+    const diff=e.kmA-e.kmU,pm=PMS[e.pm];
+    return sc==='st-venc'||(pm.km>0&&diff>=pm.km*.85);
+  }).sort((a,b)=>{
+    const da=getSt(a).sc==='st-venc'?0:1,db=getSt(b).sc==='st-venc'?0:1;return da-db;
   });
 
-  html += `<div class="plan-note">R = Reemplazar &nbsp;·&nbsp; I = Inspeccionar &nbsp;·&nbsp; D = Diagnóstico &nbsp;·&nbsp; E = Engrase &nbsp;·&nbsp; M = Muestra &nbsp;·&nbsp; L = Limpieza &nbsp;·&nbsp; C = Condicional</div></div>`;
-  c.innerHTML = html;
+  let h=`
+  <div class="sec">Resumen de flota</div>
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-title">Estado de turnos</div>
+      <div class="pie-row"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-lbl">Pendientes</span><span class="pie-val">${ok}</span></div>
+      <div class="pie-row"><div class="pie-dot" style="background:var(--orange)"></div><span class="pie-lbl">Próx. límite</span><span class="pie-val">${prox}</span></div>
+      <div class="pie-row"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-lbl">Vencidos</span><span class="pie-val">${venc}</span></div>
+      <div class="pie-row"><div class="pie-dot" style="background:#5856D6"></div><span class="pie-lbl">Correctivos</span><span class="pie-val">${corr}</span></div>
+      <div class="pie-row"><div class="pie-dot" style="background:#32ADE6"></div><span class="pie-lbl">Predictivos</span><span class="pie-val">${pred}</span></div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-title">Tipos de PM</div>
+      ${Object.entries(pmCounts).filter(([k,v])=>v>0).map(([k,v])=>`
+        <div class="bar-row">
+          <span class="bar-lbl" style="font-size:10px;">${PMS[k].short}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/total*100)}%;background:var(--red);"></div></div>
+          <span class="bar-val">${v}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+  <div class="dash-big">
+    <div class="dash-title">Turnos por área</div>
+    ${topAreas.map(([a,v])=>`
+      <div class="bar-row">
+        <span class="bar-lbl" style="font-size:10px;width:80px;">${a.slice(0,12)}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxA*100)}%;background:var(--blue);"></div></div>
+        <span class="bar-val">${v}</span>
+      </div>`).join('')}
+  </div>
+  <div class="sec">⚠ Alertas de mantenimiento</div>
+  <div class="alert-list">`;
+
+  if(!alerts.length){
+    h+=`<div class="empty"><div class="empty-ico">✅</div><div style="font-size:14px;color:var(--text3);">Sin alertas activas</div></div>`;
+  } else {
+    alerts.forEach(e=>{
+      const{sc,st}=getSt(e),pm=PMS[e.pm],diff=e.kmA-e.kmU;
+      h+=`<div class="alert-item ${sc==='st-venc'?'danger':'warn'}" onclick="openDet(${e.id})" style="cursor:pointer;">
+        <span class="alert-icon">${sc==='st-venc'?'🔴':'🟡'}</span>
+        <div>
+          <div class="alert-dom">${e.dom}${e.int?' #'+e.int:''}</div>
+          <div class="alert-info">${pm.short} · ${fKm(diff)} desde último PM · ${e.area}</div>
+        </div>
+        <span class="badge ${sc}" style="margin-left:auto;">${st}</span>
+      </div>`;
+    });
+  }
+  h+=`</div>`;
+  c.innerHTML=h;
+  c.querySelectorAll('.alert-item[onclick]').forEach(el=>{
+    el.addEventListener('click',()=>{const fn=el.getAttribute('onclick');eval(fn);});
+  });
+}
+
+// PLAN
+function rPlan(c){
+  const rows=[
+    ['Aceite motor + 3 filtros (aceite/aire/comb.)','5.000 km','R','pm4'],
+    ['Filtro admisión + limpieza sílice (Inter-PM)','2.500 km','R','pm6'],
+    ['Diagnóstico computarizado Toyota','10.000 km','D','pm1'],
+    ['Líquido de frenos','40.000 km','R','pm3'],
+    ['Cadena de distribución','75.000 km','R','pm5'],
+    ['Aceite transmisión / transferencia / dif.','80.000 km','R','pm5'],
+    ['Refrigerante LLC','80.000 km','R','pm1'],
+    ['Batería','Anual','R','pm3'],
+    ['Correa de servicio','Cada PM','I','pm3'],
+    ['Sistema frenos y embrague','Cada PM','I','pm3'],
+    ['Dirección y suspensión','Cada PM','I','pm3'],
+    ['Sistema eléctrico','Cada PM','I','pm3'],
+    ['Neumáticos y carrocería','Cada PM','I','pm3'],
+    ['Engrase crucetas cardán','5.000 km','E','pm2'],
+    ['Muestra aceite + análisis PPM sílice','Cada PM','M','pm6'],
+    ['Presión aceite (ralentí + 3000 RPM)','Cada PM','M','pm6'],
+    ['Limpieza admisión completa','Condicional','L','pm7'],
+    ['Cambio viscosidad aceite','Condicional','C','pm8'],
+    ['Lavado vapor condensador/radiador','Según necesidad','L','pm7'],
+  ];
+  let h=`<div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.5;">Toyota Hilux — Uso extremo · Cadencia 5.000 km<br><span style="font-size:12px;color:var(--text3);">⚡ 1 h ralentí = 70 km · Vicuña 3.000–5.000 msnm</span></div>
+  <div class="plan-card">`;
+  rows.forEach(([s,i,a,c2])=>{
+    h+=`<div class="plan-row"><span class="plan-sys">${s}</span><span class="plan-int">${i}</span><span class="badge ${c2}" style="font-size:10px;">${a}</span></div>`;
+  });
+  h+=`<div class="plan-note">R=Reemplazar · I=Inspeccionar · D=Diagnóstico · E=Engrase · M=Muestra · L=Limpieza · C=Condicional</div></div>`;
+  c.innerHTML=h;
 }
 
 // ── CALENDAR ──────────────────────────────────────────────
-function buildCal() {
-  const y = vDate.getFullYear(), m = vDate.getMonth();
-  const evDates = new Set(events.map(e => e.fecha));
-  const first = new Date(y,m,1).getDay();
-  const days  = new Date(y,m+1,0).getDate();
-  const prev  = new Date(y,m,0).getDate();
-  const td    = TODAY;
-
-  let html = `<div class="mini-cal">
-    <div class="mc-head">
-      <span class="mc-title">${MONTHS[m]} ${y}</span>
-      <div class="mc-nav">
-        <button class="mc-btn" id="mc-prev">‹</button>
-        <button class="mc-btn" id="mc-next">›</button>
-      </div>
-    </div>
-    <div class="mc-grid">`;
-
-  DOWS.forEach(d => { html += `<div class="mc-dow">${d[0]}</div>`; });
-  for (let i = first-1; i >= 0; i--) html += `<div class="mc-day om">${prev-i}</div>`;
-  for (let d = 1; d <= days; d++) {
-    const ds  = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    let cls   = 'mc-day';
-    if (d === td.getDate() && m === td.getMonth() && y === td.getFullYear()) cls += ' today';
-    if (evDates.has(ds)) cls += ' has-ev';
-    html += `<div class="${cls}">${d}</div>`;
+function buildCal(){
+  const y=vDate.getFullYear(),m=vDate.getMonth();
+  const evDates=new Set(evs.map(e=>e.fecha));
+  const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prev=new Date(y,m,0).getDate();
+  let h=`<div class="mcal"><div class="mcal-head"><span class="mcal-title">${MESES[m]} ${y}</span><div class="mcal-nav"><button class="mcal-btn" id="mc-p">‹</button><button class="mcal-btn" id="mc-n">›</button></div></div><div class="mcal-grid">`;
+  DIAS.forEach(d=>{h+=`<div class="mc-dow">${d[0]}</div>`;});
+  for(let i=first-1;i>=0;i--) h+=`<div class="mc-day om">${prev-i}</div>`;
+  for(let d=1;d<=days;d++){
+    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    let cls='mc-day';
+    if(d===TODAY.getDate()&&m===TODAY.getMonth()&&y===TODAY.getFullYear()) cls+=' today';
+    if(evDates.has(ds)) cls+=' has-ev';
+    h+=`<div class="${cls}">${d}</div>`;
   }
-  const rem = 42 - first - days;
-  for (let d = 1; d <= rem; d++) html += `<div class="mc-day om">${d}</div>`;
-
-  html += `</div></div>`;
-  return html;
+  const rem=42-first-days;for(let d=1;d<=rem;d++) h+=`<div class="mc-day om">${d}</div>`;
+  return h+`</div></div>`;
 }
 
-// ── EVENT CARD HTML ────────────────────────────────────────
-function buildCard(e) {
-  const pm = PMS[e.pm];
-  const { sc, st } = getStatus(e);
-  return `
-    <div class="ev-card" data-id="${e.id}">
-      <div class="ev-stripe ${pm.sc}"></div>
-      <div class="ev-body">
-        <div class="ev-row1">
-          <div>
-            <span class="ev-dom">${e.dom}</span>
-            ${e.int ? `<span class="ev-int"> #${e.int}</span>` : ''}
-          </div>
-          <span class="ev-date">${fmtDate(e.fecha)}</span>
-        </div>
-        <div class="ev-row2">
-          <span class="badge ${pm.color}">${pm.short}</span>
-          <span class="badge ${sc}">${st}</span>
-          <span class="ev-area">${e.area}</span>
-        </div>
-        ${e.obs ? `<div class="ev-obs">${e.obs}</div>` : ''}
-      </div>
-    </div>`;
+// ── CARD ──────────────────────────────────────────────────
+function bCard(e){
+  const pm=PMS[e.pm],{sc,st}=getSt(e);
+  return `<div class="evc" data-id="${e.id}"><div class="evc-stripe ${pm.sc}"></div><div class="evc-body"><div class="evc-r1"><div><span class="evc-dom">${e.dom}</span>${e.int?`<span class="evc-int"> #${e.int}</span>`:''}</div><span class="evc-date">${fDate(e.fecha)}</span></div><div class="evc-r2"><span class="badge ${pm.col}">${pm.short}</span><span class="badge ${sc}">${st}</span><span class="evc-area">${e.area}</span></div>${e.obs?`<div class="evc-obs">${e.obs}</div>`:''}</div></div>`;
 }
-
-function bindCards(root) {
-  root.querySelectorAll('.ev-card[data-id]').forEach(el => {
-    el.addEventListener('click', () => openDet(parseInt(el.dataset.id)));
+function bindCards(root){
+  root.querySelectorAll('.evc[data-id]').forEach(el=>{
+    el.addEventListener('click',()=>openDet(parseInt(el.dataset.id)));
   });
 }
 
 // ── FORM ──────────────────────────────────────────────────
-function updateSvcInfo() {
-  const v   = document.getElementById('fPM').value;
-  const box = document.getElementById('svcInfo');
-  if (v && PMS[v]) {
-    box.innerHTML = `<strong>${PMS[v].label}</strong>${PMS[v].info}`;
-    box.classList.add('show');
-  } else {
-    box.classList.remove('show');
-  }
+function updInfo(){
+  const v=document.getElementById('fPM').value,box=document.getElementById('svcI');
+  if(v&&PMS[v]){box.innerHTML=`<strong>${PMS[v].label}</strong>${PMS[v].info}`;box.classList.add('show');}
+  else box.classList.remove('show');
+}
+function calcKm(){
+  const a=parseInt(document.getElementById('fKmA').value)||0;
+  const u=parseInt(document.getElementById('fKmU').value)||0;
+  const al=document.getElementById('kmAl'),ip=document.getElementById('iPM');
+  if(a&&u){
+    const d=a-u;
+    if(a<u){al.className='al al-danger show';al.textContent='⚠ Km actuales no pueden ser menores al último servicio.';}
+    else if(d>=5000){al.className='al al-danger show';al.textContent=`🔴 Diferencia ${d.toLocaleString('es-AR')} km — servicio vencido (>5.000 km).`;}
+    else if(d>=4500){al.className='al al-warn show';al.textContent=`⚠ Diferencia ${d.toLocaleString('es-AR')} km — próximo al límite de 5.000 km.`;}
+    else{al.className='al al-ok show';al.textContent=`✓ Diferencia ${d.toLocaleString('es-AR')} km — dentro del rango correcto.`;}
+    (d>=2400&&d<=2600)?ip.classList.add('show'):ip.classList.remove('show');
+  }else{al.className='al';ip.classList.remove('show');}
 }
 
-function calcKm() {
-  const a  = parseInt(document.getElementById('fKmA').value) || 0;
-  const u  = parseInt(document.getElementById('fKmU').value) || 0;
-  const al = document.getElementById('kmAlert');
-  const ip = document.getElementById('interPM');
-
-  if (a && u) {
-    const diff = a - u;
-    if (a < u) {
-      al.className = 'alert alert-danger show';
-      al.textContent = '⚠ Los km actuales no pueden ser menores al último servicio.';
-    } else if (diff >= 5000) {
-      al.className = 'alert alert-danger show';
-      al.textContent = `🔴 Diferencia: ${diff.toLocaleString('es-AR')} km — umbral 5.000 km superado. Servicio vencido.`;
-    } else if (diff >= 4500) {
-      al.className = 'alert alert-warn show';
-      al.textContent = `⚠ Diferencia: ${diff.toLocaleString('es-AR')} km — próximo al límite de 5.000 km.`;
-    } else {
-      al.className = 'alert alert-ok show';
-      al.textContent = `✓ Diferencia: ${diff.toLocaleString('es-AR')} km — dentro del rango correcto.`;
-    }
-    if (diff >= 2400 && diff <= 2600) ip.classList.add('show');
-    else ip.classList.remove('show');
-  } else {
-    al.className = 'alert';
-    ip.classList.remove('show');
-  }
+function openAdd(){
+  editId=null;
+  document.getElementById('addTitle').textContent='Nuevo turno';
+  ['fDom','fInt','fKmA','fKmU','fTec','fObs'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fPM').value='';document.getElementById('fArea').value='';
+  const td=TODAY,dd=`${td.getFullYear()}-${String(td.getMonth()+1).padStart(2,'0')}-${String(td.getDate()).padStart(2,'0')}`;
+  document.getElementById('fFecha').value=dd;
+  document.getElementById('kmAl').className='al';document.getElementById('svcI').classList.remove('show');document.getElementById('iPM').classList.remove('show');
+  document.getElementById('addOv').classList.add('open');document.getElementById('addSh').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('fDom').focus(),350);
 }
-
-function openAdd() {
-  ['fDom','fInt','fKmA','fKmU','fTec','fObs'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('fPM').value   = '';
-  document.getElementById('fArea').value = '';
-  const today = TODAY;
-  const dd = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-  document.getElementById('fFecha').value = dd;
-  document.getElementById('kmAlert').className = 'alert';
-  document.getElementById('svcInfo').classList.remove('show');
-  document.getElementById('interPM').classList.remove('show');
-  document.getElementById('addOverlay').classList.add('open');
-  document.getElementById('addSheet').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => document.getElementById('fDom').focus(), 350);
+function closeAdd(){
+  document.getElementById('addOv').classList.remove('open');document.getElementById('addSh').classList.remove('open');
+  document.body.style.overflow='';
 }
-
-function closeAdd() {
-  document.getElementById('addOverlay').classList.remove('open');
-  document.getElementById('addSheet').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function saveEv() {
-  const dom   = document.getElementById('fDom').value.trim();
-  const fecha = document.getElementById('fFecha').value;
-  const kmA   = parseInt(document.getElementById('fKmA').value);
-  const kmU   = parseInt(document.getElementById('fKmU').value);
-  const pm    = document.getElementById('fPM').value;
-  const area  = document.getElementById('fArea').value;
-
-  if (!dom || !fecha || !kmA || !kmU || !pm || !area) {
-    alert('Por favor completá todos los campos obligatorios (*).');
-    return;
-  }
-  if (kmA < kmU) {
-    alert('Los km actuales no pueden ser menores al último servicio.');
-    return;
-  }
-
-  const ev = {
-    id:    nid++,
-    dom,
-    int:   document.getElementById('fInt').value.trim(),
-    fecha,
-    kmA,
-    kmU,
-    pm,
-    area,
-    tec:   document.getElementById('fTec').value.trim(),
-    obs:   document.getElementById('fObs').value.trim()
-  };
-
-  events.push(ev);
-  saveLS();
-  closeAdd();
-  render();
+function saveEv(){
+  const dom=document.getElementById('fDom').value.trim(),fecha=document.getElementById('fFecha').value;
+  const kmA=parseInt(document.getElementById('fKmA').value),kmU=parseInt(document.getElementById('fKmU').value);
+  const pm=document.getElementById('fPM').value,area=document.getElementById('fArea').value;
+  if(!dom||!fecha||!kmA||!kmU||!pm||!area){alert('Completá los campos obligatorios (*).');return;}
+  if(kmA<kmU){alert('Los km actuales no pueden ser menores al último servicio.');return;}
+  const ev={id:editId||nid++,dom,int:document.getElementById('fInt').value.trim(),fecha,kmA,kmU,pm,area,tec:document.getElementById('fTec').value.trim(),obs:document.getElementById('fObs').value.trim()};
+  if(editId){const i=evs.findIndex(e=>e.id===editId);if(i>=0)evs[i]=ev;}
+  else evs.push(ev);
+  saveLS();closeAdd();render();
 }
 
 // ── DETAIL ────────────────────────────────────────────────
-function openDet(id) {
-  const e = events.find(x => x.id === id);
-  if (!e) return;
-  selId = id;
-
-  const pm   = PMS[e.pm];
-  const diff = e.kmA - e.kmU;
-  const pct  = pm.km > 0 ? Math.min(Math.round(diff / pm.km * 100), 100) : 0;
-  const bc   = barColor(pct);
-  const { sc, st } = getStatus(e);
-
-  document.getElementById('dTitle').textContent = e.dom + (e.int ? ' — #' + e.int : '');
-  document.getElementById('dBadges').innerHTML =
-    `<span class="badge ${pm.color}">${pm.label}</span>
-     <span class="badge ${sc}">${st}</span>`;
-
-  const kmBar = pm.km > 0 ? `
-    <div class="km-bar-wrap">
-      <div class="km-bar-labels">
-        <span>Km últ. PM: ${fmtKm(e.kmU)}</span>
-        <span style="color:${bc};font-weight:700;">${fmtKm(diff)} (${pct}%)</span>
-      </div>
-      <div class="km-bar-track">
-        <div class="km-bar-fill" style="width:${pct}%;background:${bc};"></div>
-      </div>
-    </div>` : '';
-
-  const tasks = pm.tasks.map(t => `<li class="task-li">${t}</li>`).join('');
-
-  document.getElementById('dBody').innerHTML = `
+function openDet(id){
+  const e=evs.find(x=>x.id===id);if(!e)return;
+  selId=id;
+  const pm=PMS[e.pm],diff=e.kmA-e.kmU,pct=pm.km>0?Math.min(Math.round(diff/pm.km*100),100):0,bcc=bc(pct);
+  const{sc,st}=getSt(e);
+  document.getElementById('dTit').textContent=e.dom+(e.int?' — #'+e.int:'');
+  document.getElementById('dBadges').innerHTML=`<span class="badge ${pm.col}">${pm.label}</span><span class="badge ${sc}">${st}</span>`;
+  const kmBar=pm.km>0?`<div class="km-bar"><div class="km-bar-lbls"><span>Último PM: ${fKm(e.kmU)}</span><span style="color:${bcc};font-weight:700;">${fKm(diff)} (${pct}%)</span></div><div class="km-track"><div class="km-fill" style="width:${pct}%;background:${bcc};"></div></div></div>`:'';
+  document.getElementById('dBody').innerHTML=`
     <div class="det-grid">
       <div class="det-item"><span class="det-lbl">Dominio</span><span class="det-val">${e.dom}</span></div>
-      <div class="det-item"><span class="det-lbl">N° Interno</span><span class="det-val">${e.int || '—'}</span></div>
-      <div class="det-item"><span class="det-lbl">Km actuales</span><span class="det-val">${fmtKm(e.kmA)}</span></div>
-      <div class="det-item"><span class="det-lbl">Km último PM</span><span class="det-val">${fmtKm(e.kmU)}</span></div>
-      <div class="det-item"><span class="det-lbl">Diferencia</span><span class="det-val" style="color:${bc};">${fmtKm(diff)}</span></div>
-      <div class="det-item"><span class="det-lbl">Fecha</span><span class="det-val" style="font-size:13px;">${fmtDate(e.fecha)}</span></div>
+      <div class="det-item"><span class="det-lbl">N° Interno</span><span class="det-val">${e.int||'—'}</span></div>
+      <div class="det-item"><span class="det-lbl">Km actuales</span><span class="det-val">${fKm(e.kmA)}</span></div>
+      <div class="det-item"><span class="det-lbl">Km último PM</span><span class="det-val">${fKm(e.kmU)}</span></div>
+      <div class="det-item"><span class="det-lbl">Diferencia</span><span class="det-val" style="color:${bcc};">${fKm(diff)}</span></div>
+      <div class="det-item"><span class="det-lbl">Fecha</span><span class="det-val" style="font-size:13px;">${fDate(e.fecha)}</span></div>
       <div class="det-item"><span class="det-lbl">Área</span><span class="det-val" style="font-size:13px;">${e.area}</span></div>
-      <div class="det-item"><span class="det-lbl">Técnico</span><span class="det-val" style="font-size:13px;">${e.tec || '—'}</span></div>
+      <div class="det-item"><span class="det-lbl">Técnico</span><span class="det-val" style="font-size:13px;">${e.tec||'—'}</span></div>
     </div>
     ${kmBar}
-    <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Tareas incluidas</div>
-    <ul class="task-ul">${tasks}</ul>
-    ${e.obs ? `
-      <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin:14px 0 6px;">Observaciones</div>
-      <div class="obs-block">${e.obs}</div>` : ''}
-  `;
-
-  document.getElementById('detOverlay').classList.add('open');
-  document.getElementById('detSheet').classList.add('open');
-  document.body.style.overflow = 'hidden';
+    <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Tareas incluidas</div>
+    <ul class="task-ul">${pm.tasks.map(t=>`<li class="task-li">${t}</li>`).join('')}</ul>
+    ${e.obs?`<div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin:14px 0 6px;">Observaciones</div><div class="obs-block">${e.obs}</div>`:''}`;
+  document.getElementById('detOv').classList.add('open');document.getElementById('detSh').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDet(){
+  document.getElementById('detOv').classList.remove('open');document.getElementById('detSh').classList.remove('open');
+  document.body.style.overflow='';
+}
+function delEv(){
+  if(!selId)return;if(!confirm('¿Eliminar este turno?'))return;
+  evs=evs.filter(e=>e.id!==selId);saveLS();closeDet();render();
+}
+function editEv(){
+  const e=evs.find(x=>x.id===selId);if(!e)return;
+  closeDet();editId=e.id;
+  document.getElementById('addTitle').textContent='Editar turno';
+  document.getElementById('fDom').value=e.dom;document.getElementById('fInt').value=e.int||'';
+  document.getElementById('fKmA').value=e.kmA;document.getElementById('fKmU').value=e.kmU;
+  document.getElementById('fPM').value=e.pm;document.getElementById('fArea').value=e.area;
+  document.getElementById('fFecha').value=e.fecha;document.getElementById('fTec').value=e.tec||'';
+  document.getElementById('fObs').value=e.obs||'';
+  calcKm();updInfo();
+  document.getElementById('addOv').classList.add('open');document.getElementById('addSh').classList.add('open');
+  document.body.style.overflow='hidden';
 }
 
-function closeDet() {
-  document.getElementById('detOverlay').classList.remove('open');
-  document.getElementById('detSheet').classList.remove('open');
-  document.body.style.overflow = '';
+// ── SEARCH ────────────────────────────────────────────────
+function openSearch(){
+  document.getElementById('srchOv').classList.add('open');document.getElementById('srchSh').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('srchIn').focus(),350);
+}
+function closeSrch(){
+  document.getElementById('srchOv').classList.remove('open');document.getElementById('srchSh').classList.remove('open');
+  document.body.style.overflow='';
+}
+function doSrch(q){
+  const box=document.getElementById('srchRes');
+  if(!q){box.innerHTML='';return;}
+  const res=evs.filter(e=>e.dom.toLowerCase().includes(q.toLowerCase())||(e.int||'').toLowerCase().includes(q.toLowerCase())||e.area.toLowerCase().includes(q.toLowerCase())||(e.tec||'').toLowerCase().includes(q.toLowerCase()));
+  if(!res.length){box.innerHTML=`<div class="empty"><div class="empty-ico">🔎</div><div style="font-size:14px;color:var(--text3);">Sin resultados</div></div>`;return;}
+  box.innerHTML=res.map(e=>bCard(e)).join('');
+  bindCards(box);
 }
 
-function delEv() {
-  if (!selId) return;
-  if (!confirm('¿Eliminar este turno?')) return;
-  events = events.filter(e => e.id !== selId);
-  saveLS();
-  closeDet();
-  render();
+// ── PRINT REPORT ──────────────────────────────────────────
+function printReport(){
+  const win=window.open('','_blank');
+  const list=[...evs].sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  const total=list.length,ok=list.filter(e=>getSt(e).sc==='st-ok').length,
+    prox=list.filter(e=>getSt(e).sc==='st-prox').length,venc=list.filter(e=>getSt(e).sc==='st-venc').length;
+  const rows=list.map(e=>{
+    const pm=PMS[e.pm],diff=e.kmA-e.kmU,{sc,st}=getSt(e);
+    const pct=pm.km>0?Math.min(Math.round(diff/pm.km*100),100):0,bcc=bc(pct);
+    return `<tr>
+      <td><strong>${e.dom}</strong>${e.int?'<br><small style="color:#aaa">#'+e.int+'</small>':''}</td>
+      <td>${fDate(e.fecha)}</td>
+      <td><span style="background:${pm.col==='pm1'?'#E3F0FF':pm.col==='pm2'?'#E3F9E9':pm.col==='pm3'?'#FFF5E0':pm.col==='pm4'?'#FFE5E5':'#EFE9FD'};padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;">${pm.short}</span></td>
+      <td>${fKm(e.kmA)}</td><td>${fKm(e.kmU)}</td>
+      <td><strong style="color:${bcc};">${fKm(diff)}</strong><div style="height:5px;background:#eee;border-radius:3px;margin-top:3px;"><div style="height:5px;width:${pct}%;background:${bcc};border-radius:3px;"></div></div></td>
+      <td>${e.area}</td><td>${e.tec||'—'}</td>
+      <td><span style="background:${sc==='st-ok'?'#E3F9E9':sc==='st-prox'?'#FFF5E0':'#FFE5E5'};color:${sc==='st-ok'?'#1A7F3C':sc==='st-prox'?'#B86800':'#CC0000'};padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;">${st}</span></td>
+      <td style="font-size:11px;color:#888;max-width:150px;">${e.obs||'—'}</td>
+    </tr>`;
+  }).join('');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Reporte Toyota Fleet Vicuña</title>
+  <style>@page{size:A4 landscape;margin:12mm 14mm;}*{box-sizing:border-box;}body{font-family:Arial,sans-serif;font-size:11px;color:#1a1a1a;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .no-print{display:flex;gap:10px;padding:12px;background:#111;position:sticky;top:0;z-index:10;}
+  .btn{background:#CC0000;color:white;border:none;padding:9px 20px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer;}
+  .btn-s{background:#444;color:white;border:none;padding:9px 16px;border-radius:5px;font-size:13px;cursor:pointer;}
+  @media print{.no-print{display:none!important;}}
+  .hdr{display:flex;align-items:center;justify-content:space-between;padding-bottom:5mm;border-bottom:2px solid #CC0000;margin-bottom:5mm;}
+  .logo{display:flex;align-items:center;gap:10px;}.logo-box{width:40px;height:40px;background:#CC0000;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;font-weight:900;}
+  .title{font-size:20px;font-weight:800;color:#CC0000;}.sub{font-size:10px;color:#888;margin-top:2px;}
+  .kpis{display:flex;gap:8px;margin-bottom:5mm;}.kpi{flex:1;text-align:center;padding:8px;border-radius:6px;border:1px solid;}
+  .kpi.b{background:#EFF6FF;border-color:#93C5FD;}.kpi.g{background:#F0FDF4;border-color:#86EFAC;}.kpi.o{background:#FFFBEB;border-color:#FCD34D;}.kpi.r{background:#FFF1F2;border-color:#FCA5A5;}
+  .kpi-n{font-size:20px;font-weight:800;}.b .kpi-n{color:#1D4ED8;}.g .kpi-n{color:#15803D;}.o .kpi-n{color:#B45309;}.r .kpi-n{color:#B91C1C;}
+  .kpi-l{font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:#888;font-weight:600;}
+  table{width:100%;border-collapse:collapse;font-size:10px;}
+  th{background:#1a1a1a;color:white;padding:6px 8px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.05em;}
+  td{padding:6px 8px;border-bottom:1px solid #f0f0f0;vertical-align:middle;}
+  tr:nth-child(even) td{background:#fafafa;}
+  .foot{margin-top:8mm;padding-top:3mm;border-top:1px solid #eee;display:flex;justify-content:space-between;font-size:8px;color:#aaa;}
+  </style></head><body>
+  <div class="no-print">
+    <button class="btn" onclick="window.print()">🖨 Imprimir / Guardar PDF</button>
+    <button class="btn-s" onclick="window.close()">✕ Cerrar</button>
+    <span style="color:white;font-size:12px;align-self:center;">Toyota Fleet Vicuña — Reporte de mantenimiento</span>
+  </div>
+  <div class="hdr">
+    <div class="logo"><div class="logo-box">FR</div><div><div style="font-size:14px;font-weight:700;">FREDDY Mantenimiento</div><div style="font-size:9px;color:#999;">Repuestos · Accesorios · Rent a Car · RRHH</div></div></div>
+    <div style="text-align:center;"><div class="title">REPORTE DE MANTENIMIENTO</div><div class="sub">Flota Toyota Hilux — Proyecto Minero Vicuña · Plan uso extremo 5.000 km</div></div>
+    <div style="text-align:right;font-size:9px;color:#888;"><div><strong>Mayo 2026</strong></div><div>Proceso: VIC-CON-ARG-0146</div></div>
+  </div>
+  <div class="kpis">
+    <div class="kpi b"><div class="kpi-n">${total}</div><div class="kpi-l">Total</div></div>
+    <div class="kpi g"><div class="kpi-n">${ok}</div><div class="kpi-l">Pendientes</div></div>
+    <div class="kpi o"><div class="kpi-n">${prox}</div><div class="kpi-l">Próx. límite</div></div>
+    <div class="kpi r"><div class="kpi-n">${venc}</div><div class="kpi-l">Vencidos</div></div>
+  </div>
+  <table><thead><tr><th>Unidad</th><th>Fecha</th><th>Tipo PM</th><th>Km actuales</th><th>Km últ. PM</th><th>Diferencia</th><th>Área</th><th>Técnico</th><th>Estado</th><th>Observaciones</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  <div class="foot"><div><strong style="color:#CC0000;">FREDDY</strong> Mantenimiento Preventivo · 1 h ralentí = 70 km · Alta montaña 3.000–5.000 msnm</div><div>VIC-CON-ARG-0146 · Confidencial</div></div>
+  </body></html>`);
+  win.document.close();
 }
 
-// ── SERVICE WORKER ─────────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
+// ── SERVICE WORKER ────────────────────────────────────────
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+if(new URLSearchParams(location.search).get('action')==='new'){window.addEventListener('load',()=>setTimeout(openAdd,400));}
 
-// ── URL SHORTCUT ───────────────────────────────────────────
-if (new URLSearchParams(location.search).get('action') === 'new') {
-  window.addEventListener('load', () => setTimeout(openAdd, 400));
-}
-
-// ── INIT ───────────────────────────────────────────────────
 render();
 </script>
 </body>
