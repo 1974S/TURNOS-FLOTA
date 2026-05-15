@@ -266,6 +266,43 @@ let kmDist = loadKm();
 let curPM = 'pm2500';
 let editIdx = null;
 
+function renderDistAlert(){
+  const kmActual = parseInt(kmDist.actual) || 0;
+  const kmUltDist = parseInt(kmDist.ultimaDist) || 0;
+  const diff = kmActual - kmUltDist;
+  const pct = kmUltDist > 0 ? Math.min(Math.round(diff / DIST_KM * 100), 100) : 0;
+  let alertClass='ok', alertIcon='⛓️', alertTitle='Cadena de distribución OK', alertSub='';
+  if(kmUltDist === 0){
+    alertClass='warn'; alertIcon='⚠️';
+    alertTitle='Ingresá los km para monitorear la distribución';
+    alertSub='Completá los campos de km abajo';
+  } else if(diff >= DIST_KM){
+    alertClass='danger'; alertIcon='🔴';
+    alertTitle='¡CAMBIO DE DISTRIBUCIÓN VENCIDO!';
+    alertSub=`Diferencia: ${diff.toLocaleString('es-AR')} km — Límite: 75.000 km`;
+  } else if(diff >= DIST_KM * 0.85){
+    alertClass='warn'; alertIcon='🟡';
+    alertTitle='Próximo cambio de distribución';
+    alertSub=`Faltan ${(DIST_KM - diff).toLocaleString('es-AR')} km para los 75.000 km`;
+  } else {
+    alertSub=`${diff.toLocaleString('es-AR')} km desde último cambio — faltan ${(DIST_KM-diff).toLocaleString('es-AR')} km`;
+  }
+  const barColor = alertClass==='ok'?'#34C759':alertClass==='warn'?'#FF9500':'#CC0000';
+  const alertEl = document.getElementById('distAlert');
+  if(alertEl){
+    alertEl.className = `dist-alert ${alertClass}`;
+    alertEl.innerHTML = `<span class="dist-icon">${alertIcon}</span>
+      <div style="flex:1;">
+        <div class="dist-title">${alertTitle}</div>
+        <div class="dist-sub">${alertSub}</div>
+        ${kmUltDist>0?`<div class="dist-bar">
+          <div class="dist-bar-track"><div class="dist-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+          <div class="dist-bar-labels"><span>Último cambio: ${kmUltDist.toLocaleString('es-AR')} km</span><span>${pct}% / 75.000 km</span></div>
+        </div>`:''}
+      </div>`;
+  }
+}
+
 function render(){
   const c = document.getElementById('cnt');
   let h = '';
@@ -293,7 +330,7 @@ function render(){
   }
   const barColor = alertClass==='ok'?'#34C759':alertClass==='warn'?'#FF9500':'#CC0000';
 
-  h += `<div class="dist-alert ${alertClass}">
+  h += `<div id="distAlert" class="dist-alert ${alertClass}">
     <span class="dist-icon">${alertIcon}</span>
     <div style="flex:1;">
       <div class="dist-title">${alertTitle}</div>
@@ -311,11 +348,11 @@ function render(){
     <div class="km-row">
       <div class="km-field">
         <span class="km-label">Km actuales</span>
-        <input class="km-inp" type="number" inputmode="numeric" placeholder="150.000" value="${kmDist.actual||''}" oninput="kmDist.actual=this.value;saveKm();render()">
+        <input class="km-inp" type="number" inputmode="numeric" placeholder="150.000" value="${kmDist.actual||''}" id="kmActualInp" onblur="kmDist.actual=this.value;saveKm();renderDistAlert()">
       </div>
       <div class="km-field">
         <span class="km-label">Km último cambio dist.</span>
-        <input class="km-inp" type="number" inputmode="numeric" placeholder="75.000" value="${kmDist.ultimaDist||''}" oninput="kmDist.ultimaDist=this.value;saveKm();render()">
+        <input class="km-inp" type="number" inputmode="numeric" placeholder="75.000" value="${kmDist.ultimaDist||''}" id="kmUltDistInp" onblur="kmDist.ultimaDist=this.value;saveKm();renderDistAlert()">
       </div>
     </div>
   </div>`;
