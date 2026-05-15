@@ -200,9 +200,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .task-li::before{content:'✓';color:var(--red);font-weight:700;flex-shrink:0;}
 .obs-block{background:var(--bg);border-radius:var(--rs);padding:12px 14px;font-size:14px;color:var(--text2);margin-top:4px;border:1px solid var(--border);}
 
+/* AUTOCOMPLETE */
+.autocomplete-wrap{position:relative;}
+.autocomplete-list{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1.5px solid var(--red);border-radius:var(--rs);z-index:200;max-height:200px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+.ac-item{padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-size:14px;}
+.ac-item:last-child{border:none;}
+.ac-item:active{background:var(--bg);}
+.ac-interno{font-weight:700;color:var(--red);}
+.ac-dom{color:var(--text2);font-size:12px;}
+.ac-nombre{font-size:12px;color:var(--text3);}
+.field-filled{border-color:var(--green) !important;}
+.autofill-badge{font-size:11px;color:var(--green);font-weight:600;padding:2px 0;display:none;}
+.autofill-badge.show{display:block;}
+
 /* EMPTY */
 .empty{text-align:center;padding:52px 20px;color:var(--text3);}
 .empty-ico{font-size:52px;margin-bottom:12px;}
+
+/* FLOTA MANAGER */
+.flota-search{background:var(--card);border-radius:var(--rs);display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:10px;border:1px solid var(--border);}
+.flota-search input{flex:1;background:none;border:none;font-size:15px;color:var(--text);font-family:inherit;outline:none;}
+.flota-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);display:flex;align-items:center;padding:11px 14px;gap:12px;margin-bottom:8px;cursor:pointer;}
+.flota-card:active{opacity:.7;}
+.flota-num{width:46px;height:46px;background:#FFE5E5;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--red);flex-shrink:0;}
+.flota-info{flex:1;min-width:0;}
+.flota-nombre{font-size:14px;font-weight:600;}
+.flota-dom{font-size:13px;color:var(--text2);}
+.flota-area{font-size:11px;color:var(--text3);margin-top:1px;}
+.flota-add-btn{background:var(--red);color:white;border:none;border-radius:var(--r);padding:12px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-bottom:10px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;}
+.flota-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.flota-stat{background:var(--card);border-radius:var(--rs);border:1px solid var(--border);padding:10px 8px;text-align:center;}
+.flota-stat-n{font-size:20px;font-weight:800;color:var(--red);}
+.flota-stat-l{font-size:10px;color:var(--text3);margin-top:2px;}
 
 /* PRINT BUTTON */
 .print-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:12px 16px;font-size:14px;font-weight:600;color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-bottom:12px;font-family:inherit;}
@@ -231,12 +260,56 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="tab" onclick="setTab('turnos',this)">Turnos</button>
       <button class="tab" onclick="setTab('dash',this)">Dashboard</button>
       <button class="tab" onclick="window.location.href='planpm.html'">Plan PM</button>
+      <button class="tab" onclick="setTab('flota',this)">Flota</button>
     </div>
   </div>
   <div class="content" id="cnt"></div>
 </div>
 
 <button class="fab" onclick="openAdd()">+</button>
+
+<!-- FLOTA EDIT SHEET -->
+<div class="overlay" id="flotaEditOv" onclick="closeFlotaEdit()"></div>
+<div class="sheet" id="flotaEditSh">
+  <div class="sh-handle"></div>
+  <div class="sh-hdr">
+    <span class="sh-title" id="feTitle">Nueva unidad</span>
+    <button class="sh-close" onclick="closeFlotaEdit()">✕</button>
+  </div>
+  <div class="sh-body">
+    <div class="frow2">
+      <div class="fg"><label class="fl">N° Interno *</label><input class="fi" id="feInterno" placeholder="2510" autocomplete="off"></div>
+      <div class="fg"><label class="fl">Dominio *</label><input class="fi" id="feDom" placeholder="AE060AG" autocomplete="off" oninput="this.value=this.value.toUpperCase()"></div>
+    </div>
+    <div class="fg"><label class="fl">Nombre / Descripción</label><input class="fi" id="feNombre" placeholder="TOYOTA 2510" autocomplete="off"></div>
+    <div class="fg"><label class="fl">Modelo / Descripción</label><input class="fi" id="feModelo" placeholder="Toyota Hilux" autocomplete="off"></div>
+    <div class="frow2">
+      <div class="fg"><label class="fl">Año</label><input class="fi" id="feAnio" placeholder="2020" inputmode="numeric"></div>
+      <div class="fg"><label class="fl">N° Motor</label><input class="fi" id="feMotor" placeholder="1KD5067596" autocomplete="off"></div>
+    </div>
+    <div class="fg"><label class="fl">N° Chasis</label><input class="fi" id="feChasis" placeholder="8AJFZ22G3A5013947" autocomplete="off" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="fg"><label class="fl">Área asignada</label>
+      <select class="fs" id="feArea">
+        <option value="">Sin área asignada</option>
+        <option>Operaciones</option><option>Logística</option><option>Trituración</option>
+        <option>Mineral Resources</option><option>Process</option><option>EHS</option>
+        <option>Supply Chain</option><option>Maintenance Mine</option><option>IT</option>
+        <option>HHRH</option><option>Gerencia Seguridad</option><option>Brigada DS&COM</option>
+        <option>VLF Projects</option><option>Salud / Ambiente</option><option>Edilicio</option>
+        <option>Patrimonial</option><option>Mtto Combustibles</option><option>General Management</option>
+      </select>
+    </div>
+    <div class="fg" style="flex-direction:row;align-items:center;gap:10px;margin-bottom:14px;">
+      <input type="checkbox" id="feActivo" checked style="width:20px;height:20px;accent-color:var(--red);flex-shrink:0;">
+      <label for="feActivo" class="fl" style="margin:0;">Unidad activa</label>
+    </div>
+    <button class="btn-p" onclick="saveFlotaUnit()">Guardar unidad</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+      <button class="btn-s" onclick="toggleFlotaActive()" style="font-size:13px;">Activar / Desactivar</button>
+      <button class="btn-d" onclick="deleteFlotaUnit()" style="font-size:13px;">Eliminar</button>
+    </div>
+  </div>
+</div>
 
 <!-- ADD SHEET -->
 <div class="overlay" id="addOv" onclick="closeAdd()"></div>
@@ -249,7 +322,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="sh-body">
     <div class="frow2">
       <div class="fg"><label class="fl">Dominio *</label><input class="fi" id="fDom" placeholder="AE060AG" autocomplete="off" oninput="this.value=this.value.toUpperCase()"></div>
-      <div class="fg"><label class="fl">N° Interno</label><input class="fi" id="fInt" placeholder="2510" inputmode="numeric"></div>
+      <div class="fg">
+          <label class="fl">N° Interno</label>
+          <div class="autocomplete-wrap">
+            <input class="fi" id="fInt" placeholder="2510" inputmode="numeric" autocomplete="off"
+              oninput="onInternoInput(this.value)" onblur="setTimeout(()=>closeAC(),200)">
+            <div class="autocomplete-list" id="acList" style="display:none;"></div>
+          </div>
+          <span class="autofill-badge" id="autofillBadge">✓ Datos cargados automáticamente</span>
+        </div>
     </div>
     <div class="frow2">
       <div class="fg"><label class="fl">Km actuales *</label><input class="fi" type="number" inputmode="numeric" id="fKmA" placeholder="150000" oninput="calcKm()"></div>
@@ -257,6 +338,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div id="iPM" class="al al-info">⚡ <strong>Inter-PM 2.500 km:</strong> Limpieza de admisión y cambio de filtro por sílice.</div>
     <div id="kmAl" class="al"></div>
+    <div id="distAl" class="al" style="display:none;"></div>
     <div class="fg">
       <label class="fl">Tipo de servicio *</label>
       <select class="fs" id="fPM" onchange="updInfo()">
@@ -356,6 +438,131 @@ const PMS = {
     tasks:['Toma muestra aceite motor','Análisis contaminantes (Fe/Cr/Ni/Al/Pb/Si)','Medición presión aceite','Evaluación viscosidad','Recomendación preventiva PPM sílice']}
 };
 const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+// 121 unidades — flota_turnos.xlsx
+const FLOTA = {
+  '2339': {dom:'JER108', nombre:'INT 2339 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'BRIGADA', motor:'1KD5067596', chasis:'8AJFZ22G3A5013947', anio:'2010', activo:true},
+  '2436': {dom:'KDN453', nombre:'INT 2436 - FORD F-100 3.9 TDI XLT L/06 D/CAB 4X4', area:'BRIGADA', motor:'36223402', chasis:'9BFHF21C4BB082253', anio:'2011', activo:true},
+  '2530': {dom:'AD509ST', nombre:'INT: 2530-RAM 2500 6.7L LARAMIE 4X4', area:'BRIGADA', motor:'58871326', chasis:'3C6UR5FL7JG109503', anio:'2018', activo:true},
+  '2531': {dom:'AE853LC', nombre:'INT 2531 - RAM 2500 6.7L LARAMIE 4X4', area:'BRIGADA', motor:'59390854', chasis:'3C6UR5FL5LG256910', anio:'2020', activo:true},
+  '2394': {dom:'LMM906', nombre:'INT 2394 - AMAROK 4X4 2.0', area:'CADENA DE SUMINISTROS', motor:'CNE002582', chasis:'8AWDB42H8CA046933', anio:'2012', activo:true},
+  '2425': {dom:'IWH827', nombre:'INT 2425 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'CADENA DE SUMINISTROS', motor:'1KD7912255', chasis:'8AJFZ22G8A5012423', anio:'2010', activo:true},
+  '2440': {dom:'KRX316', nombre:'INT 2440 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'CADENA DE SUMINISTROS', motor:'1KD5512112', chasis:'8AJFZ22G2B5018364', anio:'2011', activo:true},
+  '2471': {dom:'AB626CO', nombre:'INT 2471 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'CADENA DE SUMINISTROS', motor:'1GDG019787', chasis:'8AJKA8CD0H3168460', anio:'2017', activo:true},
+  '2520': {dom:'AE167AG', nombre:'INT 2520 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'CADENA DE SUMINISTROS', motor:'1GDG146765', chasis:'8AJKA3CD6L3075082', anio:'2020', activo:true},
+  '2523': {dom:'AE749RY', nombre:'INT 2523 - BL-HILUX 4X4 DC SR 2.8 TDI 6 MT', area:'CADENA DE SUMINISTROS', motor:'1GDG209206', chasis:'8AJKA3CD2M3085352', anio:'2020', activo:true},
+  '2532': {dom:'JIE645', nombre:'INT 2532 - JIE 645 HILUX 2.5 DC 4x4 DX', area:'CADENA DE SUMINISTROS', motor:'2KD5108614', chasis:'8AJFR22GXB4545266', anio:'2010', activo:true},
+  '2454': {dom:'AB060JM', nombre:'INT. 2454 - TOYOTA HILUX SW4 2.7 VVTi SRV 7 AS.', area:'DIRECCION GENERAL', motor:'1GD4204100', chasis:'8AJBA3FS9H0234485', anio:'2016', activo:true},
+  '2526': {dom:'AE778XR', nombre:'INT 2526 - BL-HILUX 4X4 DC SR 2.8 TDI 6 MT', area:'DIRECCION GENERAL', motor:'1GDG211524', chasis:'8AJKA3CDXM3085731', anio:'2020', activo:true},
+  '2528': {dom:'AE837ME', nombre:'INT 2528 - BW-SW4 4X4 SRX 2.8 TDI 6 AT 7A', area:'DIRECCION GENERAL', motor:'1GD4968161', chasis:'8AJBA3FS4M0294524', anio:'2021', activo:true},
+  '2529': {dom:'AE837MF', nombre:'INT 2529 - BW-SW4 4X4 SRX 2.8 TDI 6 AT 7A', area:'DIRECCION GENERAL', motor:'1GD4987694', chasis:'8AJBA3FS2M0296451', anio:'2021', activo:true},
+  '2354': {dom:'KIZ327', nombre:'INT 2354 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'DS&COM', motor:'1KD5382763', chasis:'8AJFZ22G3B5017546', anio:'2011', activo:true},
+  '2355': {dom:'KIZ326', nombre:'INT 2355 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'DS&COM', motor:'1KD5389681', chasis:'8AJFZ22G5B5017645', anio:'2011', activo:true},
+  '2469': {dom:'AB626CR', nombre:'INT 2469 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'DS&COM', motor:'1GDG020142', chasis:'8AJKA8CD1H3168547', anio:'2017', activo:true},
+  '2487': {dom:'AC270IB', nombre:'INT 2487 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'DS&COM', motor:'1GDG029924', chasis:'8AJKA8CD2H3170467', anio:'2018', activo:true},
+  '2374': {dom:'LHF591', nombre:'INT 2374 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'EDILICIO', motor:'1KD5660022', chasis:'8AJFZ22G0C5020826', anio:'2012', activo:true},
+  '2505': {dom:'AE060AB', nombre:'INT 2505 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'EDILICIO', motor:'1GDG144705', chasis:'8AJKA3CD5L3074764', anio:'2020', activo:true},
+  '2328': {dom:'JEH867', nombre:'INT 2328 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'IT', motor:'1KD5043938', chasis:'8AJFZ22GXA5013654', anio:'2010', activo:true},
+  '2463': {dom:'AB491OS', nombre:'INT 2463 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'IT', motor:'1GDG018831', chasis:'8AJKA8CD7H3168231', anio:'2017', activo:true},
+  '2485': {dom:'AB936YT', nombre:'INT 2485 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'IT', motor:'1GDG021997', chasis:'8AJKA8CD9H3168859', anio:'2017', activo:true},
+  '2159': {dom:'GSS441', nombre:'INT 2159 - FORD F-100 3.9 TDI XL PLUS L/06 4X4', area:'MANTENIMIENTO', motor:'30827110', chasis:'9BFHF21CX8B047726', anio:'2007', activo:true},
+  '2194': {dom:'HRB389', nombre:'INT 2194 - TOYOTA HILUXSR3.0TD', area:'MANTENIMIENTO', motor:'1KD7643576', chasis:'8AJFZ296586067292', anio:'2008', activo:true},
+  '2397': {dom:'KRX318', nombre:'INT 2397 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1KD5509087', chasis:'8AJFZ22G7B5018330', anio:'2011', activo:true},
+  '2419': {dom:'IXX123', nombre:'INT 2419 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'MANTENIMIENTO', motor:'1KD7934706', chasis:'8AJFZ22G7A5012591', anio:'2010', activo:true},
+  '2423': {dom:'KRG589', nombre:'INT 2423 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1KD5522952', chasis:'8AJFZ22G4B5018494', anio:'2011', activo:true},
+  '2441': {dom:'LZA826', nombre:'INT 2441 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1KD5829683', chasis:'8AJFZ22G9C5022025', anio:'2012', activo:true},
+  '2442': {dom:'LZA832', nombre:'INT 2442 - TA HILUX L/05 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1KD5834841', chasis:'8AJFZ22G6C5022046', anio:'2012', activo:true},
+  '2443': {dom:'LZA834', nombre:'INT 2443 -  TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1KD5842017', chasis:'8AJFZ22G8C5022081', anio:'2012', activo:true},
+  '2450': {dom:'LKC796', nombre:'INT 2450 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SRV CU A', area:'MANTENIMIENTO', motor:'1KD5630144', chasis:'8AJFZ22G6C5019812', anio:'2012', activo:true},
+  '2451': {dom:'AA826BF', nombre:'INT 2451 - TOYOTA HILUX L/12 3.0 DC 4X2 TDI SR', area:'MANTENIMIENTO', motor:'1GD0187673', chasis:'8AJKA8CDXH3163542', anio:'2017', activo:true},
+  '2452': {dom:'AA826BC', nombre:'INT 2452 - TOYOTA HILUX L/12 3.0 DC 4X2 TDI SR', area:'MANTENIMIENTO', motor:'1GDFTV2755', chasis:'8AJKA8CD9H3163662', anio:'2017', activo:true},
+  '2456': {dom:'AA991PK', nombre:'INT 2456 - TOYOTA HILUX L/12 3.0 DC 4X2 TDI SR', area:'MANTENIMIENTO', motor:'1GD0188729', chasis:'8AJKA8CD6H3163599', anio:'2017', activo:true},
+  '2457': {dom:'AB491OZ', nombre:'INT 2457 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG015962', chasis:'8AJKA8CD6H3167619', anio:'2017', activo:true},
+  '2458': {dom:'AB491OY', nombre:'INT 2458 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG015999', chasis:'8AJKA8CD5H3167627', anio:'2017', activo:true},
+  '2460': {dom:'AB491OX', nombre:'INT 2460 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1AGDG017666', chasis:'8AJKA8CD8H3167953', anio:'2017', activo:true},
+  '2470': {dom:'AB626CP', nombre:'INT 2470 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG019969', chasis:'8AJKA8CD3H3168503', anio:'2017', activo:true},
+  '2473': {dom:'AB683TY', nombre:'INT 2473 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG021057', chasis:'8AJKA8CD3H3168713', anio:'2017', activo:true},
+  '2474': {dom:'AB683UA', nombre:'INT 2474 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG021051', chasis:'8AJKA8CDXH3168708', anio:'2017', activo:true},
+  '2481': {dom:'AB936YM', nombre:'INT 2481 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG021387', chasis:'8AJKA8CD9H3168764', anio:'2017', activo:true},
+  '2486': {dom:'MFD607', nombre:'INT 2486 - TOYOTA HILUX L/16 2.8 DC 4X2 TDI SRV', area:'MANTENIMIENTO', motor:'1KD5870256', chasis:'8AJFZ22G5C5022300', anio:'2012', activo:true},
+  '2491': {dom:'LKC797', nombre:'INT 2491 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SRV CU A', area:'MANTENIMIENTO', motor:'1KD5627654', chasis:'8AJFZ22G5C5019686', anio:'2012', activo:true},
+  '2499': {dom:'AE004CS', nombre:'INT 2499 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG143962', chasis:'8AJKA3CD4L3074657', anio:'2020', activo:true},
+  '2508': {dom:'AE060AE', nombre:'INT 2508 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG144904', chasis:'8AJKA3CD5L3074800', anio:'2020', activo:true},
+  '2510': {dom:'AE060AG', nombre:'INT 2510 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG145129', chasis:'8AJKA3CD5L3074831', anio:'2020', activo:true},
+  '2512': {dom:'AE167AF', nombre:'INT 2512 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG146359', chasis:'8AJKA3CD5L3075025', anio:'2020', activo:true},
+  '2515': {dom:'AE167AL', nombre:'INT 2515 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG147192', chasis:'8AJKA3CD6L3075146', anio:'2020', activo:true},
+  '2521': {dom:'AE167AH', nombre:'INT 2521 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'MANTENIMIENTO', motor:'1GDG146791', chasis:'8AJKA3CD5L3075087', anio:'2020', activo:true},
+  '2525': {dom:'AE778XB', nombre:'INT 2525 - BL-HILUX 4X4 DC SR 2.8 TDI 6 MT', area:'MANTENIMIENTO', motor:'1GDG217414', chasis:'8AJKA3CD4M3086762', anio:'2020', activo:true},
+  '2461': {dom:'AB565VI', nombre:'INT 2461 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'MANTENIMINENTO', motor:'1GDG019619', chasis:'8AJKA8CD1H3168418', anio:'2017', activo:true},
+  '2533': {dom:'AE778XA', nombre:'INT 2533 - LZA 828 HILUX 3.0 DC 4x4 SR', area:'MANTENIMINENTO', motor:'1GDG209253', chasis:'8AJKA3CD1M3085360', anio:'2012', activo:true},
+  '2327': {dom:'JEH869', nombre:'INT 2327 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'MEDIO AMBIENTE SALUD', motor:'1KD5051897', chasis:'8AJFZ22G7A5013711', anio:'2010', activo:true},
+  '2418': {dom:'MFD610', nombre:'INT 2418 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'MEDIO AMBIENTE SALUD', motor:'1KD5877940', chasis:'8AJFZ22G6C5022371', anio:'2012', activo:true},
+  '2453': {dom:'AB060JL', nombre:'INT 2453 - TOYOTA HILUX L/12 3.0 DC 4X2 TDI SR', area:'MEDIO AMBIENTE SALUD', motor:'1GDG007684', chasis:'8AJBA3CD2H1587084', anio:'2017', activo:true},
+  '2462': {dom:'AB491OU', nombre:'INT 2462  - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'MEDIO AMBIENTE SALUD', motor:'AGDG019205', chasis:'8AJKA8CD8H3168321', anio:'2017', activo:true},
+  '2468': {dom:'AB565VA', nombre:'INT. 2468 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'MEDIO AMBIENTE SALUD', motor:'AGDG017761', chasis:'8AJKA8CD2H3167973', anio:'2017', activo:true},
+  '2195': {dom:'HRB388', nombre:'INT 2195 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'MTTO. COMBUSTIBLE', motor:'1KD7646350', chasis:'8AJFZ22G385009679', anio:'2008', activo:true},
+  '2199': {dom:'IFH470', nombre:'INT 2199  - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'OPERACIONES MINA', motor:'1KD7798695', chasis:'8AJFZ22G095011259', anio:'2009', activo:true},
+  '2414': {dom:'LKC795', nombre:'INT 2414 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1KD5628325', chasis:'8AJFZ22G3C5019721', anio:'2012', activo:true},
+  '2434': {dom:'IXX130', nombre:'INT 2434 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'OPERACIONES MINA', motor:'1KD7934266', chasis:'8AJFZ22G7A5012588', anio:'2010', activo:true},
+  '2439': {dom:'KRX315', nombre:'INT 2439 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1KD5520031', chasis:'8AJFZ22G5B5018455', anio:'2011', activo:true},
+  '2465': {dom:'AB565VG', nombre:'INT 2465 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG018844', chasis:'8AJKA8CD0H3168233', anio:'2017', activo:true},
+  '2472': {dom:'AB626CN', nombre:'INT 2472 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG019790', chasis:'8AJKA8CDXH3168496', anio:'2017', activo:true},
+  '2475': {dom:'AB683UB', nombre:'INT 2475 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG020069', chasis:'8AJKA8CD8H3168528', anio:'2017', activo:true},
+  '2480': {dom:'AB936XY', nombre:'INT 2480 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG024490', chasis:'8AJKA8CD1H3169231', anio:'2017', activo:true},
+  '2493': {dom:'LZA824', nombre:'INT 2493 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1KD5874447', chasis:'8AJFZ22G6C5022337', anio:'2012', activo:true},
+  '2511': {dom:'AE060AH', nombre:'INT 2511 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG145113', chasis:'8AJKA3CD3L3074830', anio:'2020', activo:true},
+  '2513': {dom:'AE167AI', nombre:'INT 2513 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG146297', chasis:'8AJKA3CD7L3075012', anio:'2020', activo:true},
+  '2514': {dom:'AE167AJ', nombre:'INT 2514 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG145462', chasis:'8AJKA3CDXL3074887', anio:'2020', activo:true},
+  '2518': {dom:'AE167AK', nombre:'INT 2518  -  TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'OPERACIONES MINA', motor:'1GDG147277', chasis:'8AJKA3CD4L3075159', anio:'2020', activo:true},
+  '2524': {dom:'AE778XK', nombre:'INT 2524 - BL-HILUX 4X4 DC SR 2.8 TDI 6 MT', area:'OPERACIONES MINA', motor:'1GDG216360', chasis:'8AJKA3CD2M3086582', anio:'2020', activo:true},
+  '2438': {dom:'MFD611', nombre:'INT 2438 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'PREVENCION', motor:'1KD5869766', chasis:'8AJFZ22GXC5022292', anio:'2013', activo:true},
+  '2519': {dom:'AE167AO', nombre:'INT 2519 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PREVENCION', motor:'1GDG145909', chasis:'8AJKA3CD6L3074952', anio:'2020', activo:true},
+  '2522': {dom:'AC479LC', nombre:'INT 2522 - VOLKSWAGEN AMAROK 20TD 4X4 DC HIG.180HP L17', area:'PREVENCION', motor:'CSH201351', chasis:'8AWDB22H0JA014060', anio:'2018', activo:true},
+  '2156': {dom:'FXG806', nombre:'INT 2156 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'PROCESO', motor:'1KD7177587', chasis:'8AJFZ22G265003496', anio:'2006', activo:true},
+  '2190': {dom:'HNP904', nombre:'INT 2190 - TOYOTA HILUX 3.0 4X4 TDI', area:'PROCESO', motor:'1KD-761952', chasis:'8AJFZ22G085009431', anio:'2008', activo:true},
+  '2478': {dom:'AB936YP', nombre:'INT 2478 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESO LABORATORIO', motor:'1GDG022974', chasis:'8AJKA8CD7H3169024', anio:'2017', activo:true},
+  '2429': {dom:'LZA847', nombre:'INT 2429 -  TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'PROCESOS', motor:'1KD5836472', chasis:'8AJFZ22G9C5022073', anio:'2012', activo:true},
+  '2466': {dom:'AB565VH', nombre:'INT 2466  - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG018948', chasis:'8AJKA8CD3H3168260', anio:'2017', activo:true},
+  '2482': {dom:'AB883QX', nombre:'INT 2482 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG022481', chasis:'8AJKA8CD5H3168941', anio:'2017', activo:true},
+  '2484': {dom:'AB883QQ', nombre:'INT 2484 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG022392', chasis:'8AJKA8CD0H3168927', anio:'2017', activo:true},
+  '2500': {dom:'AE004CY', nombre:'INT 2500 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG144322', chasis:'8AJKA3CD2L3074706', anio:'2020', activo:true},
+  '2501': {dom:'AE004CT', nombre:'INT 2501  - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG144263', chasis:'8AJKA3CD3L3074701', anio:'2020', activo:true},
+  '2504': {dom:'AE059ZM', nombre:'INT 2504 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG145859', chasis:'8AJKA3CD3L3074942', anio:'2020', activo:true},
+  '2509': {dom:'AE060AF', nombre:'INT 2509 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG144796', chasis:'8AJKA3CD2L3074785', anio:'2020', activo:true},
+  '2516': {dom:'AE167AM', nombre:'INT 2516  -  TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROCESOS', motor:'1GDG147201', chasis:'8AJKA3CD1L3075149', anio:'2020', activo:true},
+  '2400': {dom:'KRX314', nombre:'INT 2400 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'PROYECTOS VLF', motor:'1KD5515444', chasis:'8AJFZ22G8B5018403', anio:'2011', activo:true},
+  '2408': {dom:'LZA846', nombre:'INT 2408 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'PROYECTOS VLF', motor:'1KD5849302', chasis:'8AJFZ22GXC5022101', anio:'2012', activo:true},
+  '2459': {dom:'AB491OT', nombre:'INT 2459 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'PROYECTOS VLF', motor:'1AGDG017645S', chasis:'8AJKABCD8H3167945', anio:'2017', activo:true},
+  '2495': {dom:'LKC794', nombre:'INT 2495 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SRV CU A', area:'PROYECTOS VLF', motor:'1KD5628353', chasis:'8AJFZ22G7C5019723', anio:'2012', activo:true},
+  '2496': {dom:'KRG615', nombre:'INT 2496 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'PROYECTOS VLF', motor:'1KD5427774', chasis:'8AJFZ22G2B5018185', anio:'2012', activo:true},
+  '2498': {dom:'AE004CV', nombre:'INT 2498 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'PROYECTOS VLF', motor:'1GDG141392', chasis:'8AJKA3CD1L3074261', anio:'2020', activo:true},
+  '2502': {dom:'AE004CW', nombre:'INT 2502 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR 2020', area:'PROYECTOS VLF', motor:'1GDG141933', chasis:'8AJKA3CD1L3074342', anio:'2020', activo:true},
+  '2455': {dom:'AB060JN', nombre:'INT 2455  - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'RECURSOS HUMANOS', motor:'1GDG007548', chasis:'8AJKA8CD6H3165563', anio:'2016', activo:true},
+  '2488': {dom:'AB936YC', nombre:'INT 2488 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'RECURSOS HUMANOS', motor:'1GDG024618', chasis:'8AJKA8CD7H3169248', anio:'2017', activo:true},
+  '2332': {dom:'JER103', nombre:'INT 2332 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'RECURSOS MINERALES', motor:'1KD5051355', chasis:'8AJFZ22G4A5013729', anio:'2010', activo:true},
+  '2402': {dom:'IXX124', nombre:'INT 2402  - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'RECURSOS MINERALES', motor:'1KD7922778', chasis:'8AJFZ22G2A5012501', anio:'2010', activo:true},
+  '2406': {dom:'IWH814', nombre:'INT 2406 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SRV', area:'RECURSOS MINERALES', motor:'1KD7916801', chasis:'8AJFZ22G8A5012468', anio:'2012', activo:true},
+  '2411': {dom:'KRG588', nombre:'INT 2411 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'RECURSOS MINERALES', motor:'1KD5519872', chasis:'8AJFZ22G7B5018456', anio:'2011', activo:true},
+  '2415': {dom:'IXQ681', nombre:'INT 2415 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'RECURSOS MINERALES', motor:'1KD7937683', chasis:'8AJFZ22G3A5012619', anio:'2010', activo:true},
+  '2467': {dom:'AB491OW', nombre:'INT 2467 - TOYOTA HILUX L/12 3.0 DC 4X4 TDI SR', area:'RECURSOS MINERALES', motor:'AGDG015244', chasis:'8AJKA8CD7H3167483', anio:'2017', activo:true},
+  '2476': {dom:'AB936XZ', nombre:'INT 2476 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'RECURSOS MINERALES', motor:'1GDG022627', chasis:'8AJKA8CD4H3168963', anio:'2017', activo:true},
+  '2503': {dom:'AE004CX', nombre:'INT 2503 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'RECURSOS MINERALES', motor:'1GDG141464', chasis:'8AJKA3CD0L3074266', anio:'2020', activo:true},
+  '2506': {dom:'AE060AC', nombre:'INT 2506 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SRV', area:'RECURSOS MINERALES', motor:'1GDG144654', chasis:'8AJKA3CDXL3074758', anio:'2020', activo:true},
+  '2314': {dom:'IVS794', nombre:'INT 2314 - TOYOTA HILUX L/05 2.5 SC 4X4 TD DX', area:'SALUD - AMBULANCIA', motor:'2KD7971572', chasis:'8AJDR22G1A4012292', anio:'2010', activo:true},
+  '2349': {dom:'JTW121', nombre:'INT 2349 - TOYOTA HILUX L/05 2.5 DC 4X2 TD DX', area:'SALUD - AMBULANCIA', motor:'2KD5285417', chasis:'8AJDR22G8B4014350', anio:'2011', activo:true},
+  '2430': {dom:'OQI421', nombre:'INT 2430  - TOYOTA HILUX L/12 2.5 SC 4X2 TD DX PACK', area:'SALUD - AMBULANCIA', motor:'2KDA643230', chasis:'8AJDR22G2F4020750', anio:'2011', activo:true},
+  '2435': {dom:'KHX383', nombre:'INT 2435 - TOYOTA HILUX L/12 2.5 SC 4X4 TD DX', area:'SALUD - AMBULANCIA', motor:'2KD5412460', chasis:'8AJDR22GXB4015659', anio:'2011', activo:true},
+  '2489': {dom:'AC479JE', nombre:'INT 2489  - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SRV', area:'SALUD - AMBULANCIA', motor:'2GD4318175', chasis:'8AJFB8CB5H1552128', anio:'2018', activo:true},
+  '2534': {dom:'AG687ZG', nombre:'INT 2534 - TOYOTA HILUX 2.5 DX', area:'SALUD - AMBULANCIA', motor:'', chasis:'', anio:'2024', activo:true},
+  '2517': {dom:'AE167AN', nombre:'INT 2517 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'SEGURIDAD PATRIMONIAL', motor:'1GDG146110', chasis:'8AJKA3CD4L3074982', anio:'2020', activo:true},
+  '2448': {dom:'LZA848', nombre:'INT 2448 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'SERVICIO TECNICO', motor:'1KD5850586', chasis:'8AJFZ22G1C5022116', anio:'2012', activo:true},
+  '2464': {dom:'AB565VB', nombre:'INT 2464 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'SERVICIO TECNICO', motor:'1GDG015344', chasis:'8AJKA8CD5H3167496', anio:'2018', activo:true},
+  '2479': {dom:'AB936YQ', nombre:'INT 2479 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'SERVICIO TECNICO', motor:'1GDG022817', chasis:'8AJKA8CD2H3168993', anio:'2017', activo:true},
+  '2483': {dom:'AB883QP', nombre:'INT 2483 - TOYOTA HILUX L/16 2.8 DC 4X4 TDI SR', area:'SERVICIO TECNICO', motor:'1GDG022365', chasis:'8AJKA8CD1H3168922', anio:'2017', activo:true},
+  '2494': {dom:'LZA825', nombre:'INT 2494 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR', area:'SERVICIO TECNICO', motor:'1KD5834297', chasis:'8AJFZ22GXC5022048', anio:'2012', activo:true},
+  '2420': {dom:'IXX128', nombre:'INT 2420 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'SERVICIOS GENERALES', motor:'1KD7946791', chasis:'8AJFZ22G6A5012694', anio:'2010', activo:true},
+  '2357': {dom:'KIZ325', nombre:'INT 2357 - TOYOTA HILUX L/05 3.0 DC 4X4 TDI SR AB', area:'SERVICIOS TECNICOS', motor:'1KD5396289', chasis:'8AJFZ22G9B5017776', anio:'2011', activo:true},
+};
 const DIAS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 
 function loadEv(){
@@ -387,6 +594,134 @@ function getSt(e){
 function bc(pct){return pct>=100?'#FF3B30':pct>=85?'#FF9500':'#34C759';}
 
 // ── RENDER ────────────────────────────────────────────────
+// ── FLOTA MANAGER ─────────────────────────────────────────
+function loadFlota(){
+  try{
+    const saved = localStorage.getItem('tf_flota_custom');
+    if(saved) return JSON.parse(saved);
+  }catch(e){}
+  // Default from embedded FLOTA with all fields
+  return Object.entries(FLOTA).map(([k,v])=>({
+    interno:k, dom:v.dom, nombre:v.nombre, area:v.area||'',
+    motor:v.motor||'', chasis:v.chasis||'', anio:v.anio||'',
+    modelo:'Toyota Hilux', activo:true
+  }));
+}
+function saveFlota(){
+  try{localStorage.setItem('tf_flota_custom', JSON.stringify(flotaList));}catch(e){}
+  // Rebuild FLOTA lookup
+  flotaList.forEach(u=>{FLOTA[u.interno]={dom:u.dom,nombre:u.nombre,flota:'MAS'};});
+}
+
+let flotaList = loadFlota();
+let flotaSearch = '';
+let flotaEditIdx = null;
+
+function rFlota(c){
+  const activas = flotaList.filter(u=>u.activo!==false);
+  const inactivas = flotaList.filter(u=>u.activo===false);
+  let filtered = flotaList;
+  if(flotaSearch){
+    const q=flotaSearch.toLowerCase();
+    filtered=flotaList.filter(u=>
+      u.interno.toLowerCase().includes(q)||
+      u.dom.toLowerCase().includes(q)||
+      u.nombre.toLowerCase().includes(q)||
+      (u.area||'').toLowerCase().includes(q)
+    );
+  }
+
+  let h=`
+    <div class="flota-stats">
+      <div class="flota-stat"><div class="flota-stat-n">${flotaList.length}</div><div class="flota-stat-l">Total</div></div>
+      <div class="flota-stat"><div class="flota-stat-n">${activas.length}</div><div class="flota-stat-l">Activas</div></div>
+      <div class="flota-stat"><div class="flota-stat-n">${inactivas.length}</div><div class="flota-stat-l">Inactivas</div></div>
+    </div>
+    <button class="flota-add-btn" onclick="openFlotaEdit(-1)">+ Agregar unidad</button>
+    <div class="flota-search">
+      <span style="color:var(--text3)">🔍</span>
+      <input placeholder="Buscar interno, dominio, área..." 
+        oninput="flotaSearch=this.value;rFlota(document.getElementById('cnt'))"
+        value="${flotaSearch}" autocomplete="off">
+    </div>`;
+
+  if(!filtered.length){
+    h+=`<div class="empty"><div class="empty-ico">🚗</div><div style="font-size:14px;color:var(--text3);">Sin resultados</div></div>`;
+  } else {
+    filtered.forEach((u,i)=>{
+      const realIdx = flotaList.indexOf(u);
+      h+=`<div class="flota-card ${u.activo===false?'opacity:0.5':''}" onclick="openFlotaEdit(${realIdx})" style="${u.activo===false?'opacity:0.5':''}">
+        <div class="flota-num">${u.interno.slice(-4)}</div>
+        <div class="flota-info">
+          <div class="flota-nombre">${u.nombre}</div>
+          <div class="flota-dom">${u.dom} ${u.activo===false?'<span style="color:#CC0000;font-size:11px;">· INACTIVO</span>':''}</div>
+          <div class="flota-area">${u.area||'Sin área asignada'}${u.anio?' · '+u.anio:''}${u.chasis?' · '+u.chasis.slice(-8):''}</div>
+        </div>
+        <span style="color:var(--text3);font-size:18px;">›</span>
+      </div>`;
+    });
+  }
+  c.innerHTML=h;
+}
+
+function openFlotaEdit(idx){
+  flotaEditIdx=idx;
+  const u = idx>=0 ? flotaList[idx] : null;
+  document.getElementById('feTitle').textContent = u ? 'Editar unidad' : 'Nueva unidad';
+  document.getElementById('feInterno').value = u?.interno||'';
+  document.getElementById('feDom').value = u?.dom||'';
+  document.getElementById('feNombre').value = u?.nombre||'';
+  document.getElementById('feArea').value = u?.area||'';
+  document.getElementById('feModelo').value = u?.modelo||u?.nombre||'Toyota Hilux';
+  document.getElementById('feAnio').value = u?.anio||'';
+  document.getElementById('feMotor').value = u?.motor||'';
+  document.getElementById('feChasis').value = u?.chasis||'';
+  document.getElementById('feActivo').checked = u ? u.activo!==false : true;
+  document.getElementById('flotaEditOv').classList.add('open');
+  document.getElementById('flotaEditSh').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeFlotaEdit(){
+  document.getElementById('flotaEditOv').classList.remove('open');
+  document.getElementById('flotaEditSh').classList.remove('open');
+  document.body.style.overflow='';
+}
+function saveFlotaUnit(){
+  const interno=document.getElementById('feInterno').value.trim();
+  const dom=document.getElementById('feDom').value.trim().toUpperCase();
+  const nombre=document.getElementById('feNombre').value.trim();
+  if(!interno||!dom){alert('Completá interno y dominio.');return;}
+  const unit={
+    interno,dom,nombre:nombre||('TOYOTA '+interno),
+    area:document.getElementById('feArea').value.trim(),
+    modelo:document.getElementById('feModelo').value.trim()||'Toyota Hilux',
+    anio:document.getElementById('feAnio').value.trim(),
+    motor:document.getElementById('feMotor').value.trim(),
+    chasis:document.getElementById('feChasis').value.trim().toUpperCase(),
+    activo:document.getElementById('feActivo').checked
+  };
+  if(flotaEditIdx>=0) flotaList[flotaEditIdx]=unit;
+  else flotaList.push(unit);
+  saveFlota();
+  closeFlotaEdit();
+  rFlota(document.getElementById('cnt'));
+}
+function deleteFlotaUnit(){
+  if(flotaEditIdx<0)return;
+  if(!confirm('¿Eliminar esta unidad de la flota?'))return;
+  flotaList.splice(flotaEditIdx,1);
+  saveFlota();
+  closeFlotaEdit();
+  rFlota(document.getElementById('cnt'));
+}
+function toggleFlotaActive(){
+  if(flotaEditIdx<0)return;
+  flotaList[flotaEditIdx].activo = !flotaList[flotaEditIdx].activo;
+  saveFlota();
+  closeFlotaEdit();
+  rFlota(document.getElementById('cnt'));
+}
+
 function setTab(t,el){
   curTab=t;
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
@@ -398,6 +733,7 @@ function render(){
   if(curTab==='inicio')   rInicio(c);
   else if(curTab==='turnos') rTurnos(c);
   else if(curTab==='dash')   rDash(c);
+  else if(curTab==='flota') rFlota(c);
   else { window.location.href='planpm.html'; }
 }
 
@@ -633,6 +969,56 @@ function calcKm(){
   }else{al.className='al';ip.classList.remove('show');}
 }
 
+function onInternoInput(val){
+  const list = document.getElementById('acList');
+  const badge = document.getElementById('autofillBadge');
+  if(!val || val.length < 2){list.style.display='none';return;}
+  
+  // Exact match — autofill immediately
+  if(FLOTA[val]){
+    autofill(val);
+    list.style.display='none';
+    return;
+  }
+  
+  // Partial match — show dropdown
+  const matches = Object.entries(FLOTA)
+    .filter(([k,v]) => k.startsWith(val) || v.nombre.toLowerCase().includes(val.toLowerCase()))
+    .slice(0,8);
+  
+  if(!matches.length){list.style.display='none';return;}
+  
+  list.innerHTML = matches.map(([k,v])=>`
+    <div class="ac-item" onclick="selectAC('${k}')">
+      <span class="ac-interno">#${k}</span> — 
+      <span class="ac-dom">${v.dom}</span>
+      <div class="ac-nombre">${v.nombre}</div>
+    </div>`).join('');
+  list.style.display='block';
+}
+
+function autofill(interno){
+  const u = FLOTA[interno];
+  if(!u) return;
+  const domEl = document.getElementById('fDom');
+  domEl.value = u.dom.toUpperCase();
+  domEl.classList.add('field-filled');
+  document.getElementById('autofillBadge').classList.add('show');
+  // Try to match area from nombre
+  const nombre = u.nombre.toUpperCase();
+}
+
+function selectAC(interno){
+  document.getElementById('fInt').value = interno;
+  autofill(interno);
+  closeAC();
+}
+
+function closeAC(){
+  const list = document.getElementById('acList');
+  if(list) list.style.display='none';
+}
+
 function openAdd(){
   editId=null;
   document.getElementById('addTitle').textContent='Nuevo turno';
@@ -640,7 +1026,7 @@ function openAdd(){
   document.getElementById('fPM').value='';document.getElementById('fArea').value='';
   const td=TODAY,dd=`${td.getFullYear()}-${String(td.getMonth()+1).padStart(2,'0')}-${String(td.getDate()).padStart(2,'0')}`;
   document.getElementById('fFecha').value=dd;
-  document.getElementById('kmAl').className='al';document.getElementById('svcI').classList.remove('show');document.getElementById('iPM').classList.remove('show');
+  document.getElementById('kmAl').className='al';document.getElementById('svcI').classList.remove('show');document.getElementById('iPM').classList.remove('show');document.getElementById('distAl').className='al';document.getElementById('autofillBadge').classList.remove('show');document.getElementById('fDom').classList.remove('field-filled');closeAC();
   document.getElementById('addOv').classList.add('open');document.getElementById('addSh').classList.add('open');
   document.body.style.overflow='hidden';
   setTimeout(()=>document.getElementById('fDom').focus(),350);
@@ -680,6 +1066,13 @@ function openDet(id){
       <div class="det-item"><span class="det-lbl">Fecha</span><span class="det-val" style="font-size:13px;">${fDate(e.fecha)}</span></div>
       <div class="det-item"><span class="det-lbl">Área</span><span class="det-val" style="font-size:13px;">${e.area}</span></div>
       <div class="det-item"><span class="det-lbl">Técnico</span><span class="det-val" style="font-size:13px;">${e.tec||'—'}</span></div>
+    </div>
+    ${(()=>{const u=flotaList.find(x=>x.interno==e.int);return u&&(u.chasis||u.motor||u.anio)?`<div class="det-grid" style="margin-top:0;">
+      ${u.chasis?`<div class="det-item"><span class="det-lbl">N° Chasis</span><span class="det-val" style="font-size:11px;">${u.chasis}</span></div>`:''}
+      ${u.motor?`<div class="det-item"><span class="det-lbl">N° Motor</span><span class="det-val" style="font-size:11px;">${u.motor}</span></div>`:''}
+      ${u.anio?`<div class="det-item"><span class="det-lbl">Año</span><span class="det-val">${u.anio}</span></div>`:''}
+    </div>`:'';})()}
+    <div class="det-grid" style="display:none;">
     </div>
     ${kmBar}
     <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Tareas incluidas</div>
