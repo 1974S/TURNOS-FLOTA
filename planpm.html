@@ -29,92 +29,90 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .navbar-title{color:white;font-size:17px;font-weight:700;flex:1;}
 .navbar-sub{color:rgba(255,255,255,0.7);font-size:11px;}
 .save-btn{background:rgba(255,255,255,0.2);border:none;border-radius:20px;color:white;font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;}
-.save-btn:active{background:rgba(255,255,255,0.35);}
-
-.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px calc(20px + var(--safe-b));}
+.tabs{display:flex;padding:0 2px;}
+.tab{flex:1;padding:9px 4px 11px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;border-bottom:2.5px solid transparent;}
+.tab.active{color:white;border-bottom-color:white;font-weight:700;}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 14px calc(20px + var(--safe-b));}
 
 /* PM SELECTOR */
-.pm-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
-.pm-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--r);padding:12px 6px;text-align:center;cursor:pointer;transition:all .15s;}
+.pm-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.pm-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--r);padding:10px 4px;text-align:center;cursor:pointer;}
 .pm-btn.active{border-color:var(--red);background:#FFF0F0;}
-.pm-btn:active{opacity:.7;}
-.pm-btn-label{font-size:13px;font-weight:700;color:var(--text);}
-.pm-btn-km{font-size:11px;color:var(--text3);margin-top:2px;}
-.pm-btn-type{font-size:10px;font-weight:600;padding:2px 6px;border-radius:10px;display:inline-block;margin-top:4px;}
-.type-inter{background:#E0F7F0;color:#00796B;}
-.type-pm{background:#FFE5E5;color:#CC0000;}
+.pm-btn-label{font-size:12px;font-weight:700;color:var(--text);}
+.pm-btn-km{font-size:10px;color:var(--text3);margin-top:2px;}
+.pm-btn-badge{font-size:9px;font-weight:600;padding:1px 5px;border-radius:10px;display:inline-block;margin-top:3px;}
+.b-inter{background:#E0F7F0;color:#00796B;}
+.b-pm{background:#FFE5E5;color:#CC0000;}
 
-/* ALERTA DISTRIBUCION */
-.dist-alert{border-radius:var(--r);padding:14px 16px;margin-bottom:14px;border:2px solid;display:flex;align-items:flex-start;gap:12px;}
+/* DIST ALERT */
+.dist-alert{border-radius:var(--r);padding:12px 14px;margin-bottom:12px;border:2px solid;display:flex;align-items:flex-start;gap:10px;}
 .dist-alert.ok{background:#E3F9E9;border-color:#34C759;}
 .dist-alert.warn{background:#FFF5E0;border-color:#FF9500;}
 .dist-alert.danger{background:#FFE5E5;border-color:#CC0000;}
-.dist-icon{font-size:24px;flex-shrink:0;}
-.dist-title{font-size:14px;font-weight:700;margin-bottom:3px;}
+.dist-icon{font-size:22px;flex-shrink:0;}
+.dist-title{font-size:13px;font-weight:700;margin-bottom:2px;}
 .dist-sub{font-size:12px;color:var(--text2);}
-.dist-bar{margin-top:8px;}
-.dist-bar-track{height:8px;background:rgba(0,0,0,0.1);border-radius:4px;overflow:hidden;}
-.dist-bar-fill{height:100%;border-radius:4px;transition:width .3s;}
-.dist-bar-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:3px;}
+.dist-bar-track{height:7px;background:rgba(0,0,0,0.1);border-radius:4px;overflow:hidden;margin-top:6px;}
+.dist-bar-fill{height:100%;border-radius:4px;}
+.dist-bar-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:2px;}
 
 /* KM INPUT */
-.km-input-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:14px;}
-.km-input-title{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;}
+.km-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:12px 14px;margin-bottom:12px;}
+.km-card-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
 .km-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .km-field{display:flex;flex-direction:column;gap:4px;}
-.km-label{font-size:12px;color:var(--text3);}
-.km-inp{padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;width:100%;}
+.km-label{font-size:12px;color:var(--text2);}
+.km-inp{padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:16px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;width:100%;-webkit-tap-highlight-color:transparent;}
 .km-inp:focus{border-color:var(--red);}
 
 /* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
-.stat-card{background:var(--card);border-radius:var(--rs);border:1px solid var(--border);padding:10px;text-align:center;}
-.stat-num{font-size:20px;font-weight:800;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.stat-card{background:var(--card);border-radius:var(--rs);border:1px solid var(--border);padding:10px 8px;text-align:center;}
+.stat-num{font-size:20px;font-weight:800;line-height:1;}
 .stat-lbl{font-size:10px;color:var(--text3);margin-top:2px;}
 .stat-card.green .stat-num{color:var(--green);}
 .stat-card.orange .stat-num{color:var(--orange);}
 .stat-card.blue .stat-num{color:var(--blue);}
 
 /* PROGRESS */
-.progress-wrap{margin-bottom:14px;}
-.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px;}
-.progress-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
-.progress-fill{height:100%;background:var(--green);border-radius:4px;transition:width .3s;}
+.prog-wrap{margin-bottom:12px;}
+.prog-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:4px;}
+.prog-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--green);border-radius:4px;transition:width .3s;}
 
 /* PLAN SECTION */
-.plan-section{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
-.plan-section-hdr{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.plan-section-title{font-size:14px;font-weight:700;}
-.plan-section-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:#FFE5E5;color:#CC0000;}
-.plan-section-badge.green{background:#E3F9E9;color:#1A7F3C;}
+.plan-sec{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
+.plan-sec-hdr{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.plan-sec-title{font-size:13px;font-weight:700;}
+.plan-sec-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:#FFE5E5;color:#CC0000;}
+.plan-sec-badge.green{background:#E3F9E9;color:#1A7F3C;}
 
-.plan-row{display:flex;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border);gap:10px;}
+.plan-row{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);gap:10px;}
 .plan-row:last-child{border:none;}
 .plan-row:active{background:var(--bg);}
-.plan-row.done{opacity:.5;}
-.check-circle{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;cursor:pointer;}
-.check-circle.checked{background:var(--green);border-color:var(--green);color:white;}
-.plan-row-content{flex:1;min-width:0;cursor:pointer;}
-.plan-row-title{font-size:14px;color:var(--text);}
-.plan-row.done .plan-row-title{text-decoration:line-through;color:var(--text3);}
-.plan-row-meta{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap;}
-.plan-row-int{font-size:11px;color:var(--text3);}
-.plan-row-cost{font-size:11px;color:var(--blue);font-weight:600;}
-.plan-row-time{font-size:11px;color:var(--purple);}
-.expand-btn{color:var(--text3);font-size:18px;flex-shrink:0;cursor:pointer;padding:2px 4px;}
-.edit-btn{color:var(--text3);font-size:16px;flex-shrink:0;cursor:pointer;padding:2px 4px;}
+.plan-row.done{opacity:.45;}
+.chk{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;}
+.chk.checked{background:var(--green);border-color:var(--green);color:white;}
+.row-body{flex:1;min-width:0;cursor:pointer;}
+.row-title{font-size:13px;color:var(--text);}
+.plan-row.done .row-title{text-decoration:line-through;color:var(--text3);}
+.row-meta{display:flex;align-items:center;gap:5px;margin-top:2px;flex-wrap:wrap;}
+.row-int{font-size:10px;color:var(--text3);}
+.row-cost{font-size:10px;color:var(--blue);font-weight:600;}
+.row-time{font-size:10px;color:var(--purple);}
+.exp-btn{color:var(--text3);font-size:18px;flex-shrink:0;cursor:pointer;padding:2px 4px;}
+.edit-btn-sm{color:var(--text3);font-size:15px;flex-shrink:0;cursor:pointer;padding:2px 4px;}
 
-.plan-row-notes{padding:8px 14px 12px 52px;font-size:13px;color:var(--text2);background:var(--bg);border-bottom:1px solid var(--border);display:none;}
-.plan-row-notes.show{display:block;}
-.parts-list{margin-top:6px;}
-.part-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);padding:3px 0;}
-.part-dot{width:6px;height:6px;background:var(--red);border-radius:50%;flex-shrink:0;}
+.row-notes{padding:8px 14px 10px 52px;font-size:12px;color:var(--text2);background:var(--bg);border-bottom:1px solid var(--border);display:none;}
+.row-notes.show{display:block;}
+.parts-list{margin-top:4px;}
+.part-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);padding:2px 0;}
+.part-dot{width:5px;height:5px;background:var(--red);border-radius:50%;flex-shrink:0;}
 
-.add-row-btn{display:flex;align-items:center;gap:8px;padding:12px 14px;color:var(--red);font-size:14px;font-weight:600;cursor:pointer;border-top:1px solid var(--border);}
-.add-row-btn:active{background:var(--bg);}
+.add-row{display:flex;align-items:center;gap:8px;padding:11px 14px;color:var(--red);font-size:13px;font-weight:600;cursor:pointer;border-top:1px solid var(--border);}
 
 /* BADGES */
-.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 6px;border-radius:20px;}
 .b-r{background:#FFE5E5;color:#CC0000;}
 .b-i{background:#FFF5E0;color:#B86800;}
 .b-d{background:#E3F0FF;color:#0055CC;}
@@ -123,14 +121,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .b-l{background:#FFF0E3;color:#B84800;}
 .b-c{background:#FCE8F3;color:#AD1457;}
 
-.note-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.5;}
-.reset-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:12px;width:100%;font-family:inherit;}
+.note-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;font-size:11px;color:var(--text3);margin-bottom:12px;line-height:1.5;}
+.reset-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:12px;width:100%;font-family:inherit;}
+
+/* TABLA COMPLETA */
+.full-table{width:100%;border-collapse:collapse;font-size:12px;}
+.full-table th{background:#1a1a1a;color:white;padding:8px 10px;text-align:left;font-size:11px;font-weight:600;white-space:nowrap;}
+.full-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.full-table tr:nth-child(even) td{background:var(--bg);}
+.full-table .act-r{color:#CC0000;font-weight:700;}
+.full-table .act-i{color:#B86800;font-weight:700;}
+.full-table .act-txt{font-size:10px;color:var(--text3);}
 
 /* EDIT SHEET */
-.edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;}
-.edit-overlay.open{display:block;}
-.edit-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;z-index:101;max-height:88vh;overflow-y:auto;padding-bottom:var(--safe-b);transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
-.edit-sheet.open{transform:translateY(0);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;}
+.overlay.open{display:block;}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;z-index:101;max-height:88vh;overflow-y:auto;padding-bottom:var(--safe-b);transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
+.sheet.open{transform:translateY(0);}
 .sh-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 0;}
 .sh-hdr{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .sh-title{font-size:17px;font-weight:700;}
@@ -138,7 +145,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sh-body{padding:16px 18px;}
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
 .fl{font-size:13px;font-weight:600;color:var(--text2);}
-.fi{padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;width:100%;}
+.fi{padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:16px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;width:100%;}
 .fi:focus{border-color:var(--red);}
 .frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .btn-p{width:100%;background:var(--red);color:white;border:none;border-radius:var(--rs);padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px;}
@@ -154,17 +161,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="back-btn" onclick="history.back()">‹</button>
       <div style="flex:1;">
         <div class="navbar-title">Plan de Mantenimiento</div>
-        <div class="navbar-sub">Toyota Hilux — Cadencia 2.500 · 5.000 · 10.000 km</div>
+        <div class="navbar-sub">Flota de Livianos — Cadencia 2.500 km</div>
       </div>
       <button class="save-btn" onclick="saveAll()">💾 Guardar</button>
+      <button class="save-btn" onclick="openPrices()" style="background:rgba(255,255,255,0.15);">💲 Precios</button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="setTab('checklist',this)">Checklist</button>
+      <button class="tab" onclick="setTab('tabla',this)">Tabla PM</button>
+      <button class="tab" onclick="setTab('repuestos',this)">Repuestos</button>
     </div>
   </div>
   <div class="content" id="cnt"></div>
 </div>
 
+<!-- PRICES SHEET -->
+<div class="overlay" id="pricesOv" onclick="closePrices()"></div>
+<div class="sheet" id="pricesSh">
+  <div class="sh-handle"></div>
+  <div class="sh-hdr">
+    <span class="sh-title">💲 Actualizar lista de precios</span>
+    <button class="sh-close" onclick="closePrices()">✕</button>
+  </div>
+  <div class="sh-body">
+    <div style="font-size:13px;color:var(--text2);margin-bottom:14px;background:var(--bg);border-radius:var(--rs);padding:10px 12px;border:1px solid var(--border);">
+      Actualizá los precios de repuestos cada mes según la lista oficial Toyota. Los valores se guardan en el dispositivo.
+    </div>
+    <div id="pricesList"></div>
+    <button class="btn-p" onclick="savePrices()" style="margin-top:8px;">💾 Guardar precios</button>
+  </div>
+</div>
+
 <!-- EDIT SHEET -->
-<div class="edit-overlay" id="editOv" onclick="closeEdit()"></div>
-<div class="edit-sheet" id="editSh">
+<div class="overlay" id="editOv" onclick="closeEdit()"></div>
+<div class="sheet" id="editSh">
   <div class="sh-handle"></div>
   <div class="sh-hdr">
     <span class="sh-title" id="editTitle">Editar tarea</span>
@@ -190,250 +220,402 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="fg"><label class="fl">Costo (ARS)</label><input class="fi" type="number" inputmode="numeric" id="eCost" placeholder="0"></div>
       <div class="fg"><label class="fl">Tiempo est.</label><input class="fi" id="eTime" placeholder="30 min"></div>
     </div>
-    <div class="fg"><label class="fl">Repuestos necesarios</label><input class="fi" id="eParts" placeholder="Filtro aceite, junta carter..."></div>
-    <div class="fg"><label class="fl">Notas</label><input class="fi" id="eNotes" placeholder="Observaciones, referencias..."></div>
-    <button class="btn-p" onclick="saveEdit()">Guardar cambios</button>
+    <div class="fg"><label class="fl">Repuestos</label><input class="fi" id="eParts" placeholder="Filtro aceite, junta carter..."></div>
+    <div class="fg"><label class="fl">Notas</label><input class="fi" id="eNotes" placeholder="Observaciones..."></div>
+    <button class="btn-p" onclick="saveEdit()">Guardar</button>
     <button class="btn-d" onclick="deleteTask()">Eliminar tarea</button>
   </div>
 </div>
 
 <script>
 const BADGE={R:'b-r',I:'b-i',D:'b-d',E:'b-e',M:'b-m',L:'b-l',C:'b-c'};
-const DIST_KM = 75000;
+const DIST_KM=75000;
 
-// PM STRUCTURE
-// Inter-PM 1.250 km = mitad de PM 2.500
-// PM 2.500 km = base
-// Inter-PM 2.500 km = mitad de PM 5.000 (mismo que PM base)
-// PM 5.000 km
-// Inter-PM 5.000 km = mitad de PM 10.000 (mismo que PM 5.000)
-// PM 10.000 km
-
-const PMS = [
-  { id:'inter1250', label:'Inter-PM',  km:'1.250 km',  type:'inter', color:'type-inter', desc:'Mitad del PM 2.500 km' },
-  { id:'pm2500',    label:'PM 2.500',  km:'2.500 km',  type:'pm',    color:'type-pm',    desc:'Servicio base completo' },
-  { id:'pm5000',    label:'PM 5.000',  km:'5.000 km',  type:'pm',    color:'type-pm',    desc:'Incluye PM 2.500 + diagnóstico' },
-  { id:'pm10000',   label:'PM 10.000', km:'10.000 km', type:'pm',    color:'type-pm',    desc:'Incluye PM 5.000 + extras' },
-];
-
+// ── PLAN OFICIAL CADENCIA 2.500 km ────────────────────────
 function defaultPlan(){
   return {
-    inter1250: [
-      {id:101, task:'Cambio filtro admisión (sílice)',   int:'1.250 km', act:'R', cost:9000,  time:'20 min', parts:'Filtro admisión específico',  notes:'Obligatorio alta montaña — contaminación sílice', done:false},
-      {id:102, task:'Limpieza sistema de admisión',      int:'1.250 km', act:'L', cost:5000,  time:'30 min', parts:'Limpiador admisión',           notes:'Cuando PPM sílice moderadamente elevados', done:false},
+    inter1250:[
+      {id:101,task:'Cambio filtro de admisión',int:'1.250 km',act:'R',cost:79200,time:'20 min',parts:'Filtro aire snorkel ($79.200)',notes:'Inter-PM a los 1.250 km — limpieza por sílice',done:false},
+      {id:102,task:'Limpieza sistema de admisión',int:'1.250 km',act:'L',cost:5000,time:'30 min',parts:'Limpiador admisión',notes:'Cuando PPM sílice moderadamente elevados',done:false},
     ],
-    pm2500: [
-      {id:201, task:'Cambio aceite motor',               int:'2.500 km', act:'R', cost:45000, time:'20 min', parts:'Aceite motor 5W30/10W40, arandela carter', notes:'Cambiar viscosidad según presión', done:false},
-      {id:202, task:'Reemplazo filtro aceite',           int:'2.500 km', act:'R', cost:8000,  time:'10 min', parts:'Filtro aceite IMV / Hilux 16',  notes:'', done:false},
-      {id:203, task:'Reemplazo filtro aire',             int:'2.500 km', act:'R', cost:12000, time:'10 min', parts:'Filtro aire Hilux 16 / IMV',   notes:'Limpiar caja antes de instalar', done:false},
-      {id:204, task:'Reemplazo filtro combustible',      int:'2.500 km', act:'R', cost:15000, time:'15 min', parts:'Filtro combustible Hilux 16',  notes:'Purgar sistema después del cambio', done:false},
-      {id:205, task:'Toma muestra aceite motor',         int:'2.500 km', act:'M', cost:3000,  time:'10 min', parts:'Kit toma muestra',             notes:'Analizar Fe/Cr/Ni/Al/Pb/Si', done:false},
-      {id:206, task:'Medición presión aceite',           int:'2.500 km', act:'M', cost:0,     time:'10 min', parts:'Kit toma presión aceite',      notes:'Ralentí 25-35 PSI · 3000 RPM 60-70 PSI', done:false},
-      {id:207, task:'Engrase crucetas cardán',           int:'2.500 km', act:'E', cost:2000,  time:'15 min', parts:'Grasa especial cardan',        notes:'Aplicar en todas las crucetas', done:false},
-      {id:208, task:'Inspección frenos y embrague',      int:'2.500 km', act:'I', cost:0,     time:'20 min', parts:'',                            notes:'Incluye líquido de frenos y embrague', done:false},
-      {id:209, task:'Inspección dirección y suspensión', int:'2.500 km', act:'I', cost:0,     time:'20 min', parts:'',                            notes:'Verificar holguras y desgaste', done:false},
-      {id:210, task:'Inspección sistema eléctrico',      int:'2.500 km', act:'I', cost:0,     time:'15 min', parts:'',                            notes:'Bornes batería, cableado, luces', done:false},
-      {id:211, task:'Inspección neumáticos y carrocería',int:'2.500 km', act:'I', cost:0,     time:'10 min', parts:'',                            notes:'Desgaste, presión y daños', done:false},
-      {id:212, task:'Inspección sistema refrigeración',  int:'2.500 km', act:'I', cost:0,     time:'10 min', parts:'',                            notes:'Nivel, mangueras, radiador', done:false},
-      {id:213, task:'Inspección tren de fuerza',         int:'2.500 km', act:'I', cost:0,     time:'15 min', parts:'',                            notes:'Diferencial, transferencia, cardán', done:false},
-      {id:214, task:'Inspección correa de servicio',     int:'2.500 km', act:'I', cost:0,     time:'5 min',  parts:'',                            notes:'Estado y tensión', done:false},
-      {id:215, task:'Control de calidad final',          int:'2.500 km', act:'I', cost:0,     time:'15 min', parts:'',                            notes:'Verificación técnica final y registro', done:false},
+    pm2500:[
+      {id:201,task:'Aceite de motor',int:'2.500 km',act:'R',cost:73708,time:'20 min',parts:'Aceite Shell 5W30 ($71.354) + Arand carter ($2.354)',notes:'Cambiar viscosidad según presión. Muestra en cada PM.',done:false},
+      {id:202,task:'Sello / arandela tapón de carter',int:'2.500 km',act:'I/R',cost:2354,time:'5 min',parts:'Arand tapón carter 3L 5L ($2.354)',notes:'Inspeccionar en PM impar — Reemplazar en PM par',done:false},
+      {id:203,task:'Filtro de aceite de motor',int:'2.500 km',act:'R',cost:16702,time:'10 min',parts:'Filtro aceite IMV ($16.702)',notes:'',done:false},
+      {id:204,task:'Filtro de aire',int:'2.500 km',act:'R',cost:67953,time:'10 min',parts:'Filtro aire Hilux 16 ($67.953)',notes:'Limpiar caja antes de instalar',done:false},
+      {id:205,task:'Filtro de combustible',int:'2.500 km',act:'R',cost:105060,time:'15 min',parts:'Filtro comb Hilux 16 ($105.060)',notes:'Purgar sistema después del cambio',done:false},
+      {id:206,task:'Correa de servicio',int:'2.500 km',act:'I',cost:0,time:'5 min',parts:'',notes:'Inspeccionar estado y tensión',done:false},
+      {id:207,task:'Sistema de escape',int:'2.500 km',act:'I',cost:0,time:'10 min',parts:'',notes:'Verificar fugas y sujeción',done:false},
+      {id:208,task:'Escobillas limpiaparabrisas',int:'2.500 km',act:'I',cost:9673,time:'5 min',parts:'Escobilla 17" ($9.673)',notes:'Cambiar a solicitud o por cambio de parabrisas',done:false},
+      {id:209,task:'Sistema de refrigeración',int:'2.500 km',act:'I',cost:0,time:'10 min',parts:'',notes:'Inspeccionar y cambiar componente dañado',done:false},
+      {id:210,task:'Cable freno de estacionamiento',int:'2.500 km',act:'I',cost:0,time:'10 min',parts:'',notes:'Inspeccionar y cambiar si necesario',done:false},
+      {id:211,task:'Sistema de frenos (inc. líquido)',int:'2.500 km',act:'I',cost:23130,time:'20 min',parts:'',notes:'Inspeccionar y cambiar componente dañado',done:false},
+      {id:212,task:'Sistema de embrague (inc. líquido)',int:'2.500 km',act:'I',cost:0,time:'15 min',parts:'',notes:'Inspeccionar nivel y estado',done:false},
+      {id:213,task:'Arandela tapón de nivel',int:'2.500 km',act:'I/R',cost:1000,time:'5 min',parts:'Arandela tapón nivel',notes:'Inspeccionar en PM impar — Reemplazar en PM par',done:false},
+      {id:214,task:'Carrocería',int:'2.500 km',act:'I',cost:0,time:'10 min',parts:'',notes:'Verificar daños y estado general',done:false},
+      {id:215,task:'Sistema de dirección',int:'2.500 km',act:'I',cost:0,time:'15 min',parts:'',notes:'Reemplazar aceite cada 10.000 km (PM par)',done:false},
+      {id:216,task:'Sistema de suspensión',int:'2.500 km',act:'I',cost:0,time:'15 min',parts:'',notes:'Inspeccionar y cambiar componente dañado',done:false},
+      {id:217,task:'Sistema de tren de fuerza',int:'2.500 km',act:'I',cost:0,time:'15 min',parts:'',notes:'Inspeccionar y cambiar componente dañado',done:false},
+      {id:218,task:'Engrase de vehículo (crucetas cardán)',int:'2.500 km',act:'E',cost:2000,time:'15 min',parts:'Grasa especial cardan',notes:'Engrase a crucetas de cardán en cada PM',done:false},
+      {id:219,task:'Aire acondicionado / calefacción',int:'2.500 km',act:'I',cost:0,time:'10 min',parts:'',notes:'Verificar funcionamiento',done:false},
+      {id:220,task:'Sistema eléctrico',int:'2.500 km',act:'I',cost:0,time:'15 min',parts:'',notes:'Bornes, cableado, luces, fusibles',done:false},
+      {id:221,task:'Neumáticos',int:'2.500 km',act:'I',cost:0,time:'10 min',parts:'',notes:'Inspeccionar y recomendar cambio si necesario',done:false},
+      {id:222,task:'Muestra de aceite de motor',int:'2.500 km',act:'M',cost:3000,time:'10 min',parts:'Kit toma muestra',notes:'Toma en todos los PM — analizar Fe/Cr/Ni/Al/Pb/Si',done:false},
+      {id:223,task:'Toma presión de aceite de motor',int:'2.500 km',act:'M',cost:0,time:'10 min',parts:'Kit toma presión',notes:'Ralentí 25-35 PSI · 3000 RPM 60-70 PSI',done:false},
+      {id:224,task:'Chequeo y cambio de cinturones',int:'2.500 km',act:'I',cost:0,time:'10 min',parts:'',notes:'Inspeccionar en todos los PM — cambiar si necesario',done:false},
+      {id:225,task:'Control de calidad',int:'2.500 km',act:'I',cost:0,time:'15 min',parts:'',notes:'Control de calidad obligatorio en cada PM',done:false},
     ],
-    pm5000: [
-      {id:301, task:'Todo lo del PM 2.500 km',           int:'5.000 km', act:'I', cost:0,     time:'',       parts:'',                            notes:'Incluye aceite, filtros e inspecciones completas', done:false},
-      {id:302, task:'Diagnóstico computarizado Toyota',   int:'5.000 km', act:'D', cost:8000,  time:'30 min', parts:'Scanner XTOOL INPLUS500',     notes:'Leer y borrar códigos — registrar resultados', done:false},
-      {id:303, task:'Chequeo bujías precalentamiento',   int:'5.000 km', act:'I', cost:0,     time:'15 min', parts:'Bujías Hilux 16 (si falla)',   notes:'Reemplazar juego completo si falla alguna', done:false},
-      {id:304, task:'Inspección A/C y calefacción',      int:'5.000 km', act:'I', cost:0,     time:'10 min', parts:'',                            notes:'Funcionamiento y limpieza evaporador', done:false},
+    pm5000:[
+      {id:301,task:'Todo lo del PM 2.500 km',int:'5.000 km',act:'I',cost:0,time:'',parts:'',notes:'Incluye todos los ítems del PM base',done:false},
+      {id:302,task:'Diagnóstico computarizado Toyota',int:'5.000 km',act:'D',cost:8000,time:'30 min',parts:'Scanner XTOOL INPLUS500',notes:'Diagnóstico cada 5.000 km — leer y borrar códigos',done:false},
+      {id:303,task:'Bujías de precalentamiento',int:'5.000 km',act:'I',cost:0,time:'15 min',parts:'Bujías Hilux 16 (si falla)',notes:'Chequear cada 10.000 km — reemplazar si falla alguna',done:false},
     ],
-    pm10000: [
-      {id:401, task:'Todo lo del PM 5.000 km',           int:'10.000 km',act:'I', cost:0,     time:'',       parts:'',                            notes:'Incluye PM 2.500 + PM 5.000 completos', done:false},
-      {id:402, task:'Cambio líquido de frenos',          int:'10.000 km',act:'R', cost:6000,  time:'45 min', parts:'Líquido de frenos DOT 4',      notes:'Purgar todo el sistema — 4 canales', done:false},
-      {id:403, task:'Reemplazo batería (si corresponde)',int:'10.000 km',act:'I', cost:35000, time:'15 min', parts:'Batería Toyota compatible',    notes:'Evaluar con scanner Konnwei KW720 — reemplazar si necesario', done:false},
+    pm10000:[
+      {id:401,task:'Todo lo del PM 5.000 km',int:'10.000 km',act:'I',cost:0,time:'',parts:'',notes:'Incluye PM 2.500 + PM 5.000 completos',done:false},
+      {id:402,task:'Aceite de dirección',int:'10.000 km',act:'R',cost:5000,time:'20 min',parts:'Aceite dirección Toyota',notes:'Reemplazar aceite dirección cada 10.000 km',done:false},
     ],
+    especiales:[
+      {id:501,task:'Líquido de frenos',int:'40.000 km',act:'R',cost:23130,time:'45 min',parts:'Líquido frenos DOT4 ($23.130)',notes:'Cambiar cada 40.000 km — purgar 4 canales',done:false},
+      {id:502,task:'Refrigerante motor (LLC)',int:'80.000 km',act:'R',cost:3000,time:'45 min',parts:'Refrigerante x5L ($3.000)',notes:'Cambiar cada 80.000 km o ante reparación de motor',done:false},
+      {id:503,task:'Aceite de diferenciales',int:'80.000 km',act:'R',cost:14000,time:'30 min',parts:'Aceite diferencial Toyota original',notes:'Cambiar cada 80.000 km',done:false},
+      {id:504,task:'Aceite de transmisión',int:'80.000 km',act:'R',cost:18000,time:'45 min',parts:'Aceite transmisión Toyota original',notes:'Cambiar cada 80.000 km',done:false},
+      {id:505,task:'Aceite de transferencia',int:'80.000 km',act:'R',cost:12000,time:'30 min',parts:'Aceite transferencia Toyota original',notes:'Cambiar cada 80.000 km',done:false},
+      {id:506,task:'Cadena de distribución',int:'75.000 km',act:'R',cost:809243,time:'4 hs',parts:'Cadena N°1 ($167.020) + N°2 ($291.337) + Tensores ($284.505) + Guía ($14.001)',notes:'Cambiar cada 75.000 km — incluir tensores y guías',done:false},
+      {id:507,task:'Batería',int:'Anual',act:'R',cost:240650,time:'15 min',parts:'Batería Hilux 90Amp Moura ($240.650)',notes:'Cambiar cada 1 año — evaluar con scanner Konnwei KW720',done:false},
+      {id:508,task:'Aditivo (PPM sílice muy alto)',int:'Condicional',act:'C',cost:5000,time:'10 min',parts:'Aditivo especial',notes:'Cuando PPM sílice muy por encima de lo normal',done:false},
+      {id:509,task:'Limpieza admisión completa (sílice moderado)',int:'Condicional',act:'L',cost:8000,time:'60 min',parts:'Limpiador admisión profesional',notes:'Cuando PPM sílice moderadamente por encima',done:false},
+      {id:510,task:'Cambio viscosidad aceite (presión baja)',int:'Condicional',act:'C',cost:3000,time:'5 min',parts:'',notes:'Cuando presión moderadamente por debajo de lo normal',done:false},
+      {id:511,task:'Lavado vapor condensador/radiador A/C',int:'Condicional',act:'L',cost:5000,time:'30 min',parts:'',notes:'Según necesidad de los sistemas',done:false},
+    ]
   };
 }
 
 function loadData(){
-  try{const r=localStorage.getItem('tf_plan_v4');if(r)return JSON.parse(r);}catch(e){}
+  try{const r=localStorage.getItem('tf_plan_v5');if(r)return JSON.parse(r);}catch(e){}
   return defaultPlan();
 }
-function saveData(){try{localStorage.setItem('tf_plan_v4',JSON.stringify(data));}catch(e){}}
-function loadKm(){try{const r=localStorage.getItem('tf_km_dist');if(r)return JSON.parse(r);}catch(e){}return{actual:0,ultimaDist:0};}
+function saveData(){try{localStorage.setItem('tf_plan_v5',JSON.stringify(data));}catch(e){}}
+function loadKm(){try{const r=localStorage.getItem('tf_km_dist');if(r)return JSON.parse(r);}catch(e){}return{actual:'',ultimaDist:''};}
 function saveKm(){try{localStorage.setItem('tf_km_dist',JSON.stringify(kmDist));}catch(e){}}
 
-let data = loadData();
-let kmDist = loadKm();
-let curPM = 'pm2500';
-let editIdx = null;
+let data=loadData();
+let kmDist=loadKm();
+let curTab='checklist';
+let curPM='pm2500';
+let editIdx=null;
 
-function renderDistAlert(){
-  const kmActual = parseInt(kmDist.actual) || 0;
-  const kmUltDist = parseInt(kmDist.ultimaDist) || 0;
-  const diff = kmActual - kmUltDist;
-  const pct = kmUltDist > 0 ? Math.min(Math.round(diff / DIST_KM * 100), 100) : 0;
-  let alertClass='ok', alertIcon='⛓️', alertTitle='Cadena de distribución OK', alertSub='';
-  if(kmUltDist === 0){
-    alertClass='warn'; alertIcon='⚠️';
-    alertTitle='Ingresá los km para monitorear la distribución';
-    alertSub='Completá los campos de km abajo';
-  } else if(diff >= DIST_KM){
-    alertClass='danger'; alertIcon='🔴';
-    alertTitle='¡CAMBIO DE DISTRIBUCIÓN VENCIDO!';
-    alertSub=`Diferencia: ${diff.toLocaleString('es-AR')} km — Límite: 75.000 km`;
-  } else if(diff >= DIST_KM * 0.85){
-    alertClass='warn'; alertIcon='🟡';
-    alertTitle='Próximo cambio de distribución';
-    alertSub=`Faltan ${(DIST_KM - diff).toLocaleString('es-AR')} km para los 75.000 km`;
-  } else {
-    alertSub=`${diff.toLocaleString('es-AR')} km desde último cambio — faltan ${(DIST_KM-diff).toLocaleString('es-AR')} km`;
-  }
-  const barColor = alertClass==='ok'?'#34C759':alertClass==='warn'?'#FF9500':'#CC0000';
-  const alertEl = document.getElementById('distAlert');
-  if(alertEl){
-    alertEl.className = `dist-alert ${alertClass}`;
-    alertEl.innerHTML = `<span class="dist-icon">${alertIcon}</span>
-      <div style="flex:1;">
-        <div class="dist-title">${alertTitle}</div>
-        <div class="dist-sub">${alertSub}</div>
-        ${kmUltDist>0?`<div class="dist-bar">
-          <div class="dist-bar-track"><div class="dist-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
-          <div class="dist-bar-labels"><span>Último cambio: ${kmUltDist.toLocaleString('es-AR')} km</span><span>${pct}% / 75.000 km</span></div>
-        </div>`:''}
-      </div>`;
-  }
+const PMS=[
+  {id:'inter1250',label:'Inter-PM',km:'1.250 km',badge:'b-inter',badgeTxt:'Inter-PM'},
+  {id:'pm2500',   label:'PM 2.500',km:'2.500 km',badge:'b-pm',   badgeTxt:'PM Base'},
+  {id:'pm5000',   label:'PM 5.000',km:'5.000 km',badge:'b-pm',   badgeTxt:'PM'},
+  {id:'pm10000',  label:'PM 10.000',km:'10.000 km',badge:'b-pm', badgeTxt:'PM'},
+  {id:'especiales',label:'Especiales',km:'40k·75k·80k',badge:'b-pm',badgeTxt:'Especial'},
+];
+
+// ── PRECIOS ──────────────────────────────────────────────
+const PRECIO_ITEMS = [
+  {key:'aceite_5w30',   label:'Aceite motor 5W30 (por litro)',         default:17839},
+  {key:'filtro_aceite', label:'Filtro de aceite Hilux/IMV',            default:16702},
+  {key:'filtro_aire',   label:'Filtro de aire Hilux 16',               default:67953},
+  {key:'filtro_comb',   label:'Filtro de combustible Hilux 16',        default:105060},
+  {key:'filtro_adm',    label:'Filtro admisión snorkel',               default:79200},
+  {key:'filtro_hab',    label:'Filtro habitáculo Hilux 16',            default:29422},
+  {key:'arand_carter',  label:'Arandela tapón carter 3L/5L',           default:2354},
+  {key:'escobilla',     label:'Escobillas (par)',                       default:9673},
+  {key:'liquido_freno', label:'Líquido de frenos DOT4',                default:23130},
+  {key:'refrigerante',  label:'Refrigerante LLC (5 litros)',            default:3000},
+  {key:'bateria',       label:'Batería Hilux 90Amp Moura',             default:240650},
+  {key:'cadena_n1',     label:'Cadena distribución N°1 Hilux 16',      default:167020},
+  {key:'cadena_n2',     label:'Cadena distribución N°2 Hilux 16',      default:291337},
+  {key:'tensor_x4',     label:'Tensores cadena distribución (x4)',      default:284505},
+  {key:'guia_cadena',   label:'Guía cadena distribución',              default:14001},
+];
+
+function loadPrices(){
+  try{const r=localStorage.getItem('tf_precios');if(r)return JSON.parse(r);}catch(e){}
+  const def={};
+  PRECIO_ITEMS.forEach(p=>def[p.key]=p.default);
+  return def;
+}
+function savePrices(){
+  const precios={};
+  PRECIO_ITEMS.forEach(p=>{
+    const el=document.getElementById('price_'+p.key);
+    if(el) precios[p.key]=parseInt(el.value)||p.default;
+  });
+  try{localStorage.setItem('tf_precios',JSON.stringify(precios));}catch(e){}
+  // Recalculate costs in plan
+  recalcCosts(precios);
+  saveData();
+  closePrices();
+  const btn=document.querySelector('.save-btn');
+  btn.textContent='✅ Precios actualizados';
+  setTimeout(()=>btn.textContent='💾 Guardar',2000);
+  render();
+}
+function recalcCosts(p){
+  // PM 2500 - aceite (4L) + arandela
+  if(data.pm2500[0]) data.pm2500[0].cost = (p.aceite_5w30||17839)*4 + (p.arand_carter||2354);
+  if(data.pm2500[1]) data.pm2500[1].cost = p.arand_carter||2354;
+  if(data.pm2500[2]) data.pm2500[2].cost = p.filtro_aceite||16702;
+  if(data.pm2500[3]) data.pm2500[3].cost = p.filtro_aire||67953;
+  if(data.pm2500[4]) data.pm2500[4].cost = p.filtro_comb||105060;
+  if(data.pm2500[6]) data.pm2500[6].cost = p.filtro_hab||29422;
+  if(data.pm2500[7]) data.pm2500[7].cost = p.escobilla||9673;
+  if(data.pm2500[10]) data.pm2500[10].cost = p.liquido_freno||23130;
+  // Inter PM
+  if(data.inter1250[0]) data.inter1250[0].cost = p.filtro_adm||79200;
+  // Especiales
+  if(data.especiales[0]) data.especiales[0].cost = p.liquido_freno||23130;
+  if(data.especiales[1]) data.especiales[1].cost = p.refrigerante||3000;
+  if(data.especiales[5]) data.especiales[5].cost = (p.cadena_n1||167020)+(p.cadena_n2||291337)+(p.tensor_x4||284505)+(p.guia_cadena||14001);
+  if(data.especiales[6]) data.especiales[6].cost = p.bateria||240650;
+}
+function openPrices(){
+  const precios=loadPrices();
+  let h='';
+  PRECIO_ITEMS.forEach(p=>{
+    h+=`<div class="fg">
+      <label class="fl">${p.label}</label>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="color:var(--text3);font-size:15px;">$</span>
+        <input class="fi" type="number" inputmode="numeric" id="price_${p.key}" value="${precios[p.key]||p.default}" placeholder="${p.default}">
+      </div>
+    </div>`;
+  });
+  document.getElementById('pricesList').innerHTML=h;
+  document.getElementById('pricesOv').classList.add('open');
+  document.getElementById('pricesSh').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closePrices(){
+  document.getElementById('pricesOv').classList.remove('open');
+  document.getElementById('pricesSh').classList.remove('open');
+  document.body.style.overflow='';
 }
 
-function render(){
-  const c = document.getElementById('cnt');
-  let h = '';
+function setTab(t,el){
+  curTab=t;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
 
-  // ── ALERTA DISTRIBUCIÓN ──────────────────────────────
-  const kmActual = parseInt(kmDist.actual) || 0;
-  const kmUltDist = parseInt(kmDist.ultimaDist) || 0;
-  const diff = kmActual - kmUltDist;
-  const pct = kmUltDist > 0 ? Math.min(Math.round(diff / DIST_KM * 100), 100) : 0;
-  let alertClass='ok', alertIcon='⛓️', alertTitle='Cadena de distribución OK', alertSub='';
-  if(kmUltDist === 0){
-    alertClass='warn'; alertIcon='⚠️';
-    alertTitle='Ingresá los km para monitorear la distribución';
-    alertSub='Completá los campos de km abajo';
-  } else if(diff >= DIST_KM){
-    alertClass='danger'; alertIcon='🔴';
-    alertTitle='¡CAMBIO DE DISTRIBUCIÓN VENCIDO!';
-    alertSub=`Diferencia: ${diff.toLocaleString('es-AR')} km — Límite: 75.000 km`;
-  } else if(diff >= DIST_KM * 0.85){
-    alertClass='warn'; alertIcon='🟡';
-    alertTitle='Próximo cambio de distribución';
-    alertSub=`Faltan ${(DIST_KM - diff).toLocaleString('es-AR')} km para los 75.000 km`;
-  } else {
-    alertSub=`${diff.toLocaleString('es-AR')} km desde último cambio — faltan ${(DIST_KM-diff).toLocaleString('es-AR')} km`;
-  }
-  const barColor = alertClass==='ok'?'#34C759':alertClass==='warn'?'#FF9500':'#CC0000';
+function getDistInfo(){
+  const a=parseInt(kmDist.actual)||0;
+  const u=parseInt(kmDist.ultimaDist)||0;
+  const diff=a-u;
+  const pct=u>0?Math.min(Math.round(diff/DIST_KM*100),100):0;
+  const barColor=pct>=100?'#CC0000':pct>=85?'#FF9500':'#34C759';
+  let cls='ok',icon='⛓️',title='Distribución OK',sub='';
+  if(!u){cls='warn';icon='⚠️';title='Ingresá km para monitorear distribución';sub='Completá los campos abajo';}
+  else if(diff>=DIST_KM){cls='danger';icon='🔴';title='¡DISTRIBUCIÓN VENCIDA!';sub=`${diff.toLocaleString('es-AR')} km — límite 75.000 km`;}
+  else if(diff>=DIST_KM*0.85){cls='warn';icon='🟡';title='Próximo cambio de distribución';sub=`Faltan ${(DIST_KM-diff).toLocaleString('es-AR')} km para los 75.000 km`;}
+  else{sub=`${diff.toLocaleString('es-AR')} km desde último cambio — faltan ${(DIST_KM-diff).toLocaleString('es-AR')} km`;}
+  return{cls,icon,title,sub,pct,barColor,u};
+}
 
-  h += `<div id="distAlert" class="dist-alert ${alertClass}">
-    <span class="dist-icon">${alertIcon}</span>
+function renderDistBlock(){
+  const{cls,icon,title,sub,pct,barColor,u}=getDistInfo();
+  return `<div id="distAlert" class="dist-alert ${cls}">
+    <span class="dist-icon">${icon}</span>
     <div style="flex:1;">
-      <div class="dist-title">${alertTitle}</div>
-      <div class="dist-sub">${alertSub}</div>
-      ${kmUltDist>0?`<div class="dist-bar">
-        <div class="dist-bar-track"><div class="dist-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
-        <div class="dist-bar-labels"><span>Último cambio: ${kmUltDist.toLocaleString('es-AR')} km</span><span>${pct}% / 75.000 km</span></div>
-      </div>`:''}
+      <div class="dist-title">${title}</div>
+      <div class="dist-sub">${sub}</div>
+      ${u>0?`<div class="dist-bar-track"><div class="dist-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+      <div class="dist-bar-labels"><span>Últ. cambio: ${parseInt(kmDist.ultimaDist).toLocaleString('es-AR')} km</span><span>${pct}% de 75.000</span></div>`:''}
     </div>
   </div>`;
+}
 
-  // ── KM INPUT ─────────────────────────────────────────
-  h += `<div class="km-input-card">
-    <div class="km-input-title">🔧 Kilometraje distribución</div>
+function renderKmBlock(){
+  return `<div class="km-card">
+    <div class="km-card-title">⛓️ Kilometraje distribución (75.000 km)</div>
     <div class="km-row">
       <div class="km-field">
         <span class="km-label">Km actuales</span>
-        <input class="km-inp" type="number" inputmode="numeric" placeholder="150.000" value="${kmDist.actual||''}" id="kmActualInp" onblur="kmDist.actual=this.value;saveKm();renderDistAlert()">
+        <input class="km-inp" type="number" inputmode="numeric" placeholder="150000" value="${kmDist.actual||''}"
+          onblur="kmDist.actual=this.value;saveKm();updateDistAlert()">
       </div>
       <div class="km-field">
         <span class="km-label">Km último cambio dist.</span>
-        <input class="km-inp" type="number" inputmode="numeric" placeholder="75.000" value="${kmDist.ultimaDist||''}" id="kmUltDistInp" onblur="kmDist.ultimaDist=this.value;saveKm();renderDistAlert()">
+        <input class="km-inp" type="number" inputmode="numeric" placeholder="75000" value="${kmDist.ultimaDist||''}"
+          onblur="kmDist.ultimaDist=this.value;saveKm();updateDistAlert()">
       </div>
     </div>
   </div>`;
+}
 
-  // ── PM SELECTOR ───────────────────────────────────────
-  h += `<div class="pm-selector">`;
-  PMS.forEach(p => {
-    h += `<div class="pm-btn ${curPM===p.id?'active':''}" onclick="curPM='${p.id}';render()">
+function updateDistAlert(){
+  const el=document.getElementById('distAlert');
+  if(!el)return;
+  const{cls,icon,title,sub,pct,barColor,u}=getDistInfo();
+  el.className=`dist-alert ${cls}`;
+  el.innerHTML=`<span class="dist-icon">${icon}</span>
+    <div style="flex:1;">
+      <div class="dist-title">${title}</div>
+      <div class="dist-sub">${sub}</div>
+      ${u>0?`<div class="dist-bar-track"><div class="dist-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+      <div class="dist-bar-labels"><span>Últ. cambio: ${parseInt(kmDist.ultimaDist).toLocaleString('es-AR')} km</span><span>${pct}% de 75.000</span></div>`:''}
+    </div>`;
+}
+
+function render(){
+  const c=document.getElementById('cnt');
+  if(curTab==='checklist') rChecklist(c);
+  else if(curTab==='tabla') rTabla(c);
+  else rRepuestos(c);
+}
+
+function rChecklist(c){
+  const tasks=data[curPM]||[];
+  const done=tasks.filter(t=>t.done).length;
+  const total=tasks.length;
+  const pct=total>0?Math.round(done/total*100):0;
+  const totalCost=tasks.reduce((s,t)=>s+(t.cost||0),0);
+  const totalTime=tasks.reduce((s,t)=>s+parseTime(t.time),0);
+  const curDef=PMS.find(p=>p.id===curPM);
+
+  let h=renderDistBlock()+renderKmBlock();
+
+  // PM selector
+  h+=`<div class="pm-selector">`;
+  PMS.forEach(p=>{
+    h+=`<div class="pm-btn ${curPM===p.id?'active':''}" onclick="curPM='${p.id}';render()">
       <div class="pm-btn-label">${p.label}</div>
       <div class="pm-btn-km">${p.km}</div>
-      <span class="pm-btn-type ${p.color}">${p.type==='inter'?'Inter-PM':'PM'}</span>
+      <span class="pm-btn-badge ${p.badge}">${p.badgeTxt}</span>
     </div>`;
   });
-  h += `</div>`;
+  h+=`</div>`;
 
-  // ── CHECKLIST ─────────────────────────────────────────
-  const tasks = data[curPM] || [];
-  const done = tasks.filter(t=>t.done).length;
-  const total = tasks.length;
-  const pctTask = total>0?Math.round(done/total*100):0;
-  const totalCost = tasks.reduce((s,t)=>s+(t.cost||0),0);
-  const totalTime = tasks.reduce((s,t)=>s+parseTime(t.time),0);
-  const curPMDef = PMS.find(p=>p.id===curPM);
-
-  h += `<div class="stats-row">
+  h+=`<div class="stats-row">
     <div class="stat-card green"><div class="stat-num">${done}/${total}</div><div class="stat-lbl">Completadas</div></div>
     <div class="stat-card blue"><div class="stat-num">$${Math.round(totalCost/1000)}k</div><div class="stat-lbl">Costo est.</div></div>
     <div class="stat-card orange"><div class="stat-num">${formatTime(totalTime)}</div><div class="stat-lbl">Tiempo est.</div></div>
   </div>
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Progreso — ${curPMDef?.label||''}</span><span style="font-weight:700;color:${pctTask===100?'var(--green)':'var(--text2)'};">${pctTask}%</span></div>
-    <div class="progress-track"><div class="progress-fill" style="width:${pctTask}%;${pctTask===100?'background:var(--green);':''}"></div></div>
+  <div class="prog-wrap">
+    <div class="prog-labels"><span>${curDef?.label||''} — Progreso</span><span style="font-weight:700;color:${pct===100?'var(--green)':'var(--text2)'};">${pct}%</span></div>
+    <div class="prog-track"><div class="prog-fill" style="width:${pct}%;${pct===100?'background:var(--green);':''}"></div></div>
   </div>
-  <div class="plan-section">
-    <div class="plan-section-hdr">
-      <span class="plan-section-title">${curPMDef?.label} — ${curPMDef?.desc}</span>
-      <span class="plan-section-badge ${curPMDef?.type==='inter'?'green':''}">${curPMDef?.km}</span>
+  <div class="plan-sec">
+    <div class="plan-sec-hdr">
+      <span class="plan-sec-title">${curDef?.label} — ${curDef?.km}</span>
+      <span class="plan-sec-badge ${curPM==='inter1250'?'green':''}">${tasks.length} tareas</span>
     </div>`;
 
   if(!tasks.length){
-    h+=`<div style="padding:24px;text-align:center;color:var(--text3);font-size:14px;">Sin tareas — tocá + para agregar</div>`;
+    h+=`<div style="padding:20px;text-align:center;color:var(--text3);">Sin tareas — tocá + para agregar</div>`;
   } else {
     tasks.forEach((t,i)=>{
       h+=`<div class="plan-row ${t.done?'done':''}">
-        <div class="check-circle ${t.done?'checked':''}" onclick="toggleDone('${curPM}',${i},event)">${t.done?'✓':''}</div>
-        <div class="plan-row-content" onclick="toggleNotes('${curPM}-${i}')">
-          <div class="plan-row-title">${t.task}</div>
-          <div class="plan-row-meta">
+        <div class="chk ${t.done?'checked':''}" onclick="toggleDone('${curPM}',${i},event)">${t.done?'✓':''}</div>
+        <div class="row-body" onclick="toggleNotes('${curPM}-${i}')">
+          <div class="row-title">${t.task}</div>
+          <div class="row-meta">
             <span class="badge ${BADGE[t.act]||'b-i'}">${t.act}</span>
-            <span class="plan-row-int">${t.int}</span>
-            ${t.cost>0?`<span class="plan-row-cost">$${t.cost.toLocaleString('es-AR')}</span>`:''}
-            ${t.time?`<span class="plan-row-time">⏱ ${t.time}</span>`:''}
+            <span class="row-int">${t.int}</span>
+            ${t.cost>0?`<span class="row-cost">$${t.cost.toLocaleString('es-AR')}</span>`:''}
+            ${t.time?`<span class="row-time">⏱ ${t.time}</span>`:''}
           </div>
         </div>
-        <span class="expand-btn" onclick="toggleNotes('${curPM}-${i}')">⌄</span>
-        <span class="edit-btn" onclick="openEdit(${i})">✎</span>
+        <span class="exp-btn" onclick="toggleNotes('${curPM}-${i}')">⌄</span>
+        <span class="edit-btn-sm" onclick="openEdit(${i})">✎</span>
       </div>
-      <div class="plan-row-notes" id="notes-${curPM}-${i}">
-        ${t.notes?`<div style="margin-bottom:6px;">📝 ${t.notes}</div>`:''}
+      <div class="row-notes" id="notes-${curPM}-${i}">
+        ${t.notes?`<div style="margin-bottom:4px;">📝 ${t.notes}</div>`:''}
         ${t.parts?`<div class="parts-list">${t.parts.split(',').map(p=>`<div class="part-item"><div class="part-dot"></div><span>${p.trim()}</span></div>`).join('')}</div>`:''}
-        ${!t.notes&&!t.parts?'<span style="color:var(--text3)">Sin notas registradas</span>':''}
+        ${!t.notes&&!t.parts?'<span style="color:var(--text3)">Sin notas</span>':''}
       </div>`;
     });
   }
 
-  h+=`<div class="add-row-btn" onclick="openEdit(-1)"><span style="font-size:20px;">+</span> Agregar tarea</div>
+  h+=`<div class="add-row" onclick="openEdit(-1)"><span style="font-size:20px;">+</span> Agregar tarea</div>
   </div>
   <button class="reset-btn" onclick="resetCheck()">↺ Resetear checklist para nuevo servicio</button>
-  <div class="note-box">⚡ Inter-PM = mitad del intervalo · 1 h ralentí = 70 km · Distribución: cada 75.000 km</div>`;
+  <div class="note-box">
+    R=Reemplazar · I=Inspeccionar · D=Diagnóstico · E=Engrase · M=Muestra · L=Limpieza · C=Condicional<br>
+    ⚡ Inter-PM 1.250 km · PM base 2.500 km · Diagnóstico 5.000 km · 1h ralentí = 70 km
+  </div>`;
 
-  c.innerHTML = h;
+  c.innerHTML=h;
 }
 
-function toggleDone(pm, idx, e){
+function rTabla(c){
+  const grupos=[
+    {titulo:'Inter-PM — 1.250 km',key:'inter1250',badge:'green'},
+    {titulo:'PM Base — 2.500 km',key:'pm2500',badge:''},
+    {titulo:'PM — 5.000 km',key:'pm5000',badge:''},
+    {titulo:'PM — 10.000 km',key:'pm10000',badge:''},
+    {titulo:'Servicios especiales',key:'especiales',badge:''},
+  ];
+  let h='';
+  grupos.forEach(g=>{
+    const tasks=data[g.key]||[];
+    if(!tasks.length)return;
+    h+=`<div class="plan-sec" style="margin-bottom:10px;">
+      <div class="plan-sec-hdr">
+        <span class="plan-sec-title">${g.titulo}</span>
+        <span class="plan-sec-badge ${g.badge}">${tasks.length} tareas</span>
+      </div>`;
+    tasks.forEach((t,i)=>{
+      h+=`<div class="plan-row" onclick="curPM='${g.key}';openEdit(${data[g.key].findIndex(x=>x.id===t.id)});document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab')[0].classList.add('active');curTab='checklist';">
+        <div class="row-body">
+          <div class="row-title">${t.task}</div>
+          <div class="row-meta">
+            <span class="badge ${BADGE[t.act]||'b-i'}">${t.act}</span>
+            <span class="row-int">${t.int}</span>
+            ${t.cost>0?`<span class="row-cost">$${t.cost.toLocaleString('es-AR')}</span>`:''}
+            ${t.notes?`<span class="row-int">${t.notes.slice(0,40)}...</span>`:''}
+          </div>
+        </div>
+        <div style="color:var(--text3);font-size:16px;">›</div>
+      </div>`;
+    });
+    h+=`</div>`;
+  });
+  c.innerHTML=h;
+}
+
+function rRepuestos(c){
+  const totalCost=Object.values(data).flat().reduce((s,t)=>s+(t.cost||0),0);
+  let partsMap={};
+  Object.values(data).flat().filter(t=>t.parts).forEach(t=>{
+    t.parts.split(',').forEach(p=>{
+      const k=p.trim();if(!k)return;
+      if(!partsMap[k])partsMap[k]={task:t.task,int:t.int};
+    });
+  });
+
+  let h=`<div class="stats-row">
+    <div class="stat-card blue"><div class="stat-num">$${Math.round(totalCost/1000)}k</div><div class="stat-lbl">Costo total</div></div>
+    <div class="stat-card green"><div class="stat-num">${Object.keys(partsMap).length}</div><div class="stat-lbl">Repuestos</div></div>
+    <div class="stat-card orange"><div class="stat-num">${Object.values(data).flat().filter(t=>t.parts).length}</div><div class="stat-lbl">Tareas c/rep.</div></div>
+  </div>
+  <div class="plan-sec">
+    <div class="plan-sec-hdr"><span class="plan-sec-title">Lista de repuestos</span></div>`;
+  Object.entries(partsMap).forEach(([part,info])=>{
+    h+=`<div class="plan-row">
+      <div style="width:7px;height:7px;background:var(--red);border-radius:50%;flex-shrink:0;margin:2px;"></div>
+      <div class="row-body">
+        <div class="row-title">${part}</div>
+        <div class="row-meta"><span class="row-int">${info.int}</span><span style="font-size:10px;color:var(--text3);">→ ${info.task}</span></div>
+      </div>
+    </div>`;
+  });
+  h+=`</div>`;
+  c.innerHTML=h;
+}
+
+// ── ACTIONS ───────────────────────────────────────────────
+function toggleDone(pm,idx,e){
   e.stopPropagation();
-  data[pm][idx].done = !data[pm][idx].done;
-  saveData(); render();
+  data[pm][idx].done=!data[pm][idx].done;
+  saveData();render();
 }
 function toggleNotes(id){
   const el=document.getElementById(`notes-${id}`);
-  if(el) el.classList.toggle('show');
+  if(el)el.classList.toggle('show');
 }
 function openEdit(idx){
   editIdx=idx;
@@ -469,7 +651,7 @@ function saveEdit(){
     notes:document.getElementById('eNotes').value.trim(),
     done:editIdx>=0?data[curPM][editIdx].done:false,
   };
-  if(editIdx>=0) data[curPM][editIdx]=entry;
+  if(editIdx>=0)data[curPM][editIdx]=entry;
   else data[curPM].push(entry);
   saveData();closeEdit();render();
 }
@@ -480,7 +662,7 @@ function deleteTask(){
   saveData();closeEdit();render();
 }
 function resetCheck(){
-  if(!confirm('¿Resetear todas las tareas como no completadas?'))return;
+  if(!confirm('¿Resetear todas las tareas?'))return;
   Object.keys(data).forEach(k=>data[k].forEach(t=>t.done=false));
   saveData();render();
 }
@@ -500,6 +682,9 @@ function formatTime(mins){
   if(mins>=60)return`${Math.floor(mins/60)}h${mins%60>0?mins%60+'m':''}`;
   return`${mins}m`;
 }
+// Apply saved prices on load
+const _savedPrices = loadPrices();
+recalcCosts(_savedPrices);
 render();
 </script>
 </body>
