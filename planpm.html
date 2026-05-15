@@ -22,55 +22,96 @@ html,body{height:100%;overflow:hidden;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.4;}
 .app{display:flex;flex-direction:column;height:100%;height:-webkit-fill-available;}
 .status-bar{height:var(--safe-t);background:var(--red);flex-shrink:0;}
-.navbar{background:var(--red);padding:12px 16px 0;flex-shrink:0;}
-.navbar-top{display:flex;align-items:center;gap:10px;padding-bottom:12px;}
-.back-btn{width:32px;height:32px;background:rgba(255,255,255,0.2);border:none;border-radius:50%;color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.navbar{background:var(--red);padding:0 16px;flex-shrink:0;}
+.navbar-top{display:flex;align-items:center;gap:10px;padding:12px 0 10px;}
+.back-btn{width:32px;height:32px;background:rgba(255,255,255,0.2);border:none;border-radius:50%;color:white;font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
 .back-btn:active{background:rgba(255,255,255,0.35);}
 .navbar-title{color:white;font-size:17px;font-weight:700;flex:1;}
 .navbar-sub{color:rgba(255,255,255,0.7);font-size:11px;}
-.save-btn{background:rgba(255,255,255,0.2);border:none;border-radius:20px;color:white;font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;white-space:nowrap;}
+.save-btn{background:rgba(255,255,255,0.2);border:none;border-radius:20px;color:white;font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;}
 .save-btn:active{background:rgba(255,255,255,0.35);}
-
-/* TABS */
-.tabs{display:flex;background:var(--red);padding:0 4px;}
-.tab{flex:1;padding:9px 4px 11px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;border-bottom:2.5px solid transparent;}
-.tab.active{color:white;border-bottom-color:white;font-weight:700;}
 
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px calc(20px + var(--safe-b));}
 
 /* PM SELECTOR */
-.pm-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px;}
-.pm-btn{background:var(--card);border:1.5px solid var(--border);border-radius:var(--rs);padding:8px 4px;text-align:center;cursor:pointer;transition:all .15s;}
+.pm-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.pm-btn{background:var(--card);border:2px solid var(--border);border-radius:var(--r);padding:12px 6px;text-align:center;cursor:pointer;transition:all .15s;}
 .pm-btn.active{border-color:var(--red);background:#FFF0F0;}
 .pm-btn:active{opacity:.7;}
-.pm-btn-label{font-size:11px;font-weight:700;color:var(--text);}
-.pm-btn-km{font-size:10px;color:var(--text3);}
+.pm-btn-label{font-size:13px;font-weight:700;color:var(--text);}
+.pm-btn-km{font-size:11px;color:var(--text3);margin-top:2px;}
+.pm-btn-type{font-size:10px;font-weight:600;padding:2px 6px;border-radius:10px;display:inline-block;margin-top:4px;}
+.type-inter{background:#E0F7F0;color:#00796B;}
+.type-pm{background:#FFE5E5;color:#CC0000;}
 
-/* PLAN TABLE */
+/* ALERTA DISTRIBUCION */
+.dist-alert{border-radius:var(--r);padding:14px 16px;margin-bottom:14px;border:2px solid;display:flex;align-items:flex-start;gap:12px;}
+.dist-alert.ok{background:#E3F9E9;border-color:#34C759;}
+.dist-alert.warn{background:#FFF5E0;border-color:#FF9500;}
+.dist-alert.danger{background:#FFE5E5;border-color:#CC0000;}
+.dist-icon{font-size:24px;flex-shrink:0;}
+.dist-title{font-size:14px;font-weight:700;margin-bottom:3px;}
+.dist-sub{font-size:12px;color:var(--text2);}
+.dist-bar{margin-top:8px;}
+.dist-bar-track{height:8px;background:rgba(0,0,0,0.1);border-radius:4px;overflow:hidden;}
+.dist-bar-fill{height:100%;border-radius:4px;transition:width .3s;}
+.dist-bar-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-top:3px;}
+
+/* KM INPUT */
+.km-input-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:14px;}
+.km-input-title{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;}
+.km-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.km-field{display:flex;flex-direction:column;gap:4px;}
+.km-label{font-size:12px;color:var(--text3);}
+.km-inp{padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;width:100%;}
+.km-inp:focus{border-color:var(--red);}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.stat-card{background:var(--card);border-radius:var(--rs);border:1px solid var(--border);padding:10px;text-align:center;}
+.stat-num{font-size:20px;font-weight:800;}
+.stat-lbl{font-size:10px;color:var(--text3);margin-top:2px;}
+.stat-card.green .stat-num{color:var(--green);}
+.stat-card.orange .stat-num{color:var(--orange);}
+.stat-card.blue .stat-num{color:var(--blue);}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:14px;}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px;}
+.progress-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--green);border-radius:4px;transition:width .3s;}
+
+/* PLAN SECTION */
 .plan-section{background:var(--card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
 .plan-section-hdr{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .plan-section-title{font-size:14px;font-weight:700;}
 .plan-section-badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;background:#FFE5E5;color:#CC0000;}
+.plan-section-badge.green{background:#E3F9E9;color:#1A7F3C;}
 
-.plan-row{display:flex;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border);gap:10px;cursor:pointer;transition:background .1s;}
+.plan-row{display:flex;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border);gap:10px;}
 .plan-row:last-child{border:none;}
 .plan-row:active{background:var(--bg);}
 .plan-row.done{opacity:.5;}
-.check-circle{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s;}
+.check-circle{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;cursor:pointer;}
 .check-circle.checked{background:var(--green);border-color:var(--green);color:white;}
-.plan-row-content{flex:1;min-width:0;}
+.plan-row-content{flex:1;min-width:0;cursor:pointer;}
 .plan-row-title{font-size:14px;color:var(--text);}
+.plan-row.done .plan-row-title{text-decoration:line-through;color:var(--text3);}
 .plan-row-meta{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap;}
 .plan-row-int{font-size:11px;color:var(--text3);}
 .plan-row-cost{font-size:11px;color:var(--blue);font-weight:600;}
 .plan-row-time{font-size:11px;color:var(--purple);}
-.plan-row.done .plan-row-title{text-decoration:line-through;color:var(--text3);}
-.expand-btn{color:var(--text3);font-size:16px;flex-shrink:0;}
-.plan-row-notes{padding:8px 14px 12px 50px;font-size:13px;color:var(--text2);background:var(--bg);border-bottom:1px solid var(--border);display:none;}
+.expand-btn{color:var(--text3);font-size:18px;flex-shrink:0;cursor:pointer;padding:2px 4px;}
+.edit-btn{color:var(--text3);font-size:16px;flex-shrink:0;cursor:pointer;padding:2px 4px;}
+
+.plan-row-notes{padding:8px 14px 12px 52px;font-size:13px;color:var(--text2);background:var(--bg);border-bottom:1px solid var(--border);display:none;}
 .plan-row-notes.show{display:block;}
 .parts-list{margin-top:6px;}
 .part-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);padding:3px 0;}
 .part-dot{width:6px;height:6px;background:var(--red);border-radius:50%;flex-shrink:0;}
+
+.add-row-btn{display:flex;align-items:center;gap:8px;padding:12px 14px;color:var(--red);font-size:14px;font-weight:600;cursor:pointer;border-top:1px solid var(--border);}
+.add-row-btn:active{background:var(--bg);}
 
 /* BADGES */
 .badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;}
@@ -82,25 +123,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .b-l{background:#FFF0E3;color:#B84800;}
 .b-c{background:#FCE8F3;color:#AD1457;}
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
-.stat-card{background:var(--card);border-radius:var(--rs);border:1px solid var(--border);padding:10px;text-align:center;}
-.stat-num{font-size:20px;font-weight:800;}
-.stat-lbl{font-size:10px;color:var(--text3);margin-top:2px;}
-.stat-card.green .stat-num{color:var(--green);}
-.stat-card.orange .stat-num{color:var(--orange);}
-.stat-card.blue .stat-num{color:var(--blue);}
+.note-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.5;}
+.reset-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:12px;width:100%;font-family:inherit;}
 
-/* PROGRESS BAR */
-.progress-wrap{margin-bottom:14px;}
-.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px;}
-.progress-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
-.progress-fill{height:100%;background:var(--green);border-radius:4px;transition:width .3s;}
-
-/* EDIT PANEL */
+/* EDIT SHEET */
 .edit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;}
 .edit-overlay.open{display:block;}
-.edit-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;z-index:101;max-height:85vh;overflow-y:auto;padding-bottom:var(--safe-b);transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
+.edit-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;z-index:101;max-height:88vh;overflow-y:auto;padding-bottom:var(--safe-b);transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
 .edit-sheet.open{transform:translateY(0);}
 .sh-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 0;}
 .sh-hdr{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
@@ -109,22 +138,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sh-body{padding:16px 18px;}
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
 .fl{font-size:13px;font-weight:600;color:var(--text2);}
-.fi{padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;}
+.fi{padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none;width:100%;}
 .fi:focus{border-color:var(--red);}
 .frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .btn-p{width:100%;background:var(--red);color:white;border:none;border-radius:var(--rs);padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px;}
 .btn-p:active{background:var(--red-d);}
 .btn-d{width:100%;background:#FFE5E5;color:#CC0000;border:1.5px solid #FFAAAA;border-radius:var(--rs);padding:12px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:8px;}
-
-/* ADD ROW BTN */
-.add-row-btn{display:flex;align-items:center;gap:8px;padding:12px 14px;color:var(--red);font-size:14px;font-weight:600;cursor:pointer;border-top:1px solid var(--border);}
-.add-row-btn:active{background:var(--bg);}
-
-/* NOTE */
-.note-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.5;}
-
-/* RESET BTN */
-.reset-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:12px;width:100%;}
 </style>
 </head>
 <body>
@@ -135,14 +154,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="back-btn" onclick="history.back()">‹</button>
       <div style="flex:1;">
         <div class="navbar-title">Plan de Mantenimiento</div>
-        <div class="navbar-sub">Toyota Hilux — Uso extremo · FREDDY Mantenimiento</div>
+        <div class="navbar-sub">Toyota Hilux — Cadencia 2.500 · 5.000 · 10.000 km</div>
       </div>
       <button class="save-btn" onclick="saveAll()">💾 Guardar</button>
-    </div>
-    <div class="tabs">
-      <button class="tab active" onclick="setTab('checklist',this)">Checklist</button>
-      <button class="tab" onclick="setTab('intervalos',this)">Intervalos</button>
-      <button class="tab" onclick="setTab('repuestos',this)">Repuestos</button>
     </div>
   </div>
   <div class="content" id="cnt"></div>
@@ -159,9 +173,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="sh-body">
     <div class="fg"><label class="fl">Tarea *</label><input class="fi" id="eTask" placeholder="Descripción de la tarea"></div>
     <div class="frow2">
-      <div class="fg"><label class="fl">Intervalo</label><input class="fi" id="eInt" placeholder="5.000 km"></div>
+      <div class="fg"><label class="fl">Intervalo</label><input class="fi" id="eInt" placeholder="2.500 km"></div>
       <div class="fg"><label class="fl">Acción</label>
-        <select class="fi" id="eAct" style="padding:12px 14px;">
+        <select class="fi" id="eAct">
           <option value="R">R — Reemplazar</option>
           <option value="I">I — Inspeccionar</option>
           <option value="D">D — Diagnóstico</option>
@@ -173,387 +187,282 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </div>
     </div>
     <div class="frow2">
-      <div class="fg"><label class="fl">Costo estimado (ARS)</label><input class="fi" type="number" inputmode="numeric" id="eCost" placeholder="0"></div>
-      <div class="fg"><label class="fl">Tiempo estimado</label><input class="fi" id="eTime" placeholder="30 min"></div>
+      <div class="fg"><label class="fl">Costo (ARS)</label><input class="fi" type="number" inputmode="numeric" id="eCost" placeholder="0"></div>
+      <div class="fg"><label class="fl">Tiempo est.</label><input class="fi" id="eTime" placeholder="30 min"></div>
     </div>
     <div class="fg"><label class="fl">Repuestos necesarios</label><input class="fi" id="eParts" placeholder="Filtro aceite, junta carter..."></div>
-    <div class="fg"><label class="fl">Notas adicionales</label><input class="fi" id="eNotes" placeholder="Observaciones, referencias..."></div>
+    <div class="fg"><label class="fl">Notas</label><input class="fi" id="eNotes" placeholder="Observaciones, referencias..."></div>
     <button class="btn-p" onclick="saveEdit()">Guardar cambios</button>
     <button class="btn-d" onclick="deleteTask()">Eliminar tarea</button>
   </div>
 </div>
 
 <script>
-const BADGE = {R:'b-r',I:'b-i',D:'b-d',E:'b-e',M:'b-m',L:'b-l',C:'b-c'};
-const ACT_LBL = {R:'Reemplazar',I:'Inspeccionar',D:'Diagnóstico',E:'Engrase',M:'Muestra',L:'Limpieza',C:'Condicional'};
+const BADGE={R:'b-r',I:'b-i',D:'b-d',E:'b-e',M:'b-m',L:'b-l',C:'b-c'};
+const DIST_KM = 75000;
 
-function defaultPlan() {
-  return [
-    // ── CADA PM 5.000 km ──────────────────────────────────
-    {id:1,  task:'Cambio aceite motor',                    int:'5.000 km', act:'R', cost:45000,  time:'20 min', parts:'Aceite motor 5W30/10W40, arandela carter', notes:'Cambiar viscosidad según condición de presión', done:false, pm:[5,10,40,75,80]},
-    {id:2,  task:'Reemplazo filtro aceite',                int:'5.000 km', act:'R', cost:8000,   time:'10 min', parts:'Filtro aceite IMV / Hilux 16', notes:'', done:false, pm:[5,10,40,75,80]},
-    {id:3,  task:'Reemplazo filtro aire',                  int:'5.000 km', act:'R', cost:12000,  time:'10 min', parts:'Filtro aire Hilux 16 / IMV', notes:'Limpiar caja de filtro antes de instalar', done:false, pm:[5,10,40,75,80]},
-    {id:4,  task:'Reemplazo filtro combustible',           int:'5.000 km', act:'R', cost:15000,  time:'15 min', parts:'Filtro combustible Hilux 16', notes:'Purgar sistema después del cambio', done:false, pm:[5,10,40,75,80]},
-    {id:5,  task:'Toma muestra aceite motor',              int:'5.000 km', act:'M', cost:3000,   time:'10 min', parts:'Kit toma muestra', notes:'Analizar Fe/Cr/Ni/Al/Pb/Si — límites condenatorios diesel', done:false, pm:[5,10,40,75,80]},
-    {id:6,  task:'Medición presión aceite (ralentí + 3000 RPM)', int:'5.000 km', act:'M', cost:0, time:'10 min', parts:'Kit toma presión aceite motor', notes:'Ref: ralentí 25-35 PSI · 3000 RPM 60-70 PSI', done:false, pm:[5,10,40,75,80]},
-    {id:7,  task:'Engrase crucetas cardán',                int:'5.000 km', act:'E', cost:2000,   time:'15 min', parts:'Grasa especial cardan', notes:'Aplicar en todas las crucetas', done:false, pm:[5,10,40,75,80]},
-    {id:8,  task:'Inspección sistema frenos y embrague',   int:'5.000 km', act:'I', cost:0,      time:'20 min', parts:'', notes:'Incluye líquido de frenos y embrague', done:false, pm:[5,10,40,75,80]},
-    {id:9,  task:'Inspección dirección y suspensión',      int:'5.000 km', act:'I', cost:0,      time:'20 min', parts:'', notes:'Verificar holguras y desgaste de componentes', done:false, pm:[5,10,40,75,80]},
-    {id:10, task:'Inspección sistema eléctrico',           int:'5.000 km', act:'I', cost:0,      time:'15 min', parts:'', notes:'Verificar bornes batería, cableado, luces', done:false, pm:[5,10,40,75,80]},
-    {id:11, task:'Inspección neumáticos y carrocería',     int:'5.000 km', act:'I', cost:0,      time:'10 min', parts:'', notes:'Desgaste, presión y daños en carrocería', done:false, pm:[5,10,40,75,80]},
-    {id:12, task:'Inspección sistema de refrigeración',    int:'5.000 km', act:'I', cost:0,      time:'10 min', parts:'', notes:'Nivel, mangueras, radiador', done:false, pm:[5,10,40,75,80]},
-    {id:13, task:'Inspección tren de fuerza',              int:'5.000 km', act:'I', cost:0,      time:'15 min', parts:'', notes:'Diferencial, caja de transferencia, cardán', done:false, pm:[5,10,40,75,80]},
-    {id:14, task:'Inspección correa de servicio',          int:'5.000 km', act:'I', cost:0,      time:'5 min',  parts:'', notes:'Verificar estado y tensión', done:false, pm:[5,10,40,75,80]},
-    {id:15, task:'Inspección A/C y calefacción',           int:'5.000 km', act:'I', cost:0,      time:'10 min', parts:'', notes:'Funcionamiento y limpieza del evaporador', done:false, pm:[5,10,40,75,80]},
-    {id:16, task:'Control de calidad final',               int:'5.000 km', act:'I', cost:0,      time:'15 min', parts:'', notes:'Verificación técnica final y registro de intervención', done:false, pm:[5,10,40,75,80]},
-    // ── INTER PM 2.500 km ─────────────────────────────────
-    {id:17, task:'Cambio filtro admisión (sílice)',        int:'2.500 km', act:'R', cost:9000,   time:'20 min', parts:'Filtro admisión específico', notes:'Obligatorio en alta montaña por contaminación de sílice', done:false, pm:[2.5]},
-    {id:18, task:'Limpieza sistema admisión completa',     int:'2.500 km', act:'L', cost:5000,   time:'30 min', parts:'Limpiador admisión', notes:'Realizar cuando PPM sílice están moderadamente elevados', done:false, pm:[2.5]},
-    // ── 10.000 km ─────────────────────────────────────────
-    {id:19, task:'Diagnóstico computarizado Toyota',       int:'10.000 km',act:'D', cost:8000,   time:'30 min', parts:'Scanner XTOOL INPLUS500', notes:'Leer y borrar códigos — registrar resultados', done:false, pm:[10,40,75,80]},
-    {id:20, task:'Chequeo bujías precalentamiento',        int:'10.000 km',act:'I', cost:0,      time:'15 min', parts:'Bujías Hilux 16 (si falla)', notes:'Reemplazar juego completo si falla alguna', done:false, pm:[10,40,75,80]},
-    // ── 40.000 km ─────────────────────────────────────────
-    {id:21, task:'Cambio líquido de frenos',               int:'40.000 km',act:'R', cost:6000,   time:'45 min', parts:'Líquido de frenos DOT 4', notes:'Purgar todo el sistema — 4 canales', done:false, pm:[40]},
-    // ── 75.000 km ─────────────────────────────────────────
-    {id:22, task:'Reemplazo cadena de distribución',       int:'75.000 km',act:'R', cost:120000, time:'4 hs',   parts:'Kit cadena distribución Toyota original', notes:'Incluir tensores y guías — trabajo de taller', done:false, pm:[75]},
-    // ── 80.000 km ─────────────────────────────────────────
-    {id:23, task:'Cambio aceite transmisión',              int:'80.000 km',act:'R', cost:18000,  time:'45 min', parts:'Aceite transmisión Toyota original', notes:'', done:false, pm:[80]},
-    {id:24, task:'Cambio aceite transferencia',            int:'80.000 km',act:'R', cost:12000,  time:'30 min', parts:'Aceite transferencia Toyota original', notes:'', done:false, pm:[80]},
-    {id:25, task:'Cambio aceite diferenciales',            int:'80.000 km',act:'R', cost:14000,  time:'30 min', parts:'Aceite diferencial Toyota original (2 diferenciales)', notes:'', done:false, pm:[80]},
-    {id:26, task:'Cambio refrigerante LLC',                int:'80.000 km',act:'R', cost:10000,  time:'45 min', parts:'Refrigerante LLC Toyota original', notes:'Lavar radiador antes de cargar nuevo', done:false, pm:[80]},
-    // ── ANUALES ───────────────────────────────────────────
-    {id:27, task:'Reemplazo batería',                      int:'Anual',    act:'R', cost:35000,  time:'15 min', parts:'Batería Toyota compatible', notes:'Analizar con scanner de baterías Konnwei KW720 primero', done:false, pm:['anual']},
-    // ── CONDICIONALES ─────────────────────────────────────
-    {id:28, task:'Limpieza admisión completa (Si alto)',   int:'Condicional',act:'L',cost:8000,  time:'60 min', parts:'Limpiador admisión profesional', notes:'Cuando PPM sílice muy por encima de límites', done:false, pm:['cond']},
-    {id:29, task:'Cambio viscosidad aceite',               int:'Condicional',act:'C',cost:3000,  time:'5 min',  parts:'', notes:'Cuando presión de aceite baja moderadamente', done:false, pm:['cond']},
-    {id:30, task:'Lavado vapor condensador/radiador',      int:'Condicional',act:'L',cost:5000,  time:'30 min', parts:'', notes:'Según necesidad operativa — alta montaña', done:false, pm:['cond']},
-    {id:31, task:'Lavado vapor evaporador A/C',            int:'Condicional',act:'L',cost:5000,  time:'30 min', parts:'', notes:'Según necesidad operativa', done:false, pm:['cond']},
-  ];
-}
+// PM STRUCTURE
+// Inter-PM 1.250 km = mitad de PM 2.500
+// PM 2.500 km = base
+// Inter-PM 2.500 km = mitad de PM 5.000 (mismo que PM base)
+// PM 5.000 km
+// Inter-PM 5.000 km = mitad de PM 10.000 (mismo que PM 5.000)
+// PM 10.000 km
 
-function loadPlan() {
-  try { const r=localStorage.getItem('tf_plan_v2'); if(r) return JSON.parse(r); } catch(e) {}
-  return defaultPlan();
-}
-function savePlan() {
-  try { localStorage.setItem('tf_plan_v2', JSON.stringify(plan)); } catch(e) {}
-}
-
-let plan = loadPlan();
-let curTab = 'checklist';
-let curPM = 5;
-let editIdx = null;
-
-const PM_OPTS = [
-  {label:'PM-5k',  val:5,     km:'5.000'},
-  {label:'PM-10k', val:10,    km:'10.000'},
-  {label:'PM-40k', val:40,    km:'40.000'},
-  {label:'PM-75k', val:75,    km:'75.000'},
-  {label:'PM-80k', val:80,    km:'80.000'},
-  {label:'Inter',  val:2.5,   km:'2.500'},
-  {label:'Anual',  val:'anual',km:'Anual'},
-  {label:'Cond.',  val:'cond', km:'Cond.'},
+const PMS = [
+  { id:'inter1250', label:'Inter-PM',  km:'1.250 km',  type:'inter', color:'type-inter', desc:'Mitad del PM 2.500 km' },
+  { id:'pm2500',    label:'PM 2.500',  km:'2.500 km',  type:'pm',    color:'type-pm',    desc:'Servicio base completo' },
+  { id:'pm5000',    label:'PM 5.000',  km:'5.000 km',  type:'pm',    color:'type-pm',    desc:'Incluye PM 2.500 + diagnóstico' },
+  { id:'pm10000',   label:'PM 10.000', km:'10.000 km', type:'pm',    color:'type-pm',    desc:'Incluye PM 5.000 + extras' },
 ];
 
-function setTab(t, el) {
-  curTab = t;
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  render();
+function defaultPlan(){
+  return {
+    inter1250: [
+      {id:101, task:'Cambio filtro admisión (sílice)',   int:'1.250 km', act:'R', cost:9000,  time:'20 min', parts:'Filtro admisión específico',  notes:'Obligatorio alta montaña — contaminación sílice', done:false},
+      {id:102, task:'Limpieza sistema de admisión',      int:'1.250 km', act:'L', cost:5000,  time:'30 min', parts:'Limpiador admisión',           notes:'Cuando PPM sílice moderadamente elevados', done:false},
+    ],
+    pm2500: [
+      {id:201, task:'Cambio aceite motor',               int:'2.500 km', act:'R', cost:45000, time:'20 min', parts:'Aceite motor 5W30/10W40, arandela carter', notes:'Cambiar viscosidad según presión', done:false},
+      {id:202, task:'Reemplazo filtro aceite',           int:'2.500 km', act:'R', cost:8000,  time:'10 min', parts:'Filtro aceite IMV / Hilux 16',  notes:'', done:false},
+      {id:203, task:'Reemplazo filtro aire',             int:'2.500 km', act:'R', cost:12000, time:'10 min', parts:'Filtro aire Hilux 16 / IMV',   notes:'Limpiar caja antes de instalar', done:false},
+      {id:204, task:'Reemplazo filtro combustible',      int:'2.500 km', act:'R', cost:15000, time:'15 min', parts:'Filtro combustible Hilux 16',  notes:'Purgar sistema después del cambio', done:false},
+      {id:205, task:'Toma muestra aceite motor',         int:'2.500 km', act:'M', cost:3000,  time:'10 min', parts:'Kit toma muestra',             notes:'Analizar Fe/Cr/Ni/Al/Pb/Si', done:false},
+      {id:206, task:'Medición presión aceite',           int:'2.500 km', act:'M', cost:0,     time:'10 min', parts:'Kit toma presión aceite',      notes:'Ralentí 25-35 PSI · 3000 RPM 60-70 PSI', done:false},
+      {id:207, task:'Engrase crucetas cardán',           int:'2.500 km', act:'E', cost:2000,  time:'15 min', parts:'Grasa especial cardan',        notes:'Aplicar en todas las crucetas', done:false},
+      {id:208, task:'Inspección frenos y embrague',      int:'2.500 km', act:'I', cost:0,     time:'20 min', parts:'',                            notes:'Incluye líquido de frenos y embrague', done:false},
+      {id:209, task:'Inspección dirección y suspensión', int:'2.500 km', act:'I', cost:0,     time:'20 min', parts:'',                            notes:'Verificar holguras y desgaste', done:false},
+      {id:210, task:'Inspección sistema eléctrico',      int:'2.500 km', act:'I', cost:0,     time:'15 min', parts:'',                            notes:'Bornes batería, cableado, luces', done:false},
+      {id:211, task:'Inspección neumáticos y carrocería',int:'2.500 km', act:'I', cost:0,     time:'10 min', parts:'',                            notes:'Desgaste, presión y daños', done:false},
+      {id:212, task:'Inspección sistema refrigeración',  int:'2.500 km', act:'I', cost:0,     time:'10 min', parts:'',                            notes:'Nivel, mangueras, radiador', done:false},
+      {id:213, task:'Inspección tren de fuerza',         int:'2.500 km', act:'I', cost:0,     time:'15 min', parts:'',                            notes:'Diferencial, transferencia, cardán', done:false},
+      {id:214, task:'Inspección correa de servicio',     int:'2.500 km', act:'I', cost:0,     time:'5 min',  parts:'',                            notes:'Estado y tensión', done:false},
+      {id:215, task:'Control de calidad final',          int:'2.500 km', act:'I', cost:0,     time:'15 min', parts:'',                            notes:'Verificación técnica final y registro', done:false},
+    ],
+    pm5000: [
+      {id:301, task:'Todo lo del PM 2.500 km',           int:'5.000 km', act:'I', cost:0,     time:'',       parts:'',                            notes:'Incluye aceite, filtros e inspecciones completas', done:false},
+      {id:302, task:'Diagnóstico computarizado Toyota',   int:'5.000 km', act:'D', cost:8000,  time:'30 min', parts:'Scanner XTOOL INPLUS500',     notes:'Leer y borrar códigos — registrar resultados', done:false},
+      {id:303, task:'Chequeo bujías precalentamiento',   int:'5.000 km', act:'I', cost:0,     time:'15 min', parts:'Bujías Hilux 16 (si falla)',   notes:'Reemplazar juego completo si falla alguna', done:false},
+      {id:304, task:'Inspección A/C y calefacción',      int:'5.000 km', act:'I', cost:0,     time:'10 min', parts:'',                            notes:'Funcionamiento y limpieza evaporador', done:false},
+    ],
+    pm10000: [
+      {id:401, task:'Todo lo del PM 5.000 km',           int:'10.000 km',act:'I', cost:0,     time:'',       parts:'',                            notes:'Incluye PM 2.500 + PM 5.000 completos', done:false},
+      {id:402, task:'Cambio líquido de frenos',          int:'10.000 km',act:'R', cost:6000,  time:'45 min', parts:'Líquido de frenos DOT 4',      notes:'Purgar todo el sistema — 4 canales', done:false},
+      {id:403, task:'Reemplazo batería (si corresponde)',int:'10.000 km',act:'I', cost:35000, time:'15 min', parts:'Batería Toyota compatible',    notes:'Evaluar con scanner Konnwei KW720 — reemplazar si necesario', done:false},
+    ],
+  };
 }
 
-function render() {
+function loadData(){
+  try{const r=localStorage.getItem('tf_plan_v4');if(r)return JSON.parse(r);}catch(e){}
+  return defaultPlan();
+}
+function saveData(){try{localStorage.setItem('tf_plan_v4',JSON.stringify(data));}catch(e){}}
+function loadKm(){try{const r=localStorage.getItem('tf_km_dist');if(r)return JSON.parse(r);}catch(e){}return{actual:0,ultimaDist:0};}
+function saveKm(){try{localStorage.setItem('tf_km_dist',JSON.stringify(kmDist));}catch(e){}}
+
+let data = loadData();
+let kmDist = loadKm();
+let curPM = 'pm2500';
+let editIdx = null;
+
+function render(){
   const c = document.getElementById('cnt');
-  if (curTab === 'checklist') rChecklist(c);
-  else if (curTab === 'intervalos') rIntervalos(c);
-  else rRepuestos(c);
-}
+  let h = '';
 
-// ── CHECKLIST ─────────────────────────────────────────────
-function rChecklist(c) {
-  const filtered = plan.filter(t => {
-    if (Array.isArray(t.pm)) return t.pm.includes(curPM);
-    return t.pm === curPM;
-  });
-  const done = filtered.filter(t=>t.done).length;
-  const total = filtered.length;
-  const pct = total > 0 ? Math.round(done/total*100) : 0;
-  const totalCost = filtered.reduce((s,t)=>s+(t.cost||0),0);
-  const totalTime = filtered.reduce((s,t)=>{
-    const m = parseTime(t.time);
-    return s + m;
-  }, 0);
-
-  let h = `
-    <!-- PM SELECTOR -->
-    <div class="pm-selector">`;
-  PM_OPTS.forEach(p => {
-    h += `<div class="pm-btn ${curPM===p.val?'active':''}" onclick="curPM='${p.val}';render()">
-      <div class="pm-btn-label">${p.label}</div>
-      <div class="pm-btn-km">${p.km} km</div>
-    </div>`;
-  });
-  h += `</div>
-
-    <!-- STATS -->
-    <div class="stats-row">
-      <div class="stat-card green"><div class="stat-num">${done}/${total}</div><div class="stat-lbl">Completadas</div></div>
-      <div class="stat-card blue"><div class="stat-num">$${(totalCost/1000).toFixed(0)}k</div><div class="stat-lbl">Costo est.</div></div>
-      <div class="stat-card orange"><div class="stat-num">${formatTime(totalTime)}</div><div class="stat-lbl">Tiempo est.</div></div>
-    </div>
-
-    <!-- PROGRESS -->
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Progreso del servicio</span><span style="font-weight:700;color:${pct===100?'var(--green)':'var(--text2)'};">${pct}%</span></div>
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%;${pct===100?'background:var(--green);':''}"></div></div>
-    </div>
-
-    <!-- TASKS -->
-    <div class="plan-section">
-      <div class="plan-section-hdr">
-        <span class="plan-section-title">Tareas del servicio</span>
-        <span class="plan-section-badge">${PM_OPTS.find(p=>p.val==curPM)?.label||''}</span>
-      </div>`;
-
-  if (!filtered.length) {
-    h += `<div style="padding:24px;text-align:center;color:var(--text3);font-size:14px;">Sin tareas para este PM</div>`;
+  // ── ALERTA DISTRIBUCIÓN ──────────────────────────────
+  const kmActual = parseInt(kmDist.actual) || 0;
+  const kmUltDist = parseInt(kmDist.ultimaDist) || 0;
+  const diff = kmActual - kmUltDist;
+  const pct = kmUltDist > 0 ? Math.min(Math.round(diff / DIST_KM * 100), 100) : 0;
+  let alertClass='ok', alertIcon='⛓️', alertTitle='Cadena de distribución OK', alertSub='';
+  if(kmUltDist === 0){
+    alertClass='warn'; alertIcon='⚠️';
+    alertTitle='Ingresá los km para monitorear la distribución';
+    alertSub='Completá los campos de km abajo';
+  } else if(diff >= DIST_KM){
+    alertClass='danger'; alertIcon='🔴';
+    alertTitle='¡CAMBIO DE DISTRIBUCIÓN VENCIDO!';
+    alertSub=`Diferencia: ${diff.toLocaleString('es-AR')} km — Límite: 75.000 km`;
+  } else if(diff >= DIST_KM * 0.85){
+    alertClass='warn'; alertIcon='🟡';
+    alertTitle='Próximo cambio de distribución';
+    alertSub=`Faltan ${(DIST_KM - diff).toLocaleString('es-AR')} km para los 75.000 km`;
   } else {
-    filtered.forEach((t, i) => {
-      const idx = plan.findIndex(x=>x.id===t.id);
-      h += `
-        <div class="plan-row ${t.done?'done':''}" id="row-${t.id}">
-          <div class="check-circle ${t.done?'checked':''}" onclick="toggleDone(${idx},event)">
-            ${t.done?'✓':''}
-          </div>
-          <div class="plan-row-content" onclick="toggleNotes(${t.id})">
-            <div class="plan-row-title">${t.task}</div>
-            <div class="plan-row-meta">
-              <span class="badge ${BADGE[t.act]||'b-i'}">${t.act}</span>
-              <span class="plan-row-int">${t.int}</span>
-              ${t.cost>0?`<span class="plan-row-cost">$${t.cost.toLocaleString('es-AR')}</span>`:''}
-              ${t.time?`<span class="plan-row-time">⏱ ${t.time}</span>`:''}
-            </div>
-          </div>
-          <div style="display:flex;gap:4px;">
-            <div class="expand-btn" onclick="toggleNotes(${t.id})">⌄</div>
-            <div style="color:var(--text3);font-size:16px;cursor:pointer;" onclick="openEdit(${idx})">✎</div>
-          </div>
-        </div>
-        <div class="plan-row-notes" id="notes-${t.id}">
-          ${t.notes?`<div style="margin-bottom:6px;">📝 ${t.notes}</div>`:''}
-          ${t.parts?`<div class="parts-list">${t.parts.split(',').map(p=>`<div class="part-item"><div class="part-dot"></div><span>${p.trim()}</span></div>`).join('')}</div>`:''}
-          ${!t.notes&&!t.parts?'<span style="color:var(--text3)">Sin notas ni repuestos registrados</span>':''}
-        </div>`;
-    });
+    alertSub=`${diff.toLocaleString('es-AR')} km desde último cambio — faltan ${(DIST_KM-diff).toLocaleString('es-AR')} km`;
   }
+  const barColor = alertClass==='ok'?'#34C759':alertClass==='warn'?'#FF9500':'#CC0000';
 
-  h += `
-      <div class="add-row-btn" onclick="openEdit(-1)">
-        <span style="font-size:20px;color:var(--red);">+</span> Agregar tarea
+  h += `<div class="dist-alert ${alertClass}">
+    <span class="dist-icon">${alertIcon}</span>
+    <div style="flex:1;">
+      <div class="dist-title">${alertTitle}</div>
+      <div class="dist-sub">${alertSub}</div>
+      ${kmUltDist>0?`<div class="dist-bar">
+        <div class="dist-bar-track"><div class="dist-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+        <div class="dist-bar-labels"><span>Último cambio: ${kmUltDist.toLocaleString('es-AR')} km</span><span>${pct}% / 75.000 km</span></div>
+      </div>`:''}
+    </div>
+  </div>`;
+
+  // ── KM INPUT ─────────────────────────────────────────
+  h += `<div class="km-input-card">
+    <div class="km-input-title">🔧 Kilometraje distribución</div>
+    <div class="km-row">
+      <div class="km-field">
+        <span class="km-label">Km actuales</span>
+        <input class="km-inp" type="number" inputmode="numeric" placeholder="150.000" value="${kmDist.actual||''}" oninput="kmDist.actual=this.value;saveKm();render()">
+      </div>
+      <div class="km-field">
+        <span class="km-label">Km último cambio dist.</span>
+        <input class="km-inp" type="number" inputmode="numeric" placeholder="75.000" value="${kmDist.ultimaDist||''}" oninput="kmDist.ultimaDist=this.value;saveKm();render()">
       </div>
     </div>
+  </div>`;
 
-    <button class="reset-btn" onclick="resetChecklist()">↺ Resetear checklist para nuevo servicio</button>
+  // ── PM SELECTOR ───────────────────────────────────────
+  h += `<div class="pm-selector">`;
+  PMS.forEach(p => {
+    h += `<div class="pm-btn ${curPM===p.id?'active':''}" onclick="curPM='${p.id}';render()">
+      <div class="pm-btn-label">${p.label}</div>
+      <div class="pm-btn-km">${p.km}</div>
+      <span class="pm-btn-type ${p.color}">${p.type==='inter'?'Inter-PM':'PM'}</span>
+    </div>`;
+  });
+  h += `</div>`;
 
-    <div class="note-box">⚡ 1 h de ralentí = 70 km recorridos · Alta montaña 3.000–5.000 msnm · FREDDY Mantenimiento · </div>`;
+  // ── CHECKLIST ─────────────────────────────────────────
+  const tasks = data[curPM] || [];
+  const done = tasks.filter(t=>t.done).length;
+  const total = tasks.length;
+  const pctTask = total>0?Math.round(done/total*100):0;
+  const totalCost = tasks.reduce((s,t)=>s+(t.cost||0),0);
+  const totalTime = tasks.reduce((s,t)=>s+parseTime(t.time),0);
+  const curPMDef = PMS.find(p=>p.id===curPM);
 
-  c.innerHTML = h;
-}
+  h += `<div class="stats-row">
+    <div class="stat-card green"><div class="stat-num">${done}/${total}</div><div class="stat-lbl">Completadas</div></div>
+    <div class="stat-card blue"><div class="stat-num">$${Math.round(totalCost/1000)}k</div><div class="stat-lbl">Costo est.</div></div>
+    <div class="stat-card orange"><div class="stat-num">${formatTime(totalTime)}</div><div class="stat-lbl">Tiempo est.</div></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Progreso — ${curPMDef?.label||''}</span><span style="font-weight:700;color:${pctTask===100?'var(--green)':'var(--text2)'};">${pctTask}%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:${pctTask}%;${pctTask===100?'background:var(--green);':''}"></div></div>
+  </div>
+  <div class="plan-section">
+    <div class="plan-section-hdr">
+      <span class="plan-section-title">${curPMDef?.label} — ${curPMDef?.desc}</span>
+      <span class="plan-section-badge ${curPMDef?.type==='inter'?'green':''}">${curPMDef?.km}</span>
+    </div>`;
 
-// ── INTERVALOS ────────────────────────────────────────────
-function rIntervalos(c) {
-  const groups = [
-    {title:'Cada 2.500 km (Inter-PM)', filter: t=>t.int==='2.500 km'},
-    {title:'Cada 5.000 km (Base)', filter: t=>t.int==='5.000 km'},
-    {title:'Cada 10.000 km', filter: t=>t.int==='10.000 km'},
-    {title:'Cada 40.000 km', filter: t=>t.int==='40.000 km'},
-    {title:'Cada 75.000 km', filter: t=>t.int==='75.000 km'},
-    {title:'Cada 80.000 km', filter: t=>t.int==='80.000 km'},
-    {title:'Anual', filter: t=>t.int==='Anual'},
-    {title:'Condicional', filter: t=>t.int==='Condicional'},
-  ];
-
-  let h = '';
-  groups.forEach(g => {
-    const items = plan.filter(g.filter);
-    if (!items.length) return;
-    h += `<div class="plan-section" style="margin-bottom:10px;">
-      <div class="plan-section-hdr">
-        <span class="plan-section-title">${g.title}</span>
-        <span class="plan-section-badge">${items.length} tareas</span>
-      </div>`;
-    items.forEach(t => {
-      const idx = plan.findIndex(x=>x.id===t.id);
-      h += `<div class="plan-row" onclick="openEdit(${idx})">
-        <div class="plan-row-content">
+  if(!tasks.length){
+    h+=`<div style="padding:24px;text-align:center;color:var(--text3);font-size:14px;">Sin tareas — tocá + para agregar</div>`;
+  } else {
+    tasks.forEach((t,i)=>{
+      h+=`<div class="plan-row ${t.done?'done':''}">
+        <div class="check-circle ${t.done?'checked':''}" onclick="toggleDone('${curPM}',${i},event)">${t.done?'✓':''}</div>
+        <div class="plan-row-content" onclick="toggleNotes('${curPM}-${i}')">
           <div class="plan-row-title">${t.task}</div>
           <div class="plan-row-meta">
-            <span class="badge ${BADGE[t.act]||'b-i'}">${t.act} — ${ACT_LBL[t.act]}</span>
+            <span class="badge ${BADGE[t.act]||'b-i'}">${t.act}</span>
+            <span class="plan-row-int">${t.int}</span>
             ${t.cost>0?`<span class="plan-row-cost">$${t.cost.toLocaleString('es-AR')}</span>`:''}
             ${t.time?`<span class="plan-row-time">⏱ ${t.time}</span>`:''}
           </div>
         </div>
-        <div style="color:var(--text3);font-size:16px;">›</div>
+        <span class="expand-btn" onclick="toggleNotes('${curPM}-${i}')">⌄</span>
+        <span class="edit-btn" onclick="openEdit(${i})">✎</span>
+      </div>
+      <div class="plan-row-notes" id="notes-${curPM}-${i}">
+        ${t.notes?`<div style="margin-bottom:6px;">📝 ${t.notes}</div>`:''}
+        ${t.parts?`<div class="parts-list">${t.parts.split(',').map(p=>`<div class="part-item"><div class="part-dot"></div><span>${p.trim()}</span></div>`).join('')}</div>`:''}
+        ${!t.notes&&!t.parts?'<span style="color:var(--text3)">Sin notas registradas</span>':''}
       </div>`;
     });
-    h += `</div>`;
-  });
+  }
+
+  h+=`<div class="add-row-btn" onclick="openEdit(-1)"><span style="font-size:20px;">+</span> Agregar tarea</div>
+  </div>
+  <button class="reset-btn" onclick="resetCheck()">↺ Resetear checklist para nuevo servicio</button>
+  <div class="note-box">⚡ Inter-PM = mitad del intervalo · 1 h ralentí = 70 km · Distribución: cada 75.000 km</div>`;
 
   c.innerHTML = h;
 }
 
-// ── REPUESTOS ─────────────────────────────────────────────
-function rRepuestos(c) {
-  const withParts = plan.filter(t => t.parts && t.parts.trim());
-  const totalCost = plan.reduce((s,t)=>s+(t.cost||0),0);
-
-  let partsMap = {};
-  withParts.forEach(t => {
-    t.parts.split(',').forEach(p => {
-      const key = p.trim();
-      if (!key) return;
-      if (!partsMap[key]) partsMap[key] = {task:t.task, cost:0, int:t.int};
-    });
-  });
-
-  let h = `
-    <div class="stats-row" style="margin-bottom:14px;">
-      <div class="stat-card blue"><div class="stat-num">$${Math.round(totalCost/1000)}k</div><div class="stat-lbl">Costo total PM</div></div>
-      <div class="stat-card green"><div class="stat-num">${Object.keys(partsMap).length}</div><div class="stat-lbl">Repuestos</div></div>
-      <div class="stat-card orange"><div class="stat-num">${withParts.length}</div><div class="stat-lbl">Tareas c/repuesto</div></div>
-    </div>
-    <div class="plan-section">
-      <div class="plan-section-hdr">
-        <span class="plan-section-title">Lista de repuestos necesarios</span>
-      </div>`;
-
-  Object.entries(partsMap).forEach(([part, info]) => {
-    h += `<div class="plan-row">
-      <div style="width:8px;height:8px;background:var(--red);border-radius:50%;flex-shrink:0;margin:2px;"></div>
-      <div class="plan-row-content">
-        <div class="plan-row-title">${part}</div>
-        <div class="plan-row-meta">
-          <span class="plan-row-int">${info.int}</span>
-          <span style="font-size:11px;color:var(--text3);">→ ${info.task}</span>
-        </div>
-      </div>
-    </div>`;
-  });
-
-  h += `</div>
-    <div class="plan-section" style="margin-top:10px;">
-      <div class="plan-section-hdr"><span class="plan-section-title">Costo estimado por tipo de PM</span></div>`;
-
-  PM_OPTS.forEach(p => {
-    const items = plan.filter(t => Array.isArray(t.pm) ? t.pm.includes(p.val) : t.pm===p.val);
-    const cost = items.reduce((s,t)=>s+(t.cost||0),0);
-    if (!cost) return;
-    h += `<div class="plan-row">
-      <div class="plan-row-content">
-        <div class="plan-row-title">${p.label} — ${p.km} km</div>
-        <div class="plan-row-meta">
-          <span class="plan-row-cost" style="font-size:13px;">$${cost.toLocaleString('es-AR')} ARS</span>
-          <span class="plan-row-int">${items.length} tareas</span>
-        </div>
-      </div>
-    </div>`;
-  });
-
-  h += `</div>`;
-  c.innerHTML = h;
-}
-
-// ── ACTIONS ───────────────────────────────────────────────
-function toggleDone(idx, e) {
+function toggleDone(pm, idx, e){
   e.stopPropagation();
-  plan[idx].done = !plan[idx].done;
-  savePlan();
-  render();
+  data[pm][idx].done = !data[pm][idx].done;
+  saveData(); render();
 }
-
-function toggleNotes(id) {
-  const el = document.getElementById(`notes-${id}`);
-  if (el) el.classList.toggle('show');
+function toggleNotes(id){
+  const el=document.getElementById(`notes-${id}`);
+  if(el) el.classList.toggle('show');
 }
-
-function openEdit(idx) {
-  editIdx = idx;
-  const t = idx >= 0 ? plan[idx] : null;
-  document.getElementById('editTitle').textContent = t ? 'Editar tarea' : 'Nueva tarea';
-  document.getElementById('eTask').value  = t?.task  || '';
-  document.getElementById('eInt').value   = t?.int   || '5.000 km';
-  document.getElementById('eAct').value   = t?.act   || 'I';
-  document.getElementById('eCost').value  = t?.cost  || '';
-  document.getElementById('eTime').value  = t?.time  || '';
-  document.getElementById('eParts').value = t?.parts || '';
-  document.getElementById('eNotes').value = t?.notes || '';
+function openEdit(idx){
+  editIdx=idx;
+  const t=idx>=0?data[curPM][idx]:null;
+  document.getElementById('editTitle').textContent=t?'Editar tarea':'Nueva tarea';
+  document.getElementById('eTask').value=t?.task||'';
+  document.getElementById('eInt').value=t?.int||'2.500 km';
+  document.getElementById('eAct').value=t?.act||'I';
+  document.getElementById('eCost').value=t?.cost||'';
+  document.getElementById('eTime').value=t?.time||'';
+  document.getElementById('eParts').value=t?.parts||'';
+  document.getElementById('eNotes').value=t?.notes||'';
   document.getElementById('editOv').classList.add('open');
   document.getElementById('editSh').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
-
-function closeEdit() {
+function closeEdit(){
   document.getElementById('editOv').classList.remove('open');
   document.getElementById('editSh').classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
 }
-
-function saveEdit() {
-  const task  = document.getElementById('eTask').value.trim();
-  if (!task) { alert('Ingresá la descripción de la tarea.'); return; }
-  const entry = {
-    id:    editIdx >= 0 ? plan[editIdx].id : Date.now(),
+function saveEdit(){
+  const task=document.getElementById('eTask').value.trim();
+  if(!task){alert('Ingresá la descripción.');return;}
+  const entry={
+    id:editIdx>=0?data[curPM][editIdx].id:Date.now(),
     task,
-    int:   document.getElementById('eInt').value.trim() || '5.000 km',
-    act:   document.getElementById('eAct').value,
-    cost:  parseInt(document.getElementById('eCost').value) || 0,
-    time:  document.getElementById('eTime').value.trim(),
-    parts: document.getElementById('eParts').value.trim(),
-    notes: document.getElementById('eNotes').value.trim(),
-    done:  editIdx >= 0 ? plan[editIdx].done : false,
-    pm:    editIdx >= 0 ? plan[editIdx].pm : [5],
+    int:document.getElementById('eInt').value.trim()||'2.500 km',
+    act:document.getElementById('eAct').value,
+    cost:parseInt(document.getElementById('eCost').value)||0,
+    time:document.getElementById('eTime').value.trim(),
+    parts:document.getElementById('eParts').value.trim(),
+    notes:document.getElementById('eNotes').value.trim(),
+    done:editIdx>=0?data[curPM][editIdx].done:false,
   };
-  if (editIdx >= 0) plan[editIdx] = entry;
-  else plan.push(entry);
-  savePlan();
-  closeEdit();
-  render();
+  if(editIdx>=0) data[curPM][editIdx]=entry;
+  else data[curPM].push(entry);
+  saveData();closeEdit();render();
 }
-
-function deleteTask() {
-  if (editIdx < 0) return;
-  if (!confirm('¿Eliminar esta tarea?')) return;
-  plan.splice(editIdx, 1);
-  savePlan();
-  closeEdit();
-  render();
+function deleteTask(){
+  if(editIdx<0)return;
+  if(!confirm('¿Eliminar esta tarea?'))return;
+  data[curPM].splice(editIdx,1);
+  saveData();closeEdit();render();
 }
-
-function resetChecklist() {
-  if (!confirm('¿Resetear todas las tareas como no completadas?')) return;
-  plan.forEach(t => t.done = false);
-  savePlan();
-  render();
+function resetCheck(){
+  if(!confirm('¿Resetear todas las tareas como no completadas?'))return;
+  Object.keys(data).forEach(k=>data[k].forEach(t=>t.done=false));
+  saveData();render();
 }
-
-function saveAll() {
-  savePlan();
-  const btn = document.querySelector('.save-btn');
-  btn.textContent = '✅ Guardado';
-  setTimeout(() => btn.textContent = '💾 Guardar', 1500);
+function saveAll(){
+  saveData();saveKm();
+  const btn=document.querySelector('.save-btn');
+  btn.textContent='✅ Guardado';
+  setTimeout(()=>btn.textContent='💾 Guardar',1500);
 }
-
-function parseTime(str) {
-  if (!str) return 0;
-  const h = str.match(/(\d+)\s*h/);
-  const m = str.match(/(\d+)\s*min/);
-  return (h?parseInt(h[1])*60:0) + (m?parseInt(m[1]):0);
+function parseTime(str){
+  if(!str)return 0;
+  const h=str.match(/(\d+)\s*h/),m=str.match(/(\d+)\s*min/);
+  return(h?parseInt(h[1])*60:0)+(m?parseInt(m[1]):0);
 }
-function formatTime(mins) {
-  if (mins >= 60) return `${Math.floor(mins/60)}h${mins%60>0?mins%60+'m':''}`;
-  return `${mins}m`;
+function formatTime(mins){
+  if(!mins)return'0m';
+  if(mins>=60)return`${Math.floor(mins/60)}h${mins%60>0?mins%60+'m':''}`;
+  return`${mins}m`;
 }
-
 render();
 </script>
 </body>
