@@ -1087,7 +1087,9 @@ function closeDet(){
 }
 function delEv(){
   if(!selId)return;if(!confirm('¿Eliminar este turno?'))return;
-  evs=evs.filter(e=>e.id!==selId);saveLS();closeDet();render();
+  const delId2=selId;
+  evs=evs.filter(e=>e.id!==delId2);saveLS();closeDet();render();
+  pushDeleteTurno(delId2);
 }
 function editEv(){
   const e=evs.find(x=>x.id===selId);if(!e)return;
@@ -1185,10 +1187,111 @@ function printReport(){
 }
 
 // ── SERVICE WORKER ────────────────────────────────────────
+// Google Sheets Sync
+const API = 'https://script.google.com/macros/s/AKfycbwHssegcwLwdZBHWwCv81fSYsjkm7xmr2Q9b8VQuugPIBgvrv7QGQsXgOstSXYZBljBzA/exec';
+let syncing = false;
+
+function showSyncStatus(msg){
+  let el = document.getElementById('syncStatus');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'syncStatus';
+    el.style.cssText = 'position:fixed;bottom:calc(80px + var(--safe-b));left:50%;transform:translateX(-50%);background:#1a1a1a;color:white;padding:6px 14px;border-radius:20px;font-size:12px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.style.opacity = '0'; }, 2500);
+}
+
+async function apiCall(action, data){
+  data = data || {};
+  data.action = action;
+  const res = await fetch(API, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {'Content-Type':'application/json'}
+  });
+  return res.json();
+}
+
+async function syncFromSheets(){
+  if(syncing) return;
+  syncing = true;
+  showSyncStatus('Sincronizando...');
+  try {
+    const tRes = await apiCall('getTurnos');
+    if(tRes.ok && tRes.data && tRes.data.length > 0){
+      evs = tRes.data.map(function(r){
+        return {
+          id: parseInt(r.id) || Date.now(),
+          dom: r.dom || '',
+          int: r.interno || '',
+          fecha: r.fecha || '',
+          kmA: parseInt(r.kmA) || 0,
+          kmU: parseInt(r.kmU) || 0,
+          pm: r.pm || 'PM5',
+          area: r.area || '',
+          tec: r.tec || '',
+          obs: r.obs || ''
+        };
+      });
+      nid = Math.max.apply(null, [0].concat(evs.map(function(e){ return e.id; }))) + 1;
+      saveLS();
+    }
+    const fRes = await apiCall('getFlota');
+    if(fRes.ok && fRes.data && fRes.data.length > 0){
+      flotaList = fRes.data.map(function(r){
+        return {
+          interno: String(r.interno),
+          dom: r.dom || '',
+          nombre: r.nombre || '',
+          area: r.area || '',
+          motor: r.motor || '',
+          chasis: r.chasis || '',
+          anio: String(r.anio || ''),
+          activo: r.activo !== 'false' && r.activo !== false
+        };
+      });
+      saveFlota();
+    }
+    showSyncStatus('Sincronizado ' + new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'}));
+    render();
+  } catch(err){
+    showSyncStatus('Sin conexion - datos locales');
+  }
+  syncing = false;
+}
+
+async function pushTurno(ev){
+  try {
+    await apiCall('saveTurno', {
+      id: ev.id, dom: ev.dom, interno: ev.int,
+      fecha: ev.fecha, kmA: ev.kmA, kmU: ev.kmU,
+      pm: ev.pm, area: ev.area, tec: ev.tec, obs: ev.obs
+    });
+  } catch(err){ console.log('pushTurno failed'); }
+}
+
+async function pushDeleteTurno(id){
+  try { await apiCall('deleteTurno', {id: id}); } catch(err){}
+}
+
+async function pushUnit(unit){
+  try { await apiCall('saveUnit', unit); } catch(err){}
+}
+
+async function pushDeleteUnit(interno){
+  try { await apiCall('deleteUnit', {interno: interno}); } catch(err){}
+}
+
+
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 if(new URLSearchParams(location.search).get('action')==='new'){window.addEventListener('load',()=>setTimeout(openAdd,400));}
 
 render();
+setTimeout(syncFromSheets, 1500);
 </script>
 </body>
 </html>
