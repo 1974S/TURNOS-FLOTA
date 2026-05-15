@@ -1,4 +1,4 @@
-const CACHE = 'turnos-toyota-v5';
+const CACHE = 'turnos-toyota-v6';
 const BASE = '/TURNOS-FLOTA';
 const ASSETS = [
   BASE + '/index.html',
@@ -25,8 +25,18 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  const url = e.request.url;
+
+  // NUNCA interceptar llamadas a Google APIs
+  if (url.includes('script.google.com') ||
+      url.includes('googleapis.com') ||
+      url.includes('google.com/macros')) {
+    return; // dejar pasar sin interceptar
+  }
+
+  // Solo cachear assets propios
   e.respondWith(
-    caches.match(e.request).then(r => 
+    caches.match(e.request).then(r =>
       r || fetch(e.request).catch(() => caches.match(BASE + '/index.html'))
     )
   );
