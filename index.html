@@ -564,10 +564,42 @@ function buildCal(){
     let cls='mc-day';
     if(d===TODAY.getDate()&&m===TODAY.getMonth()&&y===TODAY.getFullYear()) cls+=' today';
     if(evDates.has(ds)) cls+=' has-ev';
-    h+=`<div class="${cls}">${d}</div>`;
+    h+=`<div class="${cls}" onclick="openDaySheet('${ds}')">${d}</div>`;
   }
   const rem=42-first-days;for(let d=1;d<=rem;d++) h+=`<div class="mc-day om">${d}</div>`;
   return h+`</div></div>`;
+}
+
+function openDaySheet(ds){
+  const dayEvs=evs.filter(e=>e.fecha===ds);
+  const d=new Date(ds+'T12:00:00');
+  const titulo=`${d.getDate()} de ${MESES[d.getMonth()]} ${d.getFullYear()}`;
+  document.getElementById('dTit').textContent=titulo;
+  document.getElementById('dBadges').innerHTML=dayEvs.length>0
+    ?`<span style="font-size:12px;color:var(--text3);">${dayEvs.length} turno${dayEvs.length>1?'s':''} programado${dayEvs.length>1?'s':''}</span>`
+    :`<span style="font-size:12px;color:var(--text3);">Sin turnos este día</span>`;
+  if(!dayEvs.length){
+    document.getElementById('dBody').innerHTML=`
+      <div style="text-align:center;padding:32px 0;">
+        <div style="font-size:48px;margin-bottom:12px;">📅</div>
+        <div style="font-size:15px;color:var(--text2);margin-bottom:16px;">No hay turnos programados para este día</div>
+      </div>`;
+  } else {
+    let h=`<div class="ev-list">`;
+    dayEvs.forEach(e=>{h+=bCard(e);});
+    h+=`</div>`;
+    document.getElementById('dBody').innerHTML=h;
+    document.getElementById('dBody').querySelectorAll('.evc[data-id]').forEach(el=>{
+      el.addEventListener('click',()=>{closeDet();setTimeout(()=>openDet(parseInt(el.dataset.id)),150);});
+    });
+  }
+  document.querySelector('#detSh .sh-foot').innerHTML=`
+    <button class="btn-s" onclick="closeDet()">Cerrar</button>
+    <button class="btn-p" id="addDayBtn">+ Nuevo turno</button>`;
+  document.getElementById('addDayBtn').onclick=()=>{closeDet();openAdd();setTimeout(()=>{document.getElementById('fFecha').value=ds;},200);};
+  document.getElementById('detOv').classList.add('open');
+  document.getElementById('detSh').classList.add('open');
+  document.body.style.overflow='hidden';
 }
 
 // ── CARD ──────────────────────────────────────────────────
